@@ -1,0 +1,874 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>llm-visual viewer</title>
+<style>
+  :root {
+    --bg: #1a1a1a;
+    --card: #1a1a1a;
+    --card-border: #2e2e2e;
+    --text: #e6e6e6;
+    --text-dim: #8a8a8a;
+    --text-muted: #c9c9c9;
+    --axis: rgba(255,255,255,0.35);
+    --grid: rgba(255,255,255,0.06);
+    --accent: #7aa2ff;
+    --hot: #ff8a3d;
+    --btn-border: #3a3a3a;
+    --btn-hover: #2a2a2a;
+  }
+  body {
+    background: #0e0e0e;
+    color: var(--text);
+    font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 24px;
+  }
+  .lv-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 22px 26px 18px;
+    color: var(--text);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.35);
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .lv-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  .lv-title-block { min-width: 0; flex: 1; }
+  .lv-title {
+    margin: 0 0 4px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #f2f2f2;
+  }
+  .lv-prompt {
+    margin: 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .lv-prompt:empty::before {
+    content: "(empty)";
+    color: var(--text-dim);
+  }
+  .lv-tok-prompt { color: var(--accent); }
+  .lv-tok-special { color: var(--text-dim); font-style: italic; }
+  .lv-tok-just { color: var(--hot); }
+  .lv-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  select, button.lv-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--btn-border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s;
+    font-family: inherit;
+  }
+  select:hover, button.lv-btn:hover { background: var(--btn-hover); border-color: #555; }
+  select { padding-right: 22px; }
+  .lv-canvas-wrap {
+    position: relative;
+    margin-top: 10px;
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    overflow: auto;
+    max-height: 560px;
+    background: #111;
+  }
+  canvas { display: block; }
+  .lv-tip {
+    position: fixed;
+    pointer-events: none;
+    background: rgba(20,20,20,0.96);
+    border: 1px solid #3a3a3a;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: var(--text);
+    z-index: 10;
+    display: none;
+    max-width: 280px;
+  }
+  .lv-tip .k { color: var(--text-dim); }
+  .lv-tip .v { color: #fff; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .lv-tip .special { color: #ffd23f; font-style: italic; }
+  .lv-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .lv-controls input[type=range] {
+    flex: 1;
+    accent-color: var(--hot);
+  }
+  .lv-step {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    min-width: 80px;
+    text-align: right;
+  }
+  .lv-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 18px;
+    margin-top: 10px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    align-items: center;
+  }
+  .lv-leg-item { display: inline-flex; align-items: center; gap: 6px; }
+  .lv-leg-sw {
+    display: inline-block;
+    width: 12px; height: 12px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .lv-leg-ramp {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .lv-leg-ramp-bar {
+    display: inline-block;
+    width: 70px; height: 10px;
+    border-radius: 2px;
+    background: linear-gradient(to right, rgb(184,230,184), rgb(31,80,37));
+  }
+  .lv-leg-ghost { background: rgba(170,170,170,0.30); border: 1px solid rgba(255,255,255,0.18); }
+  .lv-leg-special { background: #3a2f12; border: 1px solid #5a4a1c; }
+  .lv-leg-forced {
+    background: rgb(135,135,135);
+    position: relative;
+  }
+  .lv-leg-forced::after {
+    content: '';
+    position: absolute;
+    top: 1px; right: 1px;
+    width: 4px; height: 4px;
+    background: #ffd23f;
+    border-radius: 50%;
+  }
+  .lv-caption {
+    margin: 6px 0 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.74rem;
+    color: var(--text-dim);
+  }
+  .lv-error {
+    color: #ff6b6b;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.82rem;
+    padding: 12px;
+    background: rgba(255, 107, 107, 0.08);
+    border-radius: 6px;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="lv-card" id="lv-root">
+  <div class="lv-head">
+    <div class="lv-title-block">
+      <h3 class="lv-title" id="lv-title">Loading...</h3>
+      <p class="lv-prompt" id="lv-prompt"></p>
+    </div>
+    <div class="lv-toolbar">
+      <select id="lv-trace-select" title="Select trace"></select>
+      <button class="lv-btn" id="lv-play">▶ Play</button>
+      <button class="lv-btn" id="lv-export">Export PNG</button>
+    </div>
+  </div>
+
+  <div class="lv-canvas-wrap" id="lv-canvas-wrap">
+    <canvas id="lv-canvas"></canvas>
+  </div>
+
+  <div class="lv-controls">
+    <input type="range" id="lv-slider" min="0" max="0" value="0" step="1">
+    <span class="lv-step" id="lv-step-label">step 0 / 0</span>
+  </div>
+
+  <div class="lv-legend" aria-label="legend">
+    <span class="lv-leg-item"><span class="lv-leg-sw" style="background:#7aa2ff"></span>prompt</span>
+    <span class="lv-leg-ramp">
+      step 1
+      <span class="lv-leg-ramp-bar"></span>
+      last
+    </span>
+    <span class="lv-leg-item"><span class="lv-leg-sw" style="background:#ff8a3d"></span>just generated (current step)</span>
+    <span class="lv-leg-item"><span class="lv-leg-sw lv-leg-ghost"></span>next step (preview)</span>
+    <span class="lv-leg-item"><span class="lv-leg-sw lv-leg-special"></span>special token</span>
+    <span class="lv-leg-item"><span class="lv-leg-sw lv-leg-forced"></span>forced (tool / injected)</span>
+  </div>
+  <p class="lv-caption">rows = step snapshots; columns = positions in that step's sequence. Hover any cell for token details.</p>
+  <div id="lv-error"></div>
+</div>
+
+<div class="lv-tip" id="lv-tip"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ------------------------------------------------------------
+  // Config — visual constants
+  // ------------------------------------------------------------
+  const CFG = {
+    cellSize: 14,           // baseline cell side in px (auto-shrinks for big traces)
+    cellSizeMin: 2,         // floor when sequences are very long
+    cellGap: 1,             // gap between cells
+    targetWidth: 880,       // canvas tries to fit within this (max-width minus padding)
+    targetMaxHeight: 540,   // soft cap; canvas can exceed and the wrapper scrolls
+    accent: '#ff8a3d',      // current-step highlight
+    ghostAlpha: 0.30,       // next-step preview alpha
+    promptColor: '#7aa2ff', // prompt tokens (gen_step == 0)
+    rampStart: [184, 230, 184], // generated-token ramp: light mint
+    rampEnd:   [31, 80, 37],    //                       deep forest
+    bg: '#111',
+    specialFill: '#3a2f12', // special tokens get a subtle warm tint
+    forcedDot: '#ffd23f',   // forced-token marker
+    animMs: 8000,           // total play duration cap (long traces)
+    minStepsPerSec: 4,      // floor for short traces
+  };
+
+  // ------------------------------------------------------------
+  // DOM refs
+  // ------------------------------------------------------------
+  const $ = (id) => document.getElementById(id);
+  const titleEl = $('lv-title');
+  const promptEl = $('lv-prompt');
+  const selEl = $('lv-trace-select');
+  const playBtn = $('lv-play');
+  const exportBtn = $('lv-export');
+  const sliderEl = $('lv-slider');
+  const stepLabel = $('lv-step-label');
+  const canvas = $('lv-canvas');
+  const wrap = $('lv-canvas-wrap');
+  const errorEl = $('lv-error');
+  const tipEl = $('lv-tip');
+  const ctx = canvas.getContext('2d');
+
+  // ------------------------------------------------------------
+  // State
+  // ------------------------------------------------------------
+  let DOC = null;            // loaded JSON file
+  let TRACE = null;          // currently-selected trace
+  let LAYOUT = null;         // { sequences: [[id,id,...], ...], maxStep, maxLen, tokensById }
+  let cellSize = CFG.cellSize;
+  let currentStep = 0;
+  let playing = false;
+  let playTimer = null;
+
+  // ------------------------------------------------------------
+  // Loader
+  // ------------------------------------------------------------
+  function showError(msg) {
+    errorEl.className = 'lv-error';
+    errorEl.textContent = msg;
+  }
+  function clearError() {
+    errorEl.className = '';
+    errorEl.textContent = '';
+  }
+
+  async function loadFromUrl(url) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('fetch ' + url + ': ' + res.status);
+    return await res.json();
+  }
+
+  // ------------------------------------------------------------
+  // Layout: walk tokens in (gen_step, declaration order) and
+  // build the visible sequence after every step.
+  // ------------------------------------------------------------
+  function computeLayout(trace) {
+    const tokensById = Object.create(null);
+    for (const t of trace.tokens) tokensById[t.id] = t;
+
+    // group tokens by gen_step (preserving array order within group)
+    const byStep = new Map();
+    let maxStep = 0;
+    for (const t of trace.tokens) {
+      if (!byStep.has(t.gen_step)) byStep.set(t.gen_step, []);
+      byStep.get(t.gen_step).push(t);
+      if (t.gen_step > maxStep) maxStep = t.gen_step;
+    }
+
+    // running sequence (array of token ids); we record a snapshot per step
+    const sequences = [];
+    let cur = [];
+
+    for (let step = 0; step <= maxStep; step++) {
+      const newOnes = byStep.get(step) || [];
+
+      // process abs first (sorted ascending), then betweens in array order
+      const abs = newOnes.filter((t) => 'abs' in t.position);
+      const bet = newOnes.filter((t) => 'between' in t.position);
+
+      // anchor-pair uniqueness check (rule from design.md)
+      const seen = new Map();
+      for (const t of bet) {
+        const k = t.position.between.join('|');
+        if (seen.has(k)) {
+          throw new Error('step ' + step + ': multiple tokens claim position [' +
+            t.position.between.join(',') + ']: ' + seen.get(k) + ', ' + t.id);
+        }
+        seen.set(k, t.id);
+      }
+
+      // apply abs inserts
+      abs.sort((a, b) => a.position.abs - b.position.abs);
+      for (const t of abs) {
+        const idx = t.position.abs;
+        if (idx < 0 || idx > cur.length) {
+          throw new Error('step ' + step + ': token ' + t.id + ' abs=' + idx +
+            ' out of range [0, ' + cur.length + ']');
+        }
+        cur.splice(idx, 0, t.id);
+      }
+
+      // apply between inserts; anchors must be adjacent in current sequence
+      for (const t of bet) {
+        const [aId, bId] = t.position.between;
+        const ai = cur.indexOf(aId);
+        const bi = cur.indexOf(bId);
+        if (ai === -1 || bi === -1) {
+          throw new Error('step ' + step + ': token ' + t.id + ' anchors [' +
+            aId + ',' + bId + '] not in current sequence');
+        }
+        if (bi !== ai + 1) {
+          throw new Error('step ' + step + ': token ' + t.id + ' anchors [' +
+            aId + ',' + bId + '] not adjacent (positions ' + ai + ',' + bi + ')');
+        }
+        // also enforce anchor-came-from-earlier-step rule
+        if (tokensById[aId].gen_step >= step || tokensById[bId].gen_step >= step) {
+          throw new Error('step ' + step + ': token ' + t.id +
+            ' anchors must come from strictly earlier steps');
+        }
+        cur.splice(ai + 1, 0, t.id);
+      }
+
+      // snapshot AFTER applying this step's inserts
+      sequences.push(cur.slice());
+    }
+
+    let maxLen = 0;
+    for (const s of sequences) if (s.length > maxLen) maxLen = s.length;
+
+    return { sequences, maxStep, maxLen, tokensById };
+  }
+
+  // ------------------------------------------------------------
+  // Color: grayscale ramp by gen_step
+  // ------------------------------------------------------------
+  function rgbStr(arr) { return `rgb(${arr[0]},${arr[1]},${arr[2]})`; }
+  function rampColor(step, maxStep) {
+    if (step === 0) return CFG.promptColor;
+    // ramp over generated steps (1..maxStep)
+    if (maxStep <= 1) return rgbStr(CFG.rampEnd);
+    const t = (step - 1) / (maxStep - 1);
+    const r = Math.round(CFG.rampStart[0] + (CFG.rampEnd[0] - CFG.rampStart[0]) * t);
+    const g = Math.round(CFG.rampStart[1] + (CFG.rampEnd[1] - CFG.rampStart[1]) * t);
+    const b = Math.round(CFG.rampStart[2] + (CFG.rampEnd[2] - CFG.rampStart[2]) * t);
+    return `rgb(${r},${g},${b})`;
+  }
+
+  // ------------------------------------------------------------
+  // Render
+  // ------------------------------------------------------------
+  function pickCellSize() {
+    if (!LAYOUT) return CFG.cellSize;
+    // try baseline; shrink to fit width if needed
+    const w = CFG.targetWidth;
+    const cols = LAYOUT.maxLen;
+    const ideal = Math.floor((w - cols) / cols);
+    if (ideal >= CFG.cellSize) return CFG.cellSize;
+    if (ideal < CFG.cellSizeMin) return CFG.cellSizeMin;
+    return ideal;
+  }
+
+  function isSpecial(vocabId) {
+    if (!DOC.vocab_meta) return false;
+    const m = DOC.vocab_meta[String(vocabId)];
+    return !!(m && m.is_special);
+  }
+
+  function drawCell(col, row, fill, alpha, vocabId, isForced) {
+    const x = col * (cellSize + CFG.cellGap);
+    const y = row * (cellSize + CFG.cellGap);
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = fill;
+    ctx.fillRect(x, y, cellSize, cellSize);
+
+    // special-token tint overlay
+    if (isSpecial(vocabId)) {
+      ctx.fillStyle = CFG.specialFill;
+      ctx.globalAlpha = alpha * 0.55;
+      ctx.fillRect(x, y, cellSize, cellSize);
+    }
+
+    // forced-token marker (small dot top-right)
+    if (isForced && cellSize >= 6) {
+      const r = Math.max(1, Math.floor(cellSize / 5));
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = CFG.forcedDot;
+      ctx.beginPath();
+      ctx.arc(x + cellSize - r - 1, y + r + 1, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1.0;
+  }
+
+  function render() {
+    if (!LAYOUT) return;
+    const { sequences, maxStep, maxLen, tokensById } = LAYOUT;
+
+    cellSize = pickCellSize();
+    const stepCap = Math.min(currentStep + 1, maxStep + 1); // include ghost row if present
+    const visibleRows = Math.min(currentStep + 2, maxStep + 1); // current + ghost
+    const w = maxLen * (cellSize + CFG.cellGap) + 1;
+    const h = visibleRows * (cellSize + CFG.cellGap) + 1;
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    ctx.fillStyle = CFG.bg;
+    ctx.fillRect(0, 0, w, h);
+
+    // draw rows 0..currentStep solid; row currentStep+1 ghosted (if exists)
+    for (let row = 0; row <= currentStep && row <= maxStep; row++) {
+      const seq = sequences[row];
+      for (let col = 0; col < seq.length; col++) {
+        const t = tokensById[seq[col]];
+        // accent only for the just-added cells in the current row (skip the prompt step)
+        const isJustAdded = (row === currentStep && t.gen_step === currentStep && currentStep > 0);
+        const fill = isJustAdded ? CFG.accent : rampColor(t.gen_step, maxStep);
+        drawCell(col, row, fill, 1.0, t.vocab_id, !!t.forced);
+      }
+    }
+    if (currentStep + 1 <= maxStep) {
+      const seq = sequences[currentStep + 1];
+      for (let col = 0; col < seq.length; col++) {
+        const t = tokensById[seq[col]];
+        const fill = rampColor(t.gen_step, maxStep);
+        drawCell(col, currentStep + 1, fill, CFG.ghostAlpha, t.vocab_id, false);
+      }
+    }
+  }
+
+  // ------------------------------------------------------------
+  // Interaction: hover + tooltip
+  // ------------------------------------------------------------
+  function cellAt(clientX, clientY) {
+    if (!LAYOUT) return null;
+    const r = canvas.getBoundingClientRect();
+    const x = clientX - r.left;
+    const y = clientY - r.top;
+    const col = Math.floor(x / (cellSize + CFG.cellGap));
+    const row = Math.floor(y / (cellSize + CFG.cellGap));
+    if (row < 0 || row > LAYOUT.maxStep) return null;
+    if (row > currentStep + 1) return null;
+    const seq = LAYOUT.sequences[row];
+    if (!seq || col < 0 || col >= seq.length) return null;
+    const t = LAYOUT.tokensById[seq[col]];
+    return { row, col, token: t };
+  }
+
+  function showTip(ev, hit) {
+    const t = hit.token;
+    const text = DOC.vocab[String(t.vocab_id)] ?? '?';
+    const special = isSpecial(t.vocab_id);
+    tipEl.innerHTML =
+      '<div><span class="k">token: </span><span class="v ' + (special ? 'special' : '') + '">' + escapeHtml(JSON.stringify(text)) + '</span></div>' +
+      '<div><span class="k">vocab_id: </span><span class="v">' + t.vocab_id + '</span></div>' +
+      '<div><span class="k">id: </span><span class="v">' + escapeHtml(t.id) + '</span></div>' +
+      '<div><span class="k">gen_step: </span><span class="v">' + t.gen_step + '</span></div>' +
+      '<div><span class="k">at row: </span><span class="v">' + hit.row + ', col ' + hit.col + '</span></div>' +
+      (t.forced ? '<div><span class="k">forced: </span><span class="v">true</span></div>' : '');
+    tipEl.style.display = 'block';
+    tipEl.style.left = (ev.clientX + 14) + 'px';
+    tipEl.style.top  = (ev.clientY + 14) + 'px';
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+    }[c]));
+  }
+
+  canvas.addEventListener('mousemove', (ev) => {
+    const hit = cellAt(ev.clientX, ev.clientY);
+    if (hit) showTip(ev, hit); else tipEl.style.display = 'none';
+  });
+  canvas.addEventListener('mouseleave', () => { tipEl.style.display = 'none'; });
+
+  // ------------------------------------------------------------
+  // Playback
+  // ------------------------------------------------------------
+  function stepsPerSecForLayout() {
+    if (!LAYOUT) return CFG.minStepsPerSec;
+    const total = LAYOUT.maxStep + 1; // number of frames including step 0
+    const fromCap = total / (CFG.animMs / 1000);
+    return Math.max(CFG.minStepsPerSec, fromCap);
+  }
+
+  function renderSequenceText(step) {
+    if (!LAYOUT) return '';
+    const seq = LAYOUT.sequences[step] || [];
+    const parts = [];
+    for (const id of seq) {
+      const t = LAYOUT.tokensById[id];
+      const text = DOC.vocab[String(t.vocab_id)] ?? '';
+      const cls = [];
+      if (t.gen_step === 0) cls.push('lv-tok-prompt');
+      if (isSpecial(t.vocab_id)) cls.push('lv-tok-special');
+      if (t.gen_step > 0 && t.gen_step === step) cls.push('lv-tok-just');
+      if (cls.length) parts.push('<span class="' + cls.join(' ') + '">' + escapeHtml(text) + '</span>');
+      else parts.push(escapeHtml(text));
+    }
+    return parts.join('');
+  }
+
+  function setStep(s) {
+    if (!LAYOUT) return;
+    currentStep = Math.max(0, Math.min(s, LAYOUT.maxStep));
+    sliderEl.value = String(currentStep);
+    stepLabel.textContent = 'step ' + currentStep + ' / ' + LAYOUT.maxStep;
+    promptEl.innerHTML = renderSequenceText(currentStep);
+    render();
+  }
+
+  function play() {
+    if (!LAYOUT) return;
+    if (currentStep >= LAYOUT.maxStep) currentStep = 0;
+    playing = true;
+    playBtn.textContent = '❚❚ Pause';
+    const interval = 1000 / stepsPerSecForLayout();
+    playTimer = setInterval(() => {
+      if (currentStep >= LAYOUT.maxStep) { stop(); return; }
+      setStep(currentStep + 1);
+    }, interval);
+  }
+  function stop() {
+    playing = false;
+    playBtn.textContent = '▶ Play';
+    if (playTimer) { clearInterval(playTimer); playTimer = null; }
+  }
+  playBtn.addEventListener('click', () => playing ? stop() : play());
+
+  sliderEl.addEventListener('input', () => {
+    stop();
+    setStep(Number(sliderEl.value));
+  });
+
+  exportBtn.addEventListener('click', () => {
+    const url = composeStaticImage();
+    if (!url) return;
+    const link = document.createElement('a');
+    const safe = (TRACE && TRACE.name ? TRACE.name : 'trace').replace(/[^a-z0-9-_]+/gi, '_');
+    link.download = safe + '.png';
+    link.href = url;
+    link.click();
+  });
+
+  // ------------------------------------------------------------
+  // Static image composition (used by PNG export).
+  // Renders a self-contained figure: title + prompt + full grid
+  // (no current/ghost overlay) + colored sequence text + legend.
+  // ------------------------------------------------------------
+  function composeStaticImage() {
+    if (!LAYOUT) return null;
+    const { sequences, maxStep, maxLen, tokensById } = LAYOUT;
+
+    // fonts & spacing
+    const PAD = 22;
+    const TITLE_FONT = '600 14px ui-sans-serif, -apple-system, system-ui, sans-serif';
+    const TEXT_FONT = '12px ui-monospace, SFMono-Regular, Menlo, monospace';
+    const SMALL_FONT = '11px ui-monospace, SFMono-Regular, Menlo, monospace';
+    const TITLE_H = 22;
+    const PROMPT_H = 18;
+    const LINE_H = 18;
+    const GAP = 12;
+    const LEG_H = 22;
+    const CAPTION_H = 16;
+    const TARGET_W = 960;
+
+    // grid sizing for the static figure
+    const csTry = Math.floor((TARGET_W - 2 * PAD - maxLen) / Math.max(1, maxLen));
+    const cs = Math.max(CFG.cellSizeMin, Math.min(CFG.cellSize, csTry));
+    const gridW = maxLen * (cs + CFG.cellGap) + 1;
+    const gridH = (maxStep + 1) * (cs + CFG.cellGap) + 1;
+
+    // canvas inner content area
+    const innerW = Math.max(gridW, 720);
+    const totalW = innerW + 2 * PAD;
+
+    // measure sequence-text height by laying out tokens at the final step
+    const tmp = document.createElement('canvas').getContext('2d');
+    tmp.font = TEXT_FONT;
+    const finalSeq = sequences[maxStep];
+    const spans = finalSeq.map((id) => {
+      const t = tokensById[id];
+      return {
+        text: DOC.vocab[String(t.vocab_id)] ?? '',
+        gen_step: t.gen_step,
+        special: isSpecial(t.vocab_id),
+      };
+    });
+    const lines = wrapSpansIntoLines(tmp, spans, innerW);
+    const seqH = lines.length * LINE_H;
+
+    // detect optional legend pieces
+    let anySpecial = false, anyForced = false;
+    for (const t of TRACE.tokens) {
+      if (isSpecial(t.vocab_id)) anySpecial = true;
+      if (t.forced) anyForced = true;
+    }
+
+    // total height
+    const totalH = PAD + TITLE_H + PROMPT_H + GAP + gridH + GAP + seqH + GAP + LEG_H + 4 + CAPTION_H + PAD;
+
+    // create canvas
+    const dpr = window.devicePixelRatio || 1;
+    const c = document.createElement('canvas');
+    c.width = totalW * dpr;
+    c.height = totalH * dpr;
+    const cx = c.getContext('2d');
+    cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    // background
+    cx.fillStyle = '#1a1a1a';
+    cx.fillRect(0, 0, totalW, totalH);
+
+    let y = PAD;
+
+    // title
+    cx.font = TITLE_FONT;
+    cx.fillStyle = '#f2f2f2';
+    cx.textBaseline = 'top';
+    cx.fillText(TRACE.name || 'trace', PAD, y);
+    y += TITLE_H;
+
+    // prompt label (the original prompt_text, in blue)
+    cx.font = TEXT_FONT;
+    cx.fillStyle = CFG.promptColor;
+    cx.fillText('prompt: ' + (TRACE.prompt_text || ''), PAD, y);
+    y += PROMPT_H + GAP;
+
+    // grid (full, no current/ghost overlay)
+    drawStaticGrid(cx, PAD, y, cs);
+    y += gridH + GAP;
+
+    // colored sequence text
+    drawSeqLines(cx, PAD, y, lines, LINE_H, TEXT_FONT);
+    y += seqH + GAP;
+
+    // legend (prompt + ramp; special/forced conditional)
+    drawStaticLegend(cx, PAD, y, SMALL_FONT, anySpecial, anyForced);
+    y += LEG_H + 4;
+
+    // caption
+    cx.font = SMALL_FONT;
+    cx.fillStyle = '#8a8a8a';
+    cx.fillText("rows = step snapshots; columns = positions in that step's sequence.", PAD, y);
+
+    return c.toDataURL('image/png');
+  }
+
+  function wrapSpansIntoLines(tctx, spans, maxW) {
+    tctx.font = '12px ui-monospace, SFMono-Regular, Menlo, monospace';
+    const lines = [[]];
+    let curW = 0;
+    for (const sp of spans) {
+      const segments = sp.text.split('\n');
+      for (let i = 0; i < segments.length; i++) {
+        if (i > 0) { lines.push([]); curW = 0; }
+        const seg = segments[i];
+        if (seg.length === 0) continue;
+        const w = tctx.measureText(seg).width;
+        if (curW > 0 && curW + w > maxW) { lines.push([]); curW = 0; }
+        lines[lines.length - 1].push({ text: seg, w, gen_step: sp.gen_step, special: sp.special });
+        curW += w;
+      }
+    }
+    return lines;
+  }
+
+  function drawStaticGrid(cx, x0, y0, cs) {
+    const { sequences, maxStep, tokensById } = LAYOUT;
+    for (let row = 0; row <= maxStep; row++) {
+      const seq = sequences[row];
+      for (let col = 0; col < seq.length; col++) {
+        const t = tokensById[seq[col]];
+        const x = x0 + col * (cs + CFG.cellGap);
+        const y = y0 + row * (cs + CFG.cellGap);
+        cx.fillStyle = rampColor(t.gen_step, maxStep);
+        cx.fillRect(x, y, cs, cs);
+        if (isSpecial(t.vocab_id)) {
+          cx.fillStyle = CFG.specialFill;
+          cx.globalAlpha = 0.55;
+          cx.fillRect(x, y, cs, cs);
+          cx.globalAlpha = 1.0;
+        }
+        if (t.forced && cs >= 6) {
+          const r = Math.max(1, Math.floor(cs / 5));
+          cx.fillStyle = CFG.forcedDot;
+          cx.beginPath();
+          cx.arc(x + cs - r - 1, y + r + 1, r, 0, Math.PI * 2);
+          cx.fill();
+        }
+      }
+    }
+  }
+
+  function drawSeqLines(cx, x0, y0, lines, lineH, font) {
+    cx.font = font;
+    cx.textBaseline = 'top';
+    for (let li = 0; li < lines.length; li++) {
+      let x = x0;
+      const y = y0 + li * lineH;
+      for (const sp of lines[li]) {
+        if (sp.special) cx.fillStyle = '#8a8a8a';
+        else if (sp.gen_step === 0) cx.fillStyle = CFG.promptColor;
+        else cx.fillStyle = rampColor(sp.gen_step, LAYOUT.maxStep);
+        cx.fillText(sp.text, x, y);
+        x += sp.w;
+      }
+    }
+  }
+
+  function drawStaticLegend(cx, x0, y0, font, anySpecial, anyForced) {
+    cx.font = font;
+    cx.textBaseline = 'middle';
+    const SW = 12;
+    const RAMP_W = 70;
+    const PAD_TXT = 6;
+    const GAP_ITEM = 16;
+    let x = x0;
+    const yMid = y0 + 11;
+
+    const drawSwatch = (color, label, decorate) => {
+      cx.fillStyle = color;
+      cx.fillRect(x, yMid - SW / 2, SW, SW);
+      if (decorate) decorate(x, yMid - SW / 2);
+      x += SW + PAD_TXT;
+      cx.fillStyle = '#c9c9c9';
+      cx.fillText(label, x, yMid);
+      x += cx.measureText(label).width + GAP_ITEM;
+    };
+
+    // prompt
+    drawSwatch(CFG.promptColor, 'prompt');
+
+    // ramp (only if there are generated steps)
+    if (LAYOUT.maxStep > 0) {
+      const grad = cx.createLinearGradient(x, 0, x + RAMP_W, 0);
+      grad.addColorStop(0, rgbStr(CFG.rampStart));
+      grad.addColorStop(1, rgbStr(CFG.rampEnd));
+      cx.fillStyle = grad;
+      cx.fillRect(x, yMid - SW / 2, RAMP_W, SW);
+      x += RAMP_W + PAD_TXT;
+      cx.fillStyle = '#c9c9c9';
+      cx.fillText('step 1 → last', x, yMid);
+      x += cx.measureText('step 1 → last').width + GAP_ITEM;
+    }
+
+    if (anySpecial) drawSwatch(CFG.specialFill, 'special token');
+    if (anyForced) {
+      drawSwatch('rgb(135,135,135)', 'forced (tool / injected)', (sx, sy) => {
+        cx.fillStyle = CFG.forcedDot;
+        cx.beginPath();
+        cx.arc(sx + SW - 3, sy + 3, 2, 0, Math.PI * 2);
+        cx.fill();
+      });
+    }
+  }
+
+  // ------------------------------------------------------------
+  // Trace selection
+  // ------------------------------------------------------------
+  function loadDoc(doc) {
+    DOC = doc;
+    if (!doc.schema_version) {
+      showError('missing schema_version'); return;
+    }
+    if (doc.schema_version !== '1') {
+      showError('unsupported schema_version: ' + doc.schema_version + ' (expected "1")'); return;
+    }
+    if (!Array.isArray(doc.traces) || doc.traces.length === 0) {
+      showError('no traces in document'); return;
+    }
+    selEl.innerHTML = '';
+    doc.traces.forEach((tr, i) => {
+      const opt = document.createElement('option');
+      opt.value = String(i);
+      const promptPreview = (tr.prompt_text || '').slice(0, 40).replace(/\s+/g, ' ');
+      opt.textContent = (tr.name || ('trace ' + i)) + (promptPreview ? '  —  ' + promptPreview : '');
+      selEl.appendChild(opt);
+    });
+    selEl.value = '0';
+    selectTrace(0);
+  }
+
+  function selectTrace(i) {
+    stop();
+    TRACE = DOC.traces[i];
+    titleEl.textContent = TRACE.name || ('trace ' + i);
+    promptEl.textContent = TRACE.prompt_text || '';
+    try {
+      LAYOUT = computeLayout(TRACE);
+      clearError();
+    } catch (e) {
+      LAYOUT = null;
+      showError(String(e.message || e));
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      sliderEl.max = '0';
+      stepLabel.textContent = 'step 0 / 0';
+      return;
+    }
+    sliderEl.max = String(LAYOUT.maxStep);
+    setStep(0);
+  }
+
+  selEl.addEventListener('change', () => selectTrace(Number(selEl.value)));
+
+  // ------------------------------------------------------------
+  // Boot
+  // ------------------------------------------------------------
+  const params = new URLSearchParams(location.search);
+  const traceUrl = params.get('trace') || './examples/hello-world.json';
+  loadFromUrl(traceUrl)
+    .then(loadDoc)
+    .catch((e) => {
+      titleEl.textContent = 'failed to load';
+      showError('could not load ' + traceUrl + ': ' + (e.message || e));
+    });
+})();
+</script>
+</body>
+</html>

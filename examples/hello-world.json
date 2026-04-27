@@ -1,0 +1,59 @@
+{
+  "schema_version": "1",
+  "vocab": {
+    "1": "The",
+    "2": " cat",
+    "3": " sat",
+    "4": " on",
+    "5": " the",
+    "6": " mat",
+    "7": ".",
+    "100": "<|bos|>",
+    "200": "Hello",
+    "201": ",",
+    "202": " world"
+  },
+  "vocab_meta": {
+    "100": { "is_special": true }
+  },
+  "traces": [
+    {
+      "name": "vanilla autoregressive",
+      "prompt_text": "The cat",
+      "tokens": [
+        { "id": "t0", "vocab_id": 100, "gen_step": 0, "position": { "abs": 0 } },
+        { "id": "t1", "vocab_id": 1,   "gen_step": 0, "position": { "abs": 1 } },
+        { "id": "t2", "vocab_id": 2,   "gen_step": 0, "position": { "abs": 2 } },
+        { "id": "t3", "vocab_id": 3,   "gen_step": 1, "position": { "abs": 3 } },
+        { "id": "t4", "vocab_id": 4,   "gen_step": 2, "position": { "abs": 4 } },
+        { "id": "t5", "vocab_id": 5,   "gen_step": 3, "position": { "abs": 5 } },
+        { "id": "t6", "vocab_id": 6,   "gen_step": 4, "position": { "abs": 6 } },
+        { "id": "t7", "vocab_id": 7,   "gen_step": 5, "position": { "abs": 7 } }
+      ]
+    },
+    {
+      "name": "out-of-order insertion (relative positions)",
+      "prompt_text": "Hello",
+      "tokens": [
+        { "id": "h0", "vocab_id": 200, "gen_step": 0, "position": { "abs": 0 } },
+        { "id": "h1", "vocab_id": 7,   "gen_step": 0, "position": { "abs": 1 } },
+
+        { "id": "h2", "vocab_id": 202, "gen_step": 1, "position": { "between": ["h0", "h1"] } },
+
+        { "id": "h3", "vocab_id": 201, "gen_step": 2, "position": { "between": ["h0", "h2"] } }
+      ]
+    },
+    {
+      "name": "tool use (forced tokens)",
+      "prompt_text": "2+2=",
+      "tokens": [
+        { "id": "f0", "vocab_id": 100, "gen_step": 0, "position": { "abs": 0 } },
+        { "id": "f1", "vocab_id": 1,   "gen_step": 0, "position": { "abs": 1 } },
+        { "id": "f2", "vocab_id": 2,   "gen_step": 1, "position": { "abs": 2 }, "forced": false },
+        { "id": "f3", "vocab_id": 3,   "gen_step": 2, "position": { "abs": 3 }, "forced": true  },
+        { "id": "f4", "vocab_id": 4,   "gen_step": 3, "position": { "abs": 4 }, "forced": true  },
+        { "id": "f5", "vocab_id": 5,   "gen_step": 4, "position": { "abs": 5 }, "forced": false }
+      ]
+    }
+  ]
+}
