@@ -6,7 +6,7 @@ This is the contract between trace **producers** (any LLM repo: nanochat, HF, vL
 
 ```json
 {
-  "schema_version": "1",
+  "schema_version": "2",
   "vocab": { "<id>": "<text>", ... },
   "vocab_meta": { "<id>": { "is_special": true }, ... },
   "traces": [ <trace>, ... ]
@@ -15,7 +15,7 @@ This is the contract between trace **producers** (any LLM repo: nanochat, HF, vL
 
 | field | required | description |
 |---|---|---|
-| `schema_version` | yes | String. Bump when the schema changes incompatibly. Current: `"1"`. |
+| `schema_version` | yes | String. Bump when the schema changes incompatibly. Current: `"2"`. The renderer also accepts legacy `"1"` traces (their `abs` values are non-negative, which is a strict subset of v2). |
 | `vocab` | yes | Map from `vocab_id` (as string) to its human-readable text. Only IDs that appear in any trace need to be present. |
 | `vocab_meta` | no | Per-vocab-id extras. Renderer styles entries with `is_special: true` (italic, gray). |
 | `traces` | yes | Array of one or more traces. The page shows a dropdown to pick one; the rest renders the chosen trace. |
@@ -62,41 +62,67 @@ This is the contract between trace **producers** (any LLM repo: nanochat, HF, vL
 
 Two forms:
 
-### Absolute
+### Absolute (signed permanent column)
+
 ```json
 "position": { "abs": 5 }
 ```
-Token sits at index 5 *as of the step it was generated*. Use this for normal autoregressive append.
+
+The token's **permanent display column**, fixed at the step it was generated. Any signed integer is valid.
+
+- Forward autoregressive (most LLMs): emit `abs: 0, 1, 2, …` (left-to-right growth).
+- Reverse / right-to-left model: emit `abs: 0, -1, -2, …` for each newly generated token (left-end growth). The prompt still occupies non-negative columns in the order it should be read.
+- Mixed / non-standard layouts: any integer column is allowed.
+
+**Constraints:**
+- A token's `abs` does **not** change after the step it was generated. Tokens never "slide" under the abs scheme.
+- Two tokens with the same `abs` are treated as a producer error and the renderer reports it.
+
+The renderer determines pixel-space layout by computing `offset = -min(abs across all tokens)` and rendering each `abs` token at pixel column `abs + offset`. Total row width = `max_abs - min_abs + 1`.
 
 ### Between (relative)
+
 ```json
 "position": { "between": ["t3", "t7"] }
 ```
-Token sits **between** anchor tokens `t3` and `t7` in the displayed sequence.
+
+Token sits **between** anchor tokens `t3` and `t7` in the displayed sequence. Its effective column is the midpoint of the two anchor columns, so it sorts between them.
 
 **Constraints:**
 - Both anchors must have `gen_step < this token's gen_step`. (Anchors are always *earlier* tokens.)
+- The two anchors must be adjacent in the displayed sequence at this step (after any same-step `abs` tokens are placed). If not, the renderer errors with `step N: token X anchors [a,b] not adjacent`.
 - At most one new token per `[a, b]` pair per step. Violations: renderer errors with `step N: multiple tokens claim position [a, b]: <token_ids>`.
 
-**Layout rule (no empty slots):** the displayed column at step N is the token's ordinal place in the sequence as it exists at step N. Tokens slide right when something inserts to their left in a later step. The renderer animates the slide (~150ms).
+When something inserts between two adjacent tokens via `between`, neighboring `between`-positioned tokens slide aside with a ~150ms transition. `abs`-positioned tokens have permanent columns and do not slide.
 
 ### When to use which
 
-- **Pure autoregressive** generation (most LLMs, including nanochat in normal use): always use `abs`. The producer emits `{"abs": <next_index>}` for each new token.
+- **Pure autoregressive** (most LLMs, including nanochat in normal use): always use `abs`. Producer emits `{"abs": <next_index>}` for each new token; reverse-direction LMs emit decreasing negative integers.
 - **Speculative / parallel / tree decoding**: use `between` for tokens that get inserted mid-sequence based on prior tokens' relative positions.
 
 A single trace can mix both forms.
 
 ## Step 0 (the prompt)
 
-The prompt is just regular tokens with `gen_step: 0`. Use absolute positions `0..len-1`.
+The prompt is just regular tokens with `gen_step: 0`. Use absolute positions, in the order you want them displayed.
 
+Forward example:
 ```json
 "tokens": [
   { "id": "t0", "vocab_id": 11, "gen_step": 0, "position": { "abs": 0 } },
   { "id": "t1", "vocab_id": 22, "gen_step": 0, "position": { "abs": 1 } },
-  { "id": "t2", "vocab_id": 33, "gen_step": 1, "position": { "abs": 2 } },
-  ...
+  { "id": "t2", "vocab_id": 33, "gen_step": 1, "position": { "abs": 2 } }
+]
+```
+
+Reverse-LM example (prompt fed to model as `[bos, last-token, ..., first-token]`, displayed in original L→R order with `<|bos|>` at the right edge):
+```json
+"tokens": [
+  { "id": "t0", "vocab_id": 12, "gen_step": 0, "position": { "abs": 0 } },
+  { "id": "t1", "vocab_id": 13, "gen_step": 0, "position": { "abs": 1 } },
+  { "id": "t2", "vocab_id": 100, "gen_step": 0, "position": { "abs": 2 } },
+  { "id": "t3", "vocab_id": 14, "gen_step": 1, "position": { "abs": -1 } },
+  { "id": "t4", "vocab_id": 15, "gen_step": 2, "position": { "abs": -2 } }
 ]
 ```
 
@@ -108,7 +134,7 @@ When instrumenting a repo (e.g. nanochat) to emit traces:
 2. Assign each token a unique string `id` within the trace (e.g. `t0`, `t1`, ...).
 3. Record `vocab_id`, `gen_step`, and `position` for each token.
 4. Build the `vocab` table: walk all tokens, collect unique `vocab_id`s, look each one up via your tokenizer's `id_to_token` (or equivalent). Optionally fill `vocab_meta.is_special` from your tokenizer's special-token list.
-5. Wrap the prompt as `gen_step: 0` tokens with `abs` positions.
+5. Wrap the prompt as `gen_step: 0` tokens with `abs` positions in the order you want them displayed.
 6. Write JSON conforming to this schema. One file may contain multiple traces (the page dropdown will switch between them).
 
 The producer never needs to know anything about animation, color, or layout — that's the renderer's job.

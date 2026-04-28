@@ -1,0 +1,184 @@
+:root {
+  --bg: #1a1a1a;
+  --card: #1a1a1a;
+  --card-border: #2e2e2e;
+  --text: #e6e6e6;
+  --text-dim: #8a8a8a;
+  --text-muted: #c9c9c9;
+  --btn-border: #3a3a3a;
+  --btn-hover: #2a2a2a;
+
+  /* token palette */
+  --tok-prompt:  #d957eb;
+  --tok-current: #ffd84d;          /* brighter golden for the new token */
+  --slider-thumb: #dc641e;
+}
+body {
+  background: #0e0e0e;
+  color: var(--text);
+  font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 24px;
+}
+.lv-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 22px 26px 18px;
+  color: var(--text);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.35);
+  max-width: 960px;
+  margin: 0 auto;
+}
+.lv-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+.lv-title-block { min-width: 0; flex: 1; }
+.lv-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #f2f2f2;
+}
+.lv-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+select, button.lv-btn {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--btn-border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+  font-family: inherit;
+}
+select:hover, button.lv-btn:hover { background: var(--btn-hover); border-color: #555; }
+select { padding-right: 22px; }
+
+.lv-prompt {
+  margin: 14px 0 0;
+  padding: 18px 20px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-height: 44px;
+}
+.lv-prompt:empty::before {
+  content: "(empty)";
+  color: var(--text-dim);
+}
+
+.lv-tok          { transition: color 0.12s; }
+.lv-tok-prompt   { color: var(--tok-prompt); }
+.lv-tok-special  { color: var(--text-dim); font-style: italic; }
+.lv-tok-just {
+  color: var(--tok-current);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.lv-tok-forced::after {
+  content: "•";
+  color: #ffd23f;
+  margin: 0 0 0 1px;
+  font-size: 0.85em;
+  vertical-align: super;
+}
+
+.lv-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+.lv-controls input[type=range] {
+  flex: 1;
+  accent-color: var(--slider-thumb);
+}
+.lv-step {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  min-width: 80px;
+  text-align: right;
+}
+
+.lv-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 18px;
+  margin-top: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  align-items: center;
+}
+.lv-leg-item { display: inline-flex; align-items: center; gap: 6px; }
+.lv-leg-sw {
+  display: inline-block;
+  width: 12px; height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.lv-leg-ramp { display: inline-flex; align-items: center; gap: 6px; }
+.lv-leg-ramp-bar {
+  display: inline-block;
+  width: 70px; height: 10px;
+  border-radius: 2px;
+  background: linear-gradient(to right, rgb(255,232,153), rgb(212,90,20));
+}
+.lv-leg-current {
+  color: var(--tok-current);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+.lv-leg-special { background: var(--text-dim); }
+.lv-leg-forced::before {
+  content: "•";
+  color: #ffd23f;
+  font-size: 1.1em;
+  margin-right: 2px;
+}
+
+.lv-tip {
+  position: fixed;
+  pointer-events: none;
+  background: rgba(20,20,20,0.96);
+  border: 1px solid #3a3a3a;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--text);
+  z-index: 10;
+  display: none;
+  max-width: 280px;
+}
+.lv-tip .k { color: var(--text-dim); }
+.lv-tip .v { color: #fff; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.lv-tip .special { color: #ffd23f; font-style: italic; }
+
+.lv-error {
+  color: #ff6b6b;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82rem;
+  padding: 12px;
+  background: rgba(255, 107, 107, 0.08);
+  border-radius: 6px;
+  margin-top: 10px;
+}

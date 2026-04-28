@@ -22,13 +22,17 @@ so in this second method, the final position will determine by both abs id and t
 - Anchors `a` and `b` must both be tokens generated in strictly earlier steps (not the current step).
 - Per step, at most one new token per anchor pair `[a, b]`. If violated, the renderer errors: `step N: multiple tokens claim position [a, b]: <token_ids>`.
 
-## Layout: no empty slots for ungenerated tokens
+## Layout: signed permanent columns
 
-Column ≠ absolute final position. At displayed step N, a token's column is its ordinal place in the sequence as it exists at step N. Tokens slide right when something inserts to their left in a later step.
+For `abs`-positioned tokens, the column is **permanent** — fixed at the step the token is generated. Any signed integer is allowed:
 
-Example: final sequence `[A, B, C, D]`, with C generated at step 4 and D at step 3.
-- step 3 display: `[A, B, D]` — no gap reserved for C.
-- step 4 display: `[A, B, C, D]` — C inserts; D shifts right.
+- Forward autoregressive: `abs: 0, 1, 2, …`
+- Reverse / right-to-left LM: `abs: 0, -1, -2, …` (left-end growth)
+- Mixed layouts: any integer
+
+The renderer computes `offset = -min(abs over all tokens)` and renders each token at pixel column `abs + offset`. Two tokens with the same `abs` are an error.
+
+For `between`-positioned tokens (speculative/tree decoding), column is derived as the midpoint of the two anchor columns. Neighboring between-tokens slide aside with a ~150ms transition when something is inserted between them. `abs`-positioned tokens never slide.
 
 ## Animation
 
@@ -37,4 +41,4 @@ Example: final sequence `[A, B, C, D]`, with C generated at step 4 and D at step
   - current (`gen_step == N`): warm orange accent.
   - next (`gen_step == N+1`): ghosted at ~30% opacity in its eventual color.
   - beyond (`gen_step > N+1`): hidden.
-- Mid-sequence insertions slide neighboring tokens right with a ~150ms transition (no jumps).
+- Mid-sequence `between` insertions slide neighboring tokens right with a ~150ms transition (no jumps).
