@@ -1,0 +1,1682 @@
+{
+  "schema_version": "2",
+  "vocab": {
+    "44": ",",
+    "46": ".",
+    "73": "I",
+    "80": "P",
+    "258": " a",
+    "261": " the",
+    "269": " he",
+    "278": " to",
+    "280": " and",
+    "289": " The",
+    "298": " in",
+    "299": " of",
+    "305": " \"",
+    "310": " her",
+    "312": " she",
+    "316": " was",
+    "326": " it",
+    "327": " be",
+    "346": " that",
+    "351": " on",
+    "356": " his",
+    "358": " He",
+    "360": " A",
+    "362": " but",
+    "365": " had",
+    "371": " She",
+    "406": " him",
+    "424": " It",
+    "432": " day",
+    "440": " found",
+    "456": " like",
+    "476": " girl",
+    "477": " friends",
+    "493": " thought",
+    "494": ".\"",
+    "496": " about",
+    "500": " joy",
+    "501": " up",
+    "506": " bright",
+    "535": " find",
+    "536": " looked",
+    "539": " from",
+    "570": " this",
+    "571": " saw",
+    "573": " feeling",
+    "578": " all",
+    "586": " In",
+    "588": " made",
+    "599": " named",
+    "600": " through",
+    "601": " wanted",
+    "609": " Alex",
+    "617": " no",
+    "618": " big",
+    "620": " night",
+    "622": " sky",
+    "635": " stars",
+    "651": " dreams",
+    "661": " Kim",
+    "677": " will",
+    "702": " more",
+    "711": " One",
+    "731": " are",
+    "762": " away",
+    "775": " sad",
+    "796": " how",
+    "844": " happy",
+    "852": " people",
+    "865": " little",
+    "868": " always",
+    "902": " alone",
+    "907": " beautiful",
+    "928": " Alice",
+    "935": " rock",
+    "984": " smile",
+    "1117": " still",
+    "1164": " above",
+    "1187": " work",
+    "1196": " sea",
+    "1216": " brought",
+    "1229": " laughing",
+    "1253": " shining",
+    "1271": " colorful",
+    "1275": " wall",
+    "1319": " far",
+    "1411": " swam",
+    "1454": " dreamed",
+    "1620": " shell",
+    "1711": " believed",
+    "1755": " piece",
+    "1761": " sunny",
+    "1822": " very",
+    "1865": " has",
+    "1868": " creating",
+    "1969": " feels",
+    "2077": " showing",
+    "2361": " hopes",
+    "2365": " flowed",
+    "2704": " shells",
+    "2866": " drifted",
+    "3178": " twinkle",
+    "3488": " collect",
+    "3519": " rhythm",
+    "3550": " thinks",
+    "3674": " pretty",
+    "3747": "aint",
+    "4012": " collected",
+    "4095": "Gentle",
+    "4516": "Stars",
+    "4526": " starfish",
+    "4528": " painter",
+    "4967": " sits",
+    "5034": " dances",
+    "7939": " currents",
+    "8030": " dripped",
+    "8183": "<|bos|>"
+  },
+  "vocab_meta": {
+    "8183": {
+      "is_special": true
+    }
+  },
+  "traces": [
+    {
+      "name": "d8_r20_simplestory_butterfly::doc0",
+      "prompt_text": "<|bos|>Stars twinkle in the sky, shining ⟨…⟩  are all laughing, but she feels alone",
+      "tokens": [
+        {
+          "id": "t0",
+          "vocab_id": 8183,
+          "gen_step": 0,
+          "position": {
+            "abs": 0
+          }
+        },
+        {
+          "id": "t1",
+          "vocab_id": 4516,
+          "gen_step": 0,
+          "position": {
+            "abs": 1
+          }
+        },
+        {
+          "id": "t2",
+          "vocab_id": 3178,
+          "gen_step": 0,
+          "position": {
+            "abs": 2
+          }
+        },
+        {
+          "id": "t3",
+          "vocab_id": 298,
+          "gen_step": 0,
+          "position": {
+            "abs": 3
+          }
+        },
+        {
+          "id": "t4",
+          "vocab_id": 261,
+          "gen_step": 0,
+          "position": {
+            "abs": 4
+          }
+        },
+        {
+          "id": "t5",
+          "vocab_id": 622,
+          "gen_step": 0,
+          "position": {
+            "abs": 5
+          }
+        },
+        {
+          "id": "t6",
+          "vocab_id": 44,
+          "gen_step": 0,
+          "position": {
+            "abs": 6
+          }
+        },
+        {
+          "id": "t7",
+          "vocab_id": 1253,
+          "gen_step": 0,
+          "position": {
+            "abs": 7
+          }
+        },
+        {
+          "id": "t8",
+          "vocab_id": 731,
+          "gen_step": 0,
+          "position": {
+            "abs": 56
+          }
+        },
+        {
+          "id": "t9",
+          "vocab_id": 578,
+          "gen_step": 0,
+          "position": {
+            "abs": 57
+          }
+        },
+        {
+          "id": "t10",
+          "vocab_id": 1229,
+          "gen_step": 0,
+          "position": {
+            "abs": 58
+          }
+        },
+        {
+          "id": "t11",
+          "vocab_id": 44,
+          "gen_step": 0,
+          "position": {
+            "abs": 59
+          }
+        },
+        {
+          "id": "t12",
+          "vocab_id": 362,
+          "gen_step": 0,
+          "position": {
+            "abs": 60
+          }
+        },
+        {
+          "id": "t13",
+          "vocab_id": 312,
+          "gen_step": 0,
+          "position": {
+            "abs": 61
+          }
+        },
+        {
+          "id": "t14",
+          "vocab_id": 1969,
+          "gen_step": 0,
+          "position": {
+            "abs": 62
+          }
+        },
+        {
+          "id": "t15",
+          "vocab_id": 902,
+          "gen_step": 0,
+          "position": {
+            "abs": 63
+          }
+        },
+        {
+          "id": "t16",
+          "vocab_id": 506,
+          "gen_step": 1,
+          "position": {
+            "abs": 8
+          }
+        },
+        {
+          "id": "t17",
+          "vocab_id": 44,
+          "gen_step": 1,
+          "position": {
+            "abs": 55
+          }
+        },
+        {
+          "id": "t18",
+          "vocab_id": 456,
+          "gen_step": 2,
+          "position": {
+            "abs": 9
+          }
+        },
+        {
+          "id": "t19",
+          "vocab_id": 570,
+          "gen_step": 2,
+          "position": {
+            "abs": 54
+          }
+        },
+        {
+          "id": "t20",
+          "vocab_id": 865,
+          "gen_step": 3,
+          "position": {
+            "abs": 10
+          }
+        },
+        {
+          "id": "t21",
+          "vocab_id": 586,
+          "gen_step": 3,
+          "position": {
+            "abs": 53
+          }
+        },
+        {
+          "id": "t22",
+          "vocab_id": 635,
+          "gen_step": 4,
+          "position": {
+            "abs": 11
+          }
+        },
+        {
+          "id": "t23",
+          "vocab_id": 46,
+          "gen_step": 4,
+          "position": {
+            "abs": 52
+          }
+        },
+        {
+          "id": "t24",
+          "vocab_id": 46,
+          "gen_step": 5,
+          "position": {
+            "abs": 12
+          }
+        },
+        {
+          "id": "t25",
+          "vocab_id": 844,
+          "gen_step": 5,
+          "position": {
+            "abs": 51
+          }
+        },
+        {
+          "id": "t26",
+          "vocab_id": 360,
+          "gen_step": 6,
+          "position": {
+            "abs": 13
+          }
+        },
+        {
+          "id": "t27",
+          "vocab_id": 1969,
+          "gen_step": 6,
+          "position": {
+            "abs": 50
+          }
+        },
+        {
+          "id": "t28",
+          "vocab_id": 476,
+          "gen_step": 7,
+          "position": {
+            "abs": 14
+          }
+        },
+        {
+          "id": "t29",
+          "vocab_id": 312,
+          "gen_step": 7,
+          "position": {
+            "abs": 49
+          }
+        },
+        {
+          "id": "t30",
+          "vocab_id": 4967,
+          "gen_step": 8,
+          "position": {
+            "abs": 15
+          }
+        },
+        {
+          "id": "t31",
+          "vocab_id": 702,
+          "gen_step": 8,
+          "position": {
+            "abs": 48
+          }
+        },
+        {
+          "id": "t32",
+          "vocab_id": 351,
+          "gen_step": 9,
+          "position": {
+            "abs": 16
+          }
+        },
+        {
+          "id": "t33",
+          "vocab_id": 261,
+          "gen_step": 9,
+          "position": {
+            "abs": 47
+          }
+        },
+        {
+          "id": "t34",
+          "vocab_id": 258,
+          "gen_step": 10,
+          "position": {
+            "abs": 17
+          }
+        },
+        {
+          "id": "t35",
+          "vocab_id": 44,
+          "gen_step": 10,
+          "position": {
+            "abs": 46
+          }
+        },
+        {
+          "id": "t36",
+          "vocab_id": 618,
+          "gen_step": 11,
+          "position": {
+            "abs": 18
+          }
+        },
+        {
+          "id": "t37",
+          "vocab_id": 5034,
+          "gen_step": 11,
+          "position": {
+            "abs": 45
+          }
+        },
+        {
+          "id": "t38",
+          "vocab_id": 935,
+          "gen_step": 12,
+          "position": {
+            "abs": 19
+          }
+        },
+        {
+          "id": "t39",
+          "vocab_id": 312,
+          "gen_step": 12,
+          "position": {
+            "abs": 44
+          }
+        },
+        {
+          "id": "t40",
+          "vocab_id": 44,
+          "gen_step": 13,
+          "position": {
+            "abs": 20
+          }
+        },
+        {
+          "id": "t41",
+          "vocab_id": 702,
+          "gen_step": 13,
+          "position": {
+            "abs": 43
+          }
+        },
+        {
+          "id": "t42",
+          "vocab_id": 573,
+          "gen_step": 14,
+          "position": {
+            "abs": 21
+          }
+        },
+        {
+          "id": "t43",
+          "vocab_id": 289,
+          "gen_step": 14,
+          "position": {
+            "abs": 42
+          }
+        },
+        {
+          "id": "t44",
+          "vocab_id": 775,
+          "gen_step": 15,
+          "position": {
+            "abs": 22
+          }
+        },
+        {
+          "id": "t45",
+          "vocab_id": 46,
+          "gen_step": 15,
+          "position": {
+            "abs": 41
+          }
+        },
+        {
+          "id": "t46",
+          "vocab_id": 46,
+          "gen_step": 16,
+          "position": {
+            "abs": 23
+          }
+        },
+        {
+          "id": "t47",
+          "vocab_id": 651,
+          "gen_step": 16,
+          "position": {
+            "abs": 40
+          }
+        },
+        {
+          "id": "t48",
+          "vocab_id": 371,
+          "gen_step": 17,
+          "position": {
+            "abs": 24
+          }
+        },
+        {
+          "id": "t49",
+          "vocab_id": 280,
+          "gen_step": 17,
+          "position": {
+            "abs": 39
+          }
+        },
+        {
+          "id": "t50",
+          "vocab_id": 3550,
+          "gen_step": 18,
+          "position": {
+            "abs": 25
+          }
+        },
+        {
+          "id": "t51",
+          "vocab_id": 2361,
+          "gen_step": 18,
+          "position": {
+            "abs": 38
+          }
+        },
+        {
+          "id": "t52",
+          "vocab_id": 496,
+          "gen_step": 19,
+          "position": {
+            "abs": 26
+          }
+        },
+        {
+          "id": "t53",
+          "vocab_id": 310,
+          "gen_step": 19,
+          "position": {
+            "abs": 37
+          }
+        },
+        {
+          "id": "t54",
+          "vocab_id": 796,
+          "gen_step": 20,
+          "position": {
+            "abs": 27
+          }
+        },
+        {
+          "id": "t55",
+          "vocab_id": 2077,
+          "gen_step": 20,
+          "position": {
+            "abs": 36
+          }
+        },
+        {
+          "id": "t56",
+          "vocab_id": 1319,
+          "gen_step": 21,
+          "position": {
+            "abs": 28
+          }
+        },
+        {
+          "id": "t57",
+          "vocab_id": 44,
+          "gen_step": 21,
+          "position": {
+            "abs": 35
+          }
+        },
+        {
+          "id": "t58",
+          "vocab_id": 312,
+          "gen_step": 22,
+          "position": {
+            "abs": 29
+          }
+        },
+        {
+          "id": "t59",
+          "vocab_id": 622,
+          "gen_step": 22,
+          "position": {
+            "abs": 34
+          }
+        },
+        {
+          "id": "t60",
+          "vocab_id": 1865,
+          "gen_step": 23,
+          "position": {
+            "abs": 30
+          }
+        },
+        {
+          "id": "t61",
+          "vocab_id": 261,
+          "gen_step": 23,
+          "position": {
+            "abs": 33
+          }
+        },
+        {
+          "id": "t62",
+          "vocab_id": 2866,
+          "gen_step": 24,
+          "position": {
+            "abs": 31
+          }
+        },
+        {
+          "id": "t63",
+          "vocab_id": 539,
+          "gen_step": 24,
+          "position": {
+            "abs": 32
+          }
+        }
+      ]
+    },
+    {
+      "name": "d8_r20_simplestory_butterfly::doc1",
+      "prompt_text": "<|bos|>Paint dripped from the wall, ⟨…⟩ . He had no friends, but he",
+      "tokens": [
+        {
+          "id": "t0",
+          "vocab_id": 8183,
+          "gen_step": 0,
+          "position": {
+            "abs": 0
+          }
+        },
+        {
+          "id": "t1",
+          "vocab_id": 80,
+          "gen_step": 0,
+          "position": {
+            "abs": 1
+          }
+        },
+        {
+          "id": "t2",
+          "vocab_id": 3747,
+          "gen_step": 0,
+          "position": {
+            "abs": 2
+          }
+        },
+        {
+          "id": "t3",
+          "vocab_id": 8030,
+          "gen_step": 0,
+          "position": {
+            "abs": 3
+          }
+        },
+        {
+          "id": "t4",
+          "vocab_id": 539,
+          "gen_step": 0,
+          "position": {
+            "abs": 4
+          }
+        },
+        {
+          "id": "t5",
+          "vocab_id": 261,
+          "gen_step": 0,
+          "position": {
+            "abs": 5
+          }
+        },
+        {
+          "id": "t6",
+          "vocab_id": 1275,
+          "gen_step": 0,
+          "position": {
+            "abs": 6
+          }
+        },
+        {
+          "id": "t7",
+          "vocab_id": 44,
+          "gen_step": 0,
+          "position": {
+            "abs": 7
+          }
+        },
+        {
+          "id": "t8",
+          "vocab_id": 46,
+          "gen_step": 0,
+          "position": {
+            "abs": 56
+          }
+        },
+        {
+          "id": "t9",
+          "vocab_id": 358,
+          "gen_step": 0,
+          "position": {
+            "abs": 57
+          }
+        },
+        {
+          "id": "t10",
+          "vocab_id": 365,
+          "gen_step": 0,
+          "position": {
+            "abs": 58
+          }
+        },
+        {
+          "id": "t11",
+          "vocab_id": 617,
+          "gen_step": 0,
+          "position": {
+            "abs": 59
+          }
+        },
+        {
+          "id": "t12",
+          "vocab_id": 477,
+          "gen_step": 0,
+          "position": {
+            "abs": 60
+          }
+        },
+        {
+          "id": "t13",
+          "vocab_id": 44,
+          "gen_step": 0,
+          "position": {
+            "abs": 61
+          }
+        },
+        {
+          "id": "t14",
+          "vocab_id": 362,
+          "gen_step": 0,
+          "position": {
+            "abs": 62
+          }
+        },
+        {
+          "id": "t15",
+          "vocab_id": 269,
+          "gen_step": 0,
+          "position": {
+            "abs": 63
+          }
+        },
+        {
+          "id": "t16",
+          "vocab_id": 1868,
+          "gen_step": 1,
+          "position": {
+            "abs": 8
+          }
+        },
+        {
+          "id": "t17",
+          "vocab_id": 365,
+          "gen_step": 1,
+          "position": {
+            "abs": 55
+          }
+        },
+        {
+          "id": "t18",
+          "vocab_id": 258,
+          "gen_step": 2,
+          "position": {
+            "abs": 9
+          }
+        },
+        {
+          "id": "t19",
+          "vocab_id": 1117,
+          "gen_step": 2,
+          "position": {
+            "abs": 54
+          }
+        },
+        {
+          "id": "t20",
+          "vocab_id": 3519,
+          "gen_step": 3,
+          "position": {
+            "abs": 10
+          }
+        },
+        {
+          "id": "t21",
+          "vocab_id": 269,
+          "gen_step": 3,
+          "position": {
+            "abs": 53
+          }
+        },
+        {
+          "id": "t22",
+          "vocab_id": 346,
+          "gen_step": 4,
+          "position": {
+            "abs": 11
+          }
+        },
+        {
+          "id": "t23",
+          "vocab_id": 1711,
+          "gen_step": 4,
+          "position": {
+            "abs": 52
+          }
+        },
+        {
+          "id": "t24",
+          "vocab_id": 588,
+          "gen_step": 5,
+          "position": {
+            "abs": 12
+          }
+        },
+        {
+          "id": "t25",
+          "vocab_id": 609,
+          "gen_step": 5,
+          "position": {
+            "abs": 51
+          }
+        },
+        {
+          "id": "t26",
+          "vocab_id": 609,
+          "gen_step": 6,
+          "position": {
+            "abs": 13
+          }
+        },
+        {
+          "id": "t27",
+          "vocab_id": 46,
+          "gen_step": 6,
+          "position": {
+            "abs": 50
+          }
+        },
+        {
+          "id": "t28",
+          "vocab_id": 984,
+          "gen_step": 7,
+          "position": {
+            "abs": 14
+          }
+        },
+        {
+          "id": "t29",
+          "vocab_id": 406,
+          "gen_step": 7,
+          "position": {
+            "abs": 49
+          }
+        },
+        {
+          "id": "t30",
+          "vocab_id": 46,
+          "gen_step": 8,
+          "position": {
+            "abs": 15
+          }
+        },
+        {
+          "id": "t31",
+          "vocab_id": 1164,
+          "gen_step": 8,
+          "position": {
+            "abs": 48
+          }
+        },
+        {
+          "id": "t32",
+          "vocab_id": 358,
+          "gen_step": 9,
+          "position": {
+            "abs": 16
+          }
+        },
+        {
+          "id": "t33",
+          "vocab_id": 1253,
+          "gen_step": 9,
+          "position": {
+            "abs": 47
+          }
+        },
+        {
+          "id": "t34",
+          "vocab_id": 316,
+          "gen_step": 10,
+          "position": {
+            "abs": 17
+          }
+        },
+        {
+          "id": "t35",
+          "vocab_id": 622,
+          "gen_step": 10,
+          "position": {
+            "abs": 46
+          }
+        },
+        {
+          "id": "t36",
+          "vocab_id": 258,
+          "gen_step": 11,
+          "position": {
+            "abs": 18
+          }
+        },
+        {
+          "id": "t37",
+          "vocab_id": 620,
+          "gen_step": 11,
+          "position": {
+            "abs": 45
+          }
+        },
+        {
+          "id": "t38",
+          "vocab_id": 4528,
+          "gen_step": 12,
+          "position": {
+            "abs": 19
+          }
+        },
+        {
+          "id": "t39",
+          "vocab_id": 261,
+          "gen_step": 12,
+          "position": {
+            "abs": 44
+          }
+        },
+        {
+          "id": "t40",
+          "vocab_id": 44,
+          "gen_step": 13,
+          "position": {
+            "abs": 20
+          }
+        },
+        {
+          "id": "t41",
+          "vocab_id": 571,
+          "gen_step": 13,
+          "position": {
+            "abs": 43
+          }
+        },
+        {
+          "id": "t42",
+          "vocab_id": 280,
+          "gen_step": 14,
+          "position": {
+            "abs": 21
+          }
+        },
+        {
+          "id": "t43",
+          "vocab_id": 280,
+          "gen_step": 14,
+          "position": {
+            "abs": 42
+          }
+        },
+        {
+          "id": "t44",
+          "vocab_id": 269,
+          "gen_step": 15,
+          "position": {
+            "abs": 22
+          }
+        },
+        {
+          "id": "t45",
+          "vocab_id": 501,
+          "gen_step": 15,
+          "position": {
+            "abs": 41
+          }
+        },
+        {
+          "id": "t46",
+          "vocab_id": 868,
+          "gen_step": 16,
+          "position": {
+            "abs": 23
+          }
+        },
+        {
+          "id": "t47",
+          "vocab_id": 536,
+          "gen_step": 16,
+          "position": {
+            "abs": 40
+          }
+        },
+        {
+          "id": "t48",
+          "vocab_id": 1454,
+          "gen_step": 17,
+          "position": {
+            "abs": 24
+          }
+        },
+        {
+          "id": "t49",
+          "vocab_id": 358,
+          "gen_step": 17,
+          "position": {
+            "abs": 39
+          }
+        },
+        {
+          "id": "t50",
+          "vocab_id": 299,
+          "gen_step": 18,
+          "position": {
+            "abs": 25
+          }
+        },
+        {
+          "id": "t51",
+          "vocab_id": 46,
+          "gen_step": 18,
+          "position": {
+            "abs": 38
+          }
+        },
+        {
+          "id": "t52",
+          "vocab_id": 1868,
+          "gen_step": 19,
+          "position": {
+            "abs": 26
+          }
+        },
+        {
+          "id": "t53",
+          "vocab_id": 1187,
+          "gen_step": 19,
+          "position": {
+            "abs": 37
+          }
+        },
+        {
+          "id": "t54",
+          "vocab_id": 258,
+          "gen_step": 20,
+          "position": {
+            "abs": 27
+          }
+        },
+        {
+          "id": "t55",
+          "vocab_id": 356,
+          "gen_step": 20,
+          "position": {
+            "abs": 36
+          }
+        },
+        {
+          "id": "t56",
+          "vocab_id": 1755,
+          "gen_step": 21,
+          "position": {
+            "abs": 28
+          }
+        },
+        {
+          "id": "t57",
+          "vocab_id": 298,
+          "gen_step": 21,
+          "position": {
+            "abs": 35
+          }
+        },
+        {
+          "id": "t58",
+          "vocab_id": 346,
+          "gen_step": 22,
+          "position": {
+            "abs": 29
+          }
+        },
+        {
+          "id": "t59",
+          "vocab_id": 500,
+          "gen_step": 22,
+          "position": {
+            "abs": 34
+          }
+        },
+        {
+          "id": "t60",
+          "vocab_id": 1216,
+          "gen_step": 23,
+          "position": {
+            "abs": 30
+          }
+        },
+        {
+          "id": "t61",
+          "vocab_id": 535,
+          "gen_step": 23,
+          "position": {
+            "abs": 33
+          }
+        },
+        {
+          "id": "t62",
+          "vocab_id": 852,
+          "gen_step": 24,
+          "position": {
+            "abs": 31
+          }
+        },
+        {
+          "id": "t63",
+          "vocab_id": 278,
+          "gen_step": 24,
+          "position": {
+            "abs": 32
+          }
+        }
+      ]
+    },
+    {
+      "name": "d8_r20_simplestory_butterfly::doc2",
+      "prompt_text": "<|bos|>Gentle currents flowed through the sea. ⟨…⟩  her shell. It was a starfish named",
+      "tokens": [
+        {
+          "id": "t0",
+          "vocab_id": 8183,
+          "gen_step": 0,
+          "position": {
+            "abs": 0
+          }
+        },
+        {
+          "id": "t1",
+          "vocab_id": 4095,
+          "gen_step": 0,
+          "position": {
+            "abs": 1
+          }
+        },
+        {
+          "id": "t2",
+          "vocab_id": 7939,
+          "gen_step": 0,
+          "position": {
+            "abs": 2
+          }
+        },
+        {
+          "id": "t3",
+          "vocab_id": 2365,
+          "gen_step": 0,
+          "position": {
+            "abs": 3
+          }
+        },
+        {
+          "id": "t4",
+          "vocab_id": 600,
+          "gen_step": 0,
+          "position": {
+            "abs": 4
+          }
+        },
+        {
+          "id": "t5",
+          "vocab_id": 261,
+          "gen_step": 0,
+          "position": {
+            "abs": 5
+          }
+        },
+        {
+          "id": "t6",
+          "vocab_id": 1196,
+          "gen_step": 0,
+          "position": {
+            "abs": 6
+          }
+        },
+        {
+          "id": "t7",
+          "vocab_id": 46,
+          "gen_step": 0,
+          "position": {
+            "abs": 7
+          }
+        },
+        {
+          "id": "t8",
+          "vocab_id": 310,
+          "gen_step": 0,
+          "position": {
+            "abs": 56
+          }
+        },
+        {
+          "id": "t9",
+          "vocab_id": 1620,
+          "gen_step": 0,
+          "position": {
+            "abs": 57
+          }
+        },
+        {
+          "id": "t10",
+          "vocab_id": 46,
+          "gen_step": 0,
+          "position": {
+            "abs": 58
+          }
+        },
+        {
+          "id": "t11",
+          "vocab_id": 424,
+          "gen_step": 0,
+          "position": {
+            "abs": 59
+          }
+        },
+        {
+          "id": "t12",
+          "vocab_id": 316,
+          "gen_step": 0,
+          "position": {
+            "abs": 60
+          }
+        },
+        {
+          "id": "t13",
+          "vocab_id": 258,
+          "gen_step": 0,
+          "position": {
+            "abs": 61
+          }
+        },
+        {
+          "id": "t14",
+          "vocab_id": 4526,
+          "gen_step": 0,
+          "position": {
+            "abs": 62
+          }
+        },
+        {
+          "id": "t15",
+          "vocab_id": 599,
+          "gen_step": 0,
+          "position": {
+            "abs": 63
+          }
+        },
+        {
+          "id": "t16",
+          "vocab_id": 360,
+          "gen_step": 1,
+          "position": {
+            "abs": 8
+          }
+        },
+        {
+          "id": "t17",
+          "vocab_id": 928,
+          "gen_step": 1,
+          "position": {
+            "abs": 55
+          }
+        },
+        {
+          "id": "t18",
+          "vocab_id": 865,
+          "gen_step": 2,
+          "position": {
+            "abs": 9
+          }
+        },
+        {
+          "id": "t19",
+          "vocab_id": 46,
+          "gen_step": 2,
+          "position": {
+            "abs": 54
+          }
+        },
+        {
+          "id": "t20",
+          "vocab_id": 4526,
+          "gen_step": 3,
+          "position": {
+            "abs": 10
+          }
+        },
+        {
+          "id": "t21",
+          "vocab_id": 844,
+          "gen_step": 3,
+          "position": {
+            "abs": 53
+          }
+        },
+        {
+          "id": "t22",
+          "vocab_id": 599,
+          "gen_step": 4,
+          "position": {
+            "abs": 11
+          }
+        },
+        {
+          "id": "t23",
+          "vocab_id": 573,
+          "gen_step": 4,
+          "position": {
+            "abs": 52
+          }
+        },
+        {
+          "id": "t24",
+          "vocab_id": 661,
+          "gen_step": 5,
+          "position": {
+            "abs": 12
+          }
+        },
+        {
+          "id": "t25",
+          "vocab_id": 44,
+          "gen_step": 5,
+          "position": {
+            "abs": 51
+          }
+        },
+        {
+          "id": "t26",
+          "vocab_id": 601,
+          "gen_step": 6,
+          "position": {
+            "abs": 13
+          }
+        },
+        {
+          "id": "t27",
+          "vocab_id": 762,
+          "gen_step": 6,
+          "position": {
+            "abs": 50
+          }
+        },
+        {
+          "id": "t28",
+          "vocab_id": 278,
+          "gen_step": 7,
+          "position": {
+            "abs": 14
+          }
+        },
+        {
+          "id": "t29",
+          "vocab_id": 1411,
+          "gen_step": 7,
+          "position": {
+            "abs": 49
+          }
+        },
+        {
+          "id": "t30",
+          "vocab_id": 3488,
+          "gen_step": 8,
+          "position": {
+            "abs": 15
+          }
+        },
+        {
+          "id": "t31",
+          "vocab_id": 371,
+          "gen_step": 8,
+          "position": {
+            "abs": 48
+          }
+        },
+        {
+          "id": "t32",
+          "vocab_id": 1271,
+          "gen_step": 9,
+          "position": {
+            "abs": 16
+          }
+        },
+        {
+          "id": "t33",
+          "vocab_id": 46,
+          "gen_step": 9,
+          "position": {
+            "abs": 47
+          }
+        },
+        {
+          "id": "t34",
+          "vocab_id": 2704,
+          "gen_step": 10,
+          "position": {
+            "abs": 17
+          }
+        },
+        {
+          "id": "t35",
+          "vocab_id": 326,
+          "gen_step": 10,
+          "position": {
+            "abs": 46
+          }
+        },
+        {
+          "id": "t36",
+          "vocab_id": 46,
+          "gen_step": 11,
+          "position": {
+            "abs": 18
+          }
+        },
+        {
+          "id": "t37",
+          "vocab_id": 4012,
+          "gen_step": 11,
+          "position": {
+            "abs": 45
+          }
+        },
+        {
+          "id": "t38",
+          "vocab_id": 371,
+          "gen_step": 12,
+          "position": {
+            "abs": 19
+          }
+        },
+        {
+          "id": "t39",
+          "vocab_id": 928,
+          "gen_step": 12,
+          "position": {
+            "abs": 44
+          }
+        },
+        {
+          "id": "t40",
+          "vocab_id": 493,
+          "gen_step": 13,
+          "position": {
+            "abs": 20
+          }
+        },
+        {
+          "id": "t41",
+          "vocab_id": 44,
+          "gen_step": 13,
+          "position": {
+            "abs": 43
+          }
+        },
+        {
+          "id": "t42",
+          "vocab_id": 44,
+          "gen_step": 14,
+          "position": {
+            "abs": 21
+          }
+        },
+        {
+          "id": "t43",
+          "vocab_id": 432,
+          "gen_step": 14,
+          "position": {
+            "abs": 42
+          }
+        },
+        {
+          "id": "t44",
+          "vocab_id": 305,
+          "gen_step": 15,
+          "position": {
+            "abs": 22
+          }
+        },
+        {
+          "id": "t45",
+          "vocab_id": 1761,
+          "gen_step": 15,
+          "position": {
+            "abs": 41
+          }
+        },
+        {
+          "id": "t46",
+          "vocab_id": 73,
+          "gen_step": 16,
+          "position": {
+            "abs": 23
+          }
+        },
+        {
+          "id": "t47",
+          "vocab_id": 711,
+          "gen_step": 16,
+          "position": {
+            "abs": 40
+          }
+        },
+        {
+          "id": "t48",
+          "vocab_id": 677,
+          "gen_step": 17,
+          "position": {
+            "abs": 24
+          }
+        },
+        {
+          "id": "t49",
+          "vocab_id": 46,
+          "gen_step": 17,
+          "position": {
+            "abs": 39
+          }
+        },
+        {
+          "id": "t50",
+          "vocab_id": 327,
+          "gen_step": 18,
+          "position": {
+            "abs": 25
+          }
+        },
+        {
+          "id": "t51",
+          "vocab_id": 4526,
+          "gen_step": 18,
+          "position": {
+            "abs": 38
+          }
+        },
+        {
+          "id": "t52",
+          "vocab_id": 1822,
+          "gen_step": 19,
+          "position": {
+            "abs": 26
+          }
+        },
+        {
+          "id": "t53",
+          "vocab_id": 907,
+          "gen_step": 19,
+          "position": {
+            "abs": 37
+          }
+        },
+        {
+          "id": "t54",
+          "vocab_id": 3674,
+          "gen_step": 20,
+          "position": {
+            "abs": 27
+          }
+        },
+        {
+          "id": "t55",
+          "vocab_id": 258,
+          "gen_step": 20,
+          "position": {
+            "abs": 36
+          }
+        },
+        {
+          "id": "t56",
+          "vocab_id": 494,
+          "gen_step": 21,
+          "position": {
+            "abs": 28
+          }
+        },
+        {
+          "id": "t57",
+          "vocab_id": 440,
+          "gen_step": 21,
+          "position": {
+            "abs": 35
+          }
+        },
+        {
+          "id": "t58",
+          "vocab_id": 424,
+          "gen_step": 22,
+          "position": {
+            "abs": 29
+          }
+        },
+        {
+          "id": "t59",
+          "vocab_id": 928,
+          "gen_step": 22,
+          "position": {
+            "abs": 34
+          }
+        },
+        {
+          "id": "t60",
+          "vocab_id": 316,
+          "gen_step": 23,
+          "position": {
+            "abs": 30
+          }
+        },
+        {
+          "id": "t61",
+          "vocab_id": 599,
+          "gen_step": 23,
+          "position": {
+            "abs": 33
+          }
+        },
+        {
+          "id": "t62",
+          "vocab_id": 258,
+          "gen_step": 24,
+          "position": {
+            "abs": 31
+          }
+        },
+        {
+          "id": "t63",
+          "vocab_id": 4526,
+          "gen_step": 24,
+          "position": {
+            "abs": 32
+          }
+        }
+      ]
+    }
+  ]
+}
