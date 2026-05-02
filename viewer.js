@@ -22,6 +22,7 @@
   const selEl = $('lv-trace-select');
   const playBtn = $('lv-play');
   const exportBtn = $('lv-export');
+  const exportGifBtn = $('lv-export-gif');
   const sliderEl = $('lv-slider');
   const stepLabel = $('lv-step-label');
   const errorEl = $('lv-error');
@@ -273,51 +274,47 @@
   });
 
   // ------------------------------------------------------------
-  // PNG export (text-only)
-  // Renders: title + final colored sequence + legend.
+  // Frame composer (shared by PNG + GIF export).
+  // Layout dimensions are fixed across all frames using the final step,
+  // so GIF frames stay a consistent size.
   // ------------------------------------------------------------
-  exportBtn.addEventListener('click', () => {
-    const url = composeStaticImage();
-    if (!url) return;
-    const link = document.createElement('a');
-    const safe = (TRACE && TRACE.name ? TRACE.name : 'trace').replace(/[^a-z0-9-_]+/gi, '_');
-    link.download = safe + '.png';
-    link.href = url;
-    link.click();
-  });
+  const FRAME = {
+    PAD: 22,
+    TITLE_FONT: '600 14px ui-sans-serif, -apple-system, system-ui, sans-serif',
+    TEXT_FONT: '14px ui-monospace, SFMono-Regular, Menlo, monospace',
+    SMALL_FONT: '11px ui-monospace, SFMono-Regular, Menlo, monospace',
+    TITLE_H: 24,
+    LINE_H: 22,
+    GAP: 14,
+    LEG_H: 22,
+    TARGET_W: 960,
+  };
 
-  function composeStaticImage() {
-    if (!LAYOUT) return null;
-    const { sequences, maxStep, tokensById } = LAYOUT;
-
-    const PAD = 22;
-    const TITLE_FONT = '600 14px ui-sans-serif, -apple-system, system-ui, sans-serif';
-    const TEXT_FONT = '14px ui-monospace, SFMono-Regular, Menlo, monospace';
-    const SMALL_FONT = '11px ui-monospace, SFMono-Regular, Menlo, monospace';
-    const TITLE_H = 24;
-    const LINE_H = 22;
-    const GAP = 14;
-    const LEG_H = 22;
-    const TARGET_W = 960;
-    const innerW = TARGET_W - 2 * PAD;
-    const totalW = TARGET_W;
-
-    // measure
-    const tmp = document.createElement('canvas').getContext('2d');
-    tmp.font = TEXT_FONT;
-    const finalSeq = sequences[maxStep] || [];
-    const spans = finalSeq.map((id) => {
+  function spansForStep(step) {
+    const { sequences, tokensById } = LAYOUT;
+    const seq = sequences[step] || [];
+    return seq.map((id) => {
       const t = tokensById[id];
       return {
         text: DOC.vocab[String(t.vocab_id)] ?? '',
         gen_step: t.gen_step,
         special: isSpecial(t.vocab_id),
         forced: !!t.forced,
-        isJust: t.gen_step > 0 && t.gen_step === maxStep,
+        isJust: t.gen_step > 0 && t.gen_step === step,
       };
     });
-    const lines = wrapSpansIntoLines(tmp, spans, innerW);
-    const seqH = lines.length * LINE_H;
+  }
+
+  function computeFrameDims() {
+    const { maxStep } = LAYOUT;
+    const innerW = FRAME.TARGET_W - 2 * FRAME.PAD;
+    const tmp = document.createElement('canvas').getContext('2d');
+    tmp.font = FRAME.TEXT_FONT;
+
+    // size the canvas to the final (largest) sequence so all frames match
+    const finalSpans = spansForStep(maxStep);
+    const lines = wrapSpansIntoLines(tmp, finalSpans, innerW);
+    const seqH = lines.length * FRAME.LINE_H;
 
     let anySpecial = false, anyForced = false;
     for (const t of TRACE.tokens) {
@@ -325,41 +322,177 @@
       if (t.forced) anyForced = true;
     }
 
-    const totalH = PAD + TITLE_H + GAP + seqH + GAP + LEG_H + PAD;
+    const totalH = FRAME.PAD + FRAME.TITLE_H + FRAME.GAP + seqH + FRAME.GAP + FRAME.LEG_H + FRAME.PAD;
+    return { totalW: FRAME.TARGET_W, totalH, innerW, seqH, anySpecial, anyForced };
+  }
 
-    const dpr = window.devicePixelRatio || 1;
+  function drawFrame(step, dims, dpr) {
     const c = document.createElement('canvas');
-    c.width = totalW * dpr;
-    c.height = totalH * dpr;
+    c.width = dims.totalW * dpr;
+    c.height = dims.totalH * dpr;
     const cx = c.getContext('2d');
     cx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     cx.fillStyle = '#1a1a1a';
-    cx.fillRect(0, 0, totalW, totalH);
+    cx.fillRect(0, 0, dims.totalW, dims.totalH);
 
-    let y = PAD;
+    let y = FRAME.PAD;
 
-    cx.font = TITLE_FONT;
+    cx.font = FRAME.TITLE_FONT;
     cx.fillStyle = '#f2f2f2';
     cx.textBaseline = 'top';
-    cx.fillText(TRACE.name || 'trace', PAD, y);
+    cx.fillText(TRACE.name || 'trace', FRAME.PAD, y);
 
-    // total-steps badge on the right edge of the title row
-    cx.font = SMALL_FONT;
+    cx.font = FRAME.SMALL_FONT;
     cx.fillStyle = '#c9c9c9';
-    const stepsLabel = 'steps: ' + maxStep + ' (snapshot at step ' + maxStep + ')';
+    const stepsLabel = 'steps: ' + LAYOUT.maxStep + ' (snapshot at step ' + step + ')';
     const stepsW = cx.measureText(stepsLabel).width;
-    cx.fillText(stepsLabel, totalW - PAD - stepsW, y + 4);
+    cx.fillText(stepsLabel, dims.totalW - FRAME.PAD - stepsW, y + 4);
 
-    y += TITLE_H + GAP;
+    y += FRAME.TITLE_H + FRAME.GAP;
 
-    drawSeqLines(cx, PAD, y, lines, LINE_H, TEXT_FONT);
-    y += seqH + GAP;
+    // wrap THIS step's spans (not the final ones) so partial frames are correct
+    const tmp = document.createElement('canvas').getContext('2d');
+    tmp.font = FRAME.TEXT_FONT;
+    const lines = wrapSpansIntoLines(tmp, spansForStep(step), dims.innerW);
+    drawSeqLines(cx, FRAME.PAD, y, lines, FRAME.LINE_H, FRAME.TEXT_FONT);
 
-    drawStaticLegend(cx, PAD, y, SMALL_FONT, anySpecial, anyForced);
+    // legend stays anchored at the bottom of the fixed-height canvas
+    const legY = dims.totalH - FRAME.PAD - FRAME.LEG_H;
+    drawStaticLegend(cx, FRAME.PAD, legY, FRAME.SMALL_FONT, dims.anySpecial, dims.anyForced);
 
-    return c.toDataURL('image/png');
+    return c;
   }
+
+  // ------------------------------------------------------------
+  // PNG export — single frame at the final step.
+  // ------------------------------------------------------------
+  exportBtn.addEventListener('click', () => {
+    if (!LAYOUT) return;
+    const dims = computeFrameDims();
+    const c = drawFrame(LAYOUT.maxStep, dims, window.devicePixelRatio || 1);
+    const link = document.createElement('a');
+    const safe = (TRACE && TRACE.name ? TRACE.name : 'trace').replace(/[^a-z0-9-_]+/gi, '_');
+    link.download = safe + '.png';
+    link.href = c.toDataURL('image/png');
+    link.click();
+  });
+
+  // ------------------------------------------------------------
+  // GIF export — one frame per generation step, paced like Play.
+  // Last frame holds longer so the final state is readable.
+  // ------------------------------------------------------------
+  exportGifBtn.addEventListener('click', () => {
+    if (!LAYOUT) return;
+    if (typeof GIF === 'undefined') {
+      showError('GIF export unavailable: gif.js failed to load');
+      return;
+    }
+    const origLabel = exportGifBtn.textContent;
+    const reset = () => { exportGifBtn.disabled = false; exportGifBtn.textContent = origLabel; };
+    exportGifBtn.disabled = true;
+    exportGifBtn.textContent = 'Rendering 0%';
+
+    const dims = computeFrameDims();
+    // adaptive frame budget: long traces would otherwise produce huge files
+    // and play too slowly. 1:1 stays accurate for short traces; large traces
+    // group steps so the frame count stays reasonable.
+    const GIF_CFG = {
+      stride1Threshold: 80,  // <= this many steps → 1 frame per step
+      strideLarge: 4,        // otherwise → this many steps per frame
+      pixelScale: 2,         // 1 = 1MB-ish, 2 = ~4MB sharp on retina
+    };
+    const totalSteps = LAYOUT.maxStep + 1;
+    const stride = totalSteps <= GIF_CFG.stride1Threshold ? 1 : GIF_CFG.strideLarge;
+    const stepList = [];
+    for (let s = 0; s <= LAYOUT.maxStep; s += stride) stepList.push(s);
+    if (stepList[stepList.length - 1] !== LAYOUT.maxStep) stepList.push(LAYOUT.maxStep);
+    const scale = GIF_CFG.pixelScale;
+
+    // copy: true means gif.js reads pixels synchronously into ImageData so the
+    // worker doesn't need to touch our HTMLCanvasElements. Without this, some
+    // setups fail silently mid-render.
+    const useCopy = true;
+    // Use Blob-URL worker to dodge any path/MIME quirks with the Python server.
+    let workerUrl = './gif.worker.js';
+    let revokeWorker = null;
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', './gif.worker.js', false);
+      xhr.send(null);
+      if (xhr.status === 200) {
+        const blob = new Blob([xhr.responseText], { type: 'application/javascript' });
+        workerUrl = URL.createObjectURL(blob);
+        revokeWorker = () => URL.revokeObjectURL(workerUrl);
+      } else {
+        console.warn('[gif] worker fetch returned', xhr.status, '— falling back to', workerUrl);
+      }
+    } catch (e) {
+      console.warn('[gif] worker prefetch failed:', e);
+    }
+
+    const gif = new GIF({
+      workers: 2,
+      quality: 10,
+      width: dims.totalW * scale,
+      height: dims.totalH * scale,
+      workerScript: workerUrl,
+      background: '#1a1a1a',
+      debug: true,
+    });
+
+    const frameMs = Math.max(120, Math.round(1000 / stepsPerSecForLayout()));
+    for (const step of stepList) {
+      const c = drawFrame(step, dims, scale);
+      const delay = step === LAYOUT.maxStep
+        ? Math.max(1500, frameMs * 5)
+        : frameMs;
+      gif.addFrame(c, { delay, copy: useCopy });
+    }
+    console.log('[gif] queued', stepList.length, 'frames (stride', stride + ')',
+      'at', dims.totalW * scale, 'x', dims.totalH * scale);
+
+    gif.on('start', () => console.log('[gif] render start'));
+    gif.on('progress', (p) => {
+      exportGifBtn.textContent = 'Rendering ' + Math.round(p * 100) + '%';
+    });
+    gif.on('finished', (blob) => {
+      console.log('[gif] finished, blob size', blob.size);
+      if (revokeWorker) revokeWorker();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      const safe = (TRACE && TRACE.name ? TRACE.name : 'trace').replace(/[^a-z0-9-_]+/gi, '_');
+      link.download = safe + '.gif';
+      link.href = url;
+      link.rel = 'noopener';
+      // some browsers ignore .click() unless the link is in the DOM
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+      reset();
+    });
+    gif.on('abort', () => { console.warn('[gif] aborted'); if (revokeWorker) revokeWorker(); reset(); });
+
+    // safety net: if nothing finishes in 60s, surface the failure
+    const watchdog = setTimeout(() => {
+      if (exportGifBtn.disabled) {
+        showError('GIF export timed out after 60s — check console for worker errors');
+        try { gif.abort(); } catch (_) {}
+      }
+    }, 60000);
+    gif.on('finished', () => clearTimeout(watchdog));
+    gif.on('abort', () => clearTimeout(watchdog));
+
+    try {
+      gif.render();
+    } catch (e) {
+      console.error('[gif] render threw:', e);
+      if (revokeWorker) revokeWorker();
+      reset();
+      showError('GIF export failed: ' + (e.message || e));
+    }
+  });
 
   function wrapSpansIntoLines(tctx, spans, maxW) {
     tctx.font = '14px ui-monospace, SFMono-Regular, Menlo, monospace';
