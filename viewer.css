@@ -42,6 +42,9 @@ body {
   font-size: 1.05rem;
   font-weight: 600;
   color: #f2f2f2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .lv-toolbar {
   display: flex;
@@ -61,7 +64,18 @@ select, button.lv-btn {
   font-family: inherit;
 }
 select:hover, button.lv-btn:hover { background: var(--btn-hover); border-color: #555; }
-select { padding-right: 22px; }
+.lv-home {
+  display: inline-block;
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-family: inherit;
+  padding: 2px 4px;
+  margin: 0 0 6px;
+  transition: color 0.12s;
+}
+.lv-home:hover { color: var(--text-muted); }
+select { padding-right: 22px; max-width: 220px; }
 
 .lv-prompt {
   margin: 14px 0 0;

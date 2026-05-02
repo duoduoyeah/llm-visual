@@ -1,0 +1,26 @@
+[
+  {
+    "type": "trace",
+    "file": "examples/hello-world.json",
+    "title": "Hello World",
+    "description": "Minimal forward-autoregressive trace"
+  },
+  {
+    "type": "trace",
+    "file": "examples/d8_r20_simplestory.json",
+    "title": "Simple Story",
+    "description": "Forward generation, depth 8, repeat 20"
+  },
+  {
+    "type": "trace",
+    "file": "examples/d8_r20_simplestory_rev.json",
+    "title": "Simple Story — Reversed",
+    "description": "Right-to-left generation trace"
+  },
+  {
+    "type": "trace",
+    "file": "examples/d8_r20_simplestory_butterfly_butterfly.json",
+    "title": "Butterfly × Butterfly",
+    "description": "Between-token insertion (speculative positioning)"
+  }
+]
