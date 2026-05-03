@@ -1,0 +1,2361 @@
+{
+  "schema_version": "1",
+  "kind": "attention",
+  "name": "MIM Model 1 attention | N=16 doc_lens=[8, 8]",
+  "matrices": [
+    {
+      "name": "butterfly (single doc, orig coords) N=16",
+      "N": 16,
+      "rows": [
+        {
+          "label": "p=1",
+          "doc": 0,
+          "is_bos": true
+        },
+        {
+          "label": "p=2",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "p=3",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "p=4",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "p=5",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "p=6",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "p=7",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "p=8",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "p=9",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "p=10",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "p=11",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "p=12",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "p=13",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "p=14",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "p=15",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "p=16",
+          "doc": 0,
+          "is_bos": false
+        }
+      ],
+      "cols": [
+        {
+          "label": "1",
+          "doc": 0,
+          "is_bos": true
+        },
+        {
+          "label": "2",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "3",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "4",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "5",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "6",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "7",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "8",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "9",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "10",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "11",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "12",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "13",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "14",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "15",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "16",
+          "doc": 0,
+          "is_bos": false
+        }
+      ],
+      "mask": [
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "naive whole-row interleave (orig coords) doc_lens=[8, 8]",
+      "N": 16,
+      "rows": [
+        {
+          "label": "1",
+          "doc": 0,
+          "is_bos": true
+        },
+        {
+          "label": "2",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "3",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "4",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "5",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "6",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "7",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "8",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "9",
+          "doc": 1,
+          "is_bos": true
+        },
+        {
+          "label": "10",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "11",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "12",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "13",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "14",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "15",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "16",
+          "doc": 1,
+          "is_bos": false
+        }
+      ],
+      "cols": [
+        {
+          "label": "1",
+          "doc": 0,
+          "is_bos": true
+        },
+        {
+          "label": "2",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "3",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "4",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "5",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "6",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "7",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "8",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "9",
+          "doc": 1,
+          "is_bos": true
+        },
+        {
+          "label": "10",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "11",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "12",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "13",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "14",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "15",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "16",
+          "doc": 1,
+          "is_bos": false
+        }
+      ],
+      "mask": [
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "naive whole-row interleave (seq coords) doc_lens=[8, 8]",
+      "N": 16,
+      "rows": [
+        {
+          "label": "s1",
+          "doc": 0,
+          "is_bos": true,
+          "extra": "orig 1, doc 0"
+        },
+        {
+          "label": "s2",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 16, doc 1"
+        },
+        {
+          "label": "s3",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 2, doc 0"
+        },
+        {
+          "label": "s4",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 15, doc 1"
+        },
+        {
+          "label": "s5",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 3, doc 0"
+        },
+        {
+          "label": "s6",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 14, doc 1"
+        },
+        {
+          "label": "s7",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 4, doc 0"
+        },
+        {
+          "label": "s8",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 13, doc 1"
+        },
+        {
+          "label": "s9",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 5, doc 0"
+        },
+        {
+          "label": "s10",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 12, doc 1"
+        },
+        {
+          "label": "s11",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 6, doc 0"
+        },
+        {
+          "label": "s12",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 11, doc 1"
+        },
+        {
+          "label": "s13",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 7, doc 0"
+        },
+        {
+          "label": "s14",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 10, doc 1"
+        },
+        {
+          "label": "s15",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 8, doc 0"
+        },
+        {
+          "label": "s16",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "orig 9, doc 1"
+        }
+      ],
+      "cols": [
+        {
+          "label": "s1",
+          "doc": 0,
+          "is_bos": true,
+          "extra": "orig 1, doc 0"
+        },
+        {
+          "label": "s2",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 16, doc 1"
+        },
+        {
+          "label": "s3",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 2, doc 0"
+        },
+        {
+          "label": "s4",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 15, doc 1"
+        },
+        {
+          "label": "s5",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 3, doc 0"
+        },
+        {
+          "label": "s6",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 14, doc 1"
+        },
+        {
+          "label": "s7",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 4, doc 0"
+        },
+        {
+          "label": "s8",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 13, doc 1"
+        },
+        {
+          "label": "s9",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 5, doc 0"
+        },
+        {
+          "label": "s10",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 12, doc 1"
+        },
+        {
+          "label": "s11",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 6, doc 0"
+        },
+        {
+          "label": "s12",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 11, doc 1"
+        },
+        {
+          "label": "s13",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 7, doc 0"
+        },
+        {
+          "label": "s14",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 10, doc 1"
+        },
+        {
+          "label": "s15",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 8, doc 0"
+        },
+        {
+          "label": "s16",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "orig 9, doc 1"
+        }
+      ],
+      "mask": [
+        [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "perdoc interleave (orig coords) doc_lens=[8, 8]",
+      "N": 16,
+      "rows": [
+        {
+          "label": "1",
+          "doc": 0,
+          "is_bos": true
+        },
+        {
+          "label": "2",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "3",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "4",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "5",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "6",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "7",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "8",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "9",
+          "doc": 1,
+          "is_bos": true
+        },
+        {
+          "label": "10",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "11",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "12",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "13",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "14",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "15",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "16",
+          "doc": 1,
+          "is_bos": false
+        }
+      ],
+      "cols": [
+        {
+          "label": "1",
+          "doc": 0,
+          "is_bos": true
+        },
+        {
+          "label": "2",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "3",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "4",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "5",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "6",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "7",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "8",
+          "doc": 0,
+          "is_bos": false
+        },
+        {
+          "label": "9",
+          "doc": 1,
+          "is_bos": true
+        },
+        {
+          "label": "10",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "11",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "12",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "13",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "14",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "15",
+          "doc": 1,
+          "is_bos": false
+        },
+        {
+          "label": "16",
+          "doc": 1,
+          "is_bos": false
+        }
+      ],
+      "mask": [
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "perdoc interleave (seq coords) doc_lens=[8, 8]",
+      "N": 16,
+      "rows": [
+        {
+          "label": "s1",
+          "doc": 0,
+          "is_bos": true,
+          "extra": "orig 1, doc 0"
+        },
+        {
+          "label": "s2",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 8, doc 0"
+        },
+        {
+          "label": "s3",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 2, doc 0"
+        },
+        {
+          "label": "s4",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 7, doc 0"
+        },
+        {
+          "label": "s5",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 3, doc 0"
+        },
+        {
+          "label": "s6",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 6, doc 0"
+        },
+        {
+          "label": "s7",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 4, doc 0"
+        },
+        {
+          "label": "s8",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 5, doc 0"
+        },
+        {
+          "label": "s9",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "orig 9, doc 1"
+        },
+        {
+          "label": "s10",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 16, doc 1"
+        },
+        {
+          "label": "s11",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 10, doc 1"
+        },
+        {
+          "label": "s12",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 15, doc 1"
+        },
+        {
+          "label": "s13",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 11, doc 1"
+        },
+        {
+          "label": "s14",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 14, doc 1"
+        },
+        {
+          "label": "s15",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 12, doc 1"
+        },
+        {
+          "label": "s16",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 13, doc 1"
+        }
+      ],
+      "cols": [
+        {
+          "label": "s1",
+          "doc": 0,
+          "is_bos": true,
+          "extra": "orig 1, doc 0"
+        },
+        {
+          "label": "s2",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 8, doc 0"
+        },
+        {
+          "label": "s3",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 2, doc 0"
+        },
+        {
+          "label": "s4",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 7, doc 0"
+        },
+        {
+          "label": "s5",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 3, doc 0"
+        },
+        {
+          "label": "s6",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 6, doc 0"
+        },
+        {
+          "label": "s7",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 4, doc 0"
+        },
+        {
+          "label": "s8",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "orig 5, doc 0"
+        },
+        {
+          "label": "s9",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "orig 9, doc 1"
+        },
+        {
+          "label": "s10",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 16, doc 1"
+        },
+        {
+          "label": "s11",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 10, doc 1"
+        },
+        {
+          "label": "s12",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 15, doc 1"
+        },
+        {
+          "label": "s13",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 11, doc 1"
+        },
+        {
+          "label": "s14",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 14, doc 1"
+        },
+        {
+          "label": "s15",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 12, doc 1"
+        },
+        {
+          "label": "s16",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "orig 13, doc 1"
+        }
+      ],
+      "mask": [
+        [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      ]
+    }
+  ]
+}

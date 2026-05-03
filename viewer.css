@@ -64,17 +64,6 @@ select, button.lv-btn {
   font-family: inherit;
 }
 select:hover, button.lv-btn:hover { background: var(--btn-hover); border-color: #555; }
-.lv-home {
-  display: inline-block;
-  color: var(--text-dim);
-  text-decoration: none;
-  font-size: 0.92rem;
-  font-family: inherit;
-  padding: 2px 4px;
-  margin: 0 0 6px;
-  transition: color 0.12s;
-}
-.lv-home:hover { color: var(--text-muted); }
 select { padding-right: 22px; max-width: 220px; }
 
 .lv-prompt {
@@ -90,6 +79,18 @@ select { padding-right: 22px; max-width: 220px; }
   white-space: pre-wrap;
   word-break: break-word;
   min-height: 44px;
+}
+
+/* shared meta-info bar used under .lv-head by every renderer */
+.lv-info {
+  margin: 14px 0 8px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82rem;
+  color: var(--text-muted);
 }
 .lv-prompt:empty::before {
   content: "(empty)";

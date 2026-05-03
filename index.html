@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>llm-visual</title>
+<title>Eyeball LLM</title>
 <style>
 :root {
   --bg: #0e0e0e;
@@ -30,22 +30,6 @@ body {
 .hero {
   max-width: 760px;
   margin: 0 auto 52px;
-}
-.hero-eyebrow {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.72rem;
-  color: var(--accent);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin: 0 0 10px;
-}
-.hero h1 {
-  margin: 0 0 12px;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #f2f2f2;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
 }
 .hero p {
   margin: 0 0 24px;
@@ -179,9 +163,9 @@ body {
 </head>
 <body>
 
+<header id="shell" data-page="home"></header>
+
 <div class="hero">
-  <p class="hero-eyebrow">llm-visual</p>
-  <h1>LLM Training Visualizer</h1>
   <p>Interactive visualizations for understanding language model internals — generation traces, attention patterns, positional encodings, and data relationships.</p>
 
   <label class="drop-zone" id="drop-zone">
@@ -201,29 +185,23 @@ body {
   </div>
 </div>
 
-<div class="section">
+<div class="section" id="dataloader-section">
   <div class="section-head">
     <h2 class="section-title">Dataloader — Inputs &amp; Targets</h2>
-    <span class="section-badge">coming soon</span>
+    <span class="section-badge active">active</span>
   </div>
-  <div class="cs-grid">
-    <div class="cs-card">
-      <p class="cs-card-name">Token-target pairs</p>
-      <p class="cs-card-desc">Visualize how input tokens map to their prediction targets across a batch.</p>
-    </div>
+  <div class="grid" id="dataloader-grid">
+    <div class="ex-card" style="opacity:0.4;cursor:default">Loading…</div>
   </div>
 </div>
 
-<div class="section">
+<div class="section" id="attention-section">
   <div class="section-head">
     <h2 class="section-title">Attention Maps</h2>
-    <span class="section-badge">coming soon</span>
+    <span class="section-badge active">active</span>
   </div>
-  <div class="cs-grid">
-    <div class="cs-card">
-      <p class="cs-card-name">Per-head attention</p>
-      <p class="cs-card-desc">Heatmap of attention weights across heads and layers.</p>
-    </div>
+  <div class="grid" id="attention-grid">
+    <div class="ex-card" style="opacity:0.4;cursor:default">Loading…</div>
   </div>
 </div>
 
@@ -241,30 +219,38 @@ body {
 </div>
 
 <script>
-const VIEWER_MAP = { trace: 'viewer.html' };
+const VIEWER_MAP = { trace: 'viewer.html', dataloader: 'dataloader.html', attention: 'attention.html' };
+const GRID_MAP   = { trace: 'trace-grid', dataloader: 'dataloader-grid', attention: 'attention-grid' };
 
 async function loadManifest() {
-  const grid = document.getElementById('trace-grid');
+  const grids = Object.fromEntries(
+    Object.entries(GRID_MAP).map(([type, id]) => [type, document.getElementById(id)])
+  );
   try {
     const res = await fetch('examples/manifest.json');
     if (!res.ok) throw new Error(res.statusText);
     const items = await res.json();
-    const traceItems = items.filter(x => x.type === 'trace');
-    grid.innerHTML = '';
-    if (traceItems.length === 0) {
-      grid.innerHTML = '<p style="color:var(--text-dim);font-size:0.82rem">No examples found.</p>';
-      return;
-    }
-    for (const item of traceItems) {
-      const viewer = VIEWER_MAP[item.type] || 'viewer.html';
-      const a = document.createElement('a');
-      a.className = 'ex-card';
-      a.href = `${viewer}?trace=./${item.file}`;
-      a.innerHTML = `<p class="ex-card-name">${esc(item.title)}</p><p class="ex-card-desc">${esc(item.description)}</p>`;
-      grid.appendChild(a);
+    for (const type of Object.keys(GRID_MAP)) {
+      const grid = grids[type];
+      const typeItems = items.filter(x => x.type === type);
+      grid.innerHTML = '';
+      if (typeItems.length === 0) {
+        grid.innerHTML = '<p style="color:var(--text-dim);font-size:0.82rem">No examples found.</p>';
+        continue;
+      }
+      for (const item of typeItems) {
+        const viewer = VIEWER_MAP[item.type] || 'viewer.html';
+        const a = document.createElement('a');
+        a.className = 'ex-card';
+        a.href = `${viewer}?trace=./${item.file}`;
+        a.innerHTML = `<p class="ex-card-name">${esc(item.title)}</p><p class="ex-card-desc">${esc(item.description)}</p>`;
+        grid.appendChild(a);
+      }
     }
   } catch (e) {
-    grid.innerHTML = `<p style="color:#ff6b6b;font-size:0.82rem">Could not load manifest: ${esc(e.message)}</p>`;
+    for (const grid of Object.values(grids)) {
+      grid.innerHTML = `<p style="color:#ff6b6b;font-size:0.82rem">Could not load manifest: ${esc(e.message)}</p>`;
+    }
   }
 }
 
@@ -277,6 +263,11 @@ function openFile(file) {
   const url = URL.createObjectURL(file);
   window.location.href = `viewer.html?trace=${encodeURIComponent(url)}`;
 }
+
+// project-shell injection
+const shellScript = document.createElement('script');
+shellScript.src = 'shell.js';
+document.head.appendChild(shellScript);
 
 document.getElementById('file-input').addEventListener('change', e => openFile(e.target.files[0]));
 

@@ -1,0 +1,122 @@
+/* attention-mask viewer styles. Extends viewer.css.
+   Shared chrome (.lv-info, .lv-legend) lives in viewer.css. */
+
+:root {
+  --att-vis: var(--accent, #dc641e);
+  --att-vis-soft: rgba(220, 100, 30, 0.55);
+  --att-cell: rgba(255, 255, 255, 0.025);
+  --att-cell-border: #2a2a2a;
+  --att-bound: #ff8c4d;       /* doc-boundary line color (matches BOS marker) */
+  --att-cell-size: 22px;
+  --att-label-w: 56px;
+  --att-label-h: 24px;
+}
+
+.att-leg-sw {
+  display: inline-block;
+  width: 12px; height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  border: 1px solid var(--att-cell-border);
+}
+.att-leg-sw.att-leg-vis  { background: var(--att-vis); border-color: var(--att-vis); }
+.att-leg-sw.att-leg-inv  { background: var(--att-cell); }
+.att-leg-sw.att-leg-bound{ background: transparent; border-left: 3px solid var(--att-bound); border-radius: 0; }
+.att-bos-sample {
+  font-style: italic;
+  color: var(--text-dim);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.att-scroll {
+  overflow: auto;
+  max-height: 75vh;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0;
+}
+
+/* Grid: 1 corner col + N data cols × 1 corner row + N data rows. Set in JS. */
+.att-grid {
+  display: grid;
+  /* grid-template-columns / grid-template-rows set inline */
+  width: max-content;
+}
+
+/* Top-left corner cell (empty, sticky in both directions). */
+.att-corner {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  background: #1f1f1f;
+  border-right: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--card-border);
+  width: var(--att-label-w);
+  height: var(--att-label-h);
+}
+
+/* Column labels (top row). */
+.att-col-label {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #1f1f1f;
+  border-right: 1px solid var(--att-cell-border);
+  border-bottom: 1px solid var(--card-border);
+  height: var(--att-label-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.66rem;
+  color: var(--text-dim);
+  padding: 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.att-col-label.att-bos { font-style: italic; color: #ffd23f; }
+.att-col-label.att-doc-bound-right { border-right: 2px solid var(--att-bound); }
+
+/* Row labels (left column). */
+.att-row-label {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #1f1f1f;
+  border-right: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--att-cell-border);
+  width: var(--att-label-w);
+  height: var(--att-cell-size);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.66rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.att-row-label.att-bos { font-style: italic; color: #ffd23f; }
+.att-row-label.att-doc-bound-bot { border-bottom: 2px solid var(--att-bound); }
+
+/* Body cells. */
+.att-cell {
+  width: var(--att-cell-size);
+  height: var(--att-cell-size);
+  background: var(--att-cell);
+  border-right: 1px solid var(--att-cell-border);
+  border-bottom: 1px solid var(--att-cell-border);
+  cursor: default;
+}
+.att-cell.att-vis { background: var(--att-vis); }
+.att-cell.att-doc-bound-right { border-right: 2px solid var(--att-bound); }
+.att-cell.att-doc-bound-bot   { border-bottom: 2px solid var(--att-bound); }
+
+.att-cell:hover, .att-row-label:hover, .att-col-label:hover {
+  outline: 1px solid #fff;
+  outline-offset: -1px;
+  z-index: 4;
+}

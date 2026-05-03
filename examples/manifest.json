@@ -22,5 +22,23 @@
     "file": "examples/d8_r20_simplestory_butterfly_butterfly.json",
     "title": "Butterfly × Butterfly",
     "description": "Between-token insertion (speculative positioning)"
+  },
+  {
+    "type": "dataloader",
+    "file": "examples/dataloader_simple_story_B4_T512_20260502_145600.json",
+    "title": "BOS-bestfit (simple_story, T=512)",
+    "description": "4 rows from the standard causal-LM dataloader; row 3 shows multi-doc packing."
+  },
+  {
+    "type": "dataloader",
+    "file": "examples/dataloader_simple_story_B1_T2048_20260502_150435.json",
+    "title": "BOS-bestfit (simple_story, T=2048)",
+    "description": "Single row at the real training T; multi-doc packing visible across the row."
+  },
+  {
+    "type": "attention",
+    "file": "examples/butterfly_attn_N16_d8_8_20260502_151712.json",
+    "title": "Butterfly / MIM masks (N=16)",
+    "description": "Five variants: butterfly + naive/perdoc interleave × orig/seq coords. Doc boundaries marked."
   }
 ]

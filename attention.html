@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Eyeball LLM</title>
+<link rel="stylesheet" href="viewer.css">
+<link rel="stylesheet" href="attention.css">
+</head>
+<body>
+
+<header id="shell" data-page="attention"></header>
+
+<div class="lv-card" id="att-root">
+  <div class="lv-head">
+    <div class="lv-title-block">
+      <h3 class="lv-title" id="att-title">Loading...</h3>
+    </div>
+    <div class="lv-toolbar">
+      <select id="att-matrix-select" title="Select matrix"></select>
+    </div>
+  </div>
+
+  <p class="lv-info" id="att-info"></p>
+
+  <div class="lv-legend" aria-label="legend">
+    <span class="lv-leg-item"><span class="att-leg-sw att-leg-vis"></span>visible (q ⇢ k)</span>
+    <span class="lv-leg-item"><span class="att-leg-sw att-leg-inv"></span>masked</span>
+    <span class="lv-leg-item"><span class="att-leg-sw att-leg-bound"></span>doc boundary</span>
+    <span class="lv-leg-item"><em class="att-bos-sample">i</em> = BOS at this position</span>
+  </div>
+
+  <div class="att-scroll" id="att-scroll"></div>
+  <div id="att-error"></div>
+</div>
+
+<div class="lv-tip" id="att-tip"></div>
+
+<script src="shell.js"></script>
+<script src="attention.js"></script>
+</body>
+</html>
