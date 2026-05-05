@@ -205,22 +205,19 @@ body {
   </div>
 </div>
 
-<div class="section">
+<div class="section" id="rope-section">
   <div class="section-head">
     <h2 class="section-title">RoPE Positional Encoding</h2>
-    <span class="section-badge">coming soon</span>
+    <span class="section-badge active">active</span>
   </div>
-  <div class="cs-grid">
-    <div class="cs-card">
-      <p class="cs-card-name">Frequency bands</p>
-      <p class="cs-card-desc">Visualize rotary positional encoding across sequence positions and dimensions.</p>
-    </div>
+  <div class="grid" id="rope-grid">
+    <div class="ex-card" style="opacity:0.4;cursor:default">Loading…</div>
   </div>
 </div>
 
 <script>
-const VIEWER_MAP = { trace: 'viewer.html', dataloader: 'dataloader.html', attention: 'attention.html' };
-const GRID_MAP   = { trace: 'trace-grid', dataloader: 'dataloader-grid', attention: 'attention-grid' };
+const VIEWER_MAP = { trace: 'viewer.html', dataloader: 'dataloader.html', attention: 'attention.html', rope: 'rope.html' };
+const GRID_MAP   = { trace: 'trace-grid', dataloader: 'dataloader-grid', attention: 'attention-grid', rope: 'rope-grid' };
 
 async function loadManifest() {
   const grids = Object.fromEntries(

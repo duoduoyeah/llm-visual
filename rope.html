@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Eyeball Transformer</title>
+<link rel="stylesheet" href="viewer.css">
+<link rel="stylesheet" href="rope.css">
+</head>
+<body>
+
+<header id="shell" data-page="rope"></header>
+
+<div class="lv-card" id="rope-root">
+  <div class="lv-head">
+    <div class="lv-title-block">
+      <h3 class="lv-title" id="rope-title">Loading...</h3>
+    </div>
+    <div class="lv-toolbar">
+      <select id="rope-variant-select" title="Select variant"></select>
+    </div>
+  </div>
+
+  <p class="lv-info" id="rope-info"></p>
+
+  <div class="lv-legend" aria-label="legend">
+    <span class="lv-leg-item"><span class="rope-leg-sw rope-leg-pos"></span>q ahead of k (positive)</span>
+    <span class="lv-leg-item"><span class="rope-leg-sw rope-leg-zero"></span>same position (0)</span>
+    <span class="lv-leg-item"><span class="rope-leg-sw rope-leg-neg"></span>q behind k (negative)</span>
+    <span class="lv-leg-item"><span class="rope-leg-sw rope-leg-bound"></span>doc boundary</span>
+    <span class="lv-leg-item"><em class="rope-bos-sample">i</em> = BOS at this position</span>
+  </div>
+
+  <h4 class="rope-section-h">Token positions</h4>
+  <div class="rope-table-scroll">
+    <div class="rope-table" id="rope-table"></div>
+  </div>
+
+  <h4 class="rope-section-h">Effective relative position (q ⇢ k)</h4>
+  <div class="rope-scroll" id="rope-scroll"></div>
+  <div id="rope-error"></div>
+</div>
+
+<div class="lv-tip" id="rope-tip"></div>
+
+<script src="shell.js"></script>
+<script src="rope.js"></script>
+</body>
+</html>

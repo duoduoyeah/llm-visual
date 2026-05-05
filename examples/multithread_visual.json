@@ -1,9 +1,7 @@
 {
   "schema_version": "2",
   "vocab": {
-    "1": "<bos>",
     "2": "<sot>",
-    "13": "<bot-3>",
     "100": "c100",
     "101": "c101",
     "102": "c102",
@@ -16,13 +14,7 @@
     "109": "c109"
   },
   "vocab_meta": {
-    "1": {
-      "is_special": true
-    },
     "2": {
-      "is_special": true
-    },
-    "13": {
       "is_special": true
     }
   },
@@ -49,7 +41,7 @@
         },
         {
           "id": "t2",
-          "vocab_id": 13,
+          "vocab_id": 2,
           "gen_step": 1,
           "position": {
             "abs": 2
@@ -58,7 +50,7 @@
         {
           "id": "t3",
           "vocab_id": 2,
-          "gen_step": 2,
+          "gen_step": 1,
           "position": {
             "abs": 3
           }
@@ -66,14 +58,14 @@
         {
           "id": "t4",
           "vocab_id": 2,
-          "gen_step": 2,
+          "gen_step": 1,
           "position": {
             "abs": 4
           }
         },
         {
           "id": "t5",
-          "vocab_id": 2,
+          "vocab_id": 102,
           "gen_step": 2,
           "position": {
             "abs": 5
@@ -81,23 +73,23 @@
         },
         {
           "id": "t6",
-          "vocab_id": 102,
-          "gen_step": 3,
+          "vocab_id": 106,
+          "gen_step": 2,
           "position": {
             "abs": 6
           }
         },
         {
           "id": "t7",
-          "vocab_id": 106,
-          "gen_step": 3,
+          "vocab_id": 108,
+          "gen_step": 2,
           "position": {
             "abs": 7
           }
         },
         {
           "id": "t8",
-          "vocab_id": 108,
+          "vocab_id": 103,
           "gen_step": 3,
           "position": {
             "abs": 8
@@ -105,23 +97,23 @@
         },
         {
           "id": "t9",
-          "vocab_id": 103,
-          "gen_step": 4,
+          "vocab_id": 107,
+          "gen_step": 3,
           "position": {
             "abs": 9
           }
         },
         {
           "id": "t10",
-          "vocab_id": 107,
-          "gen_step": 4,
+          "vocab_id": 109,
+          "gen_step": 3,
           "position": {
             "abs": 10
           }
         },
         {
           "id": "t11",
-          "vocab_id": 109,
+          "vocab_id": 104,
           "gen_step": 4,
           "position": {
             "abs": 11
@@ -129,26 +121,10 @@
         },
         {
           "id": "t12",
-          "vocab_id": 104,
+          "vocab_id": 105,
           "gen_step": 5,
           "position": {
             "abs": 12
-          }
-        },
-        {
-          "id": "t13",
-          "vocab_id": 105,
-          "gen_step": 6,
-          "position": {
-            "abs": 13
-          }
-        },
-        {
-          "id": "t14",
-          "vocab_id": 1,
-          "gen_step": 7,
-          "position": {
-            "abs": 14
           }
         }
       ]

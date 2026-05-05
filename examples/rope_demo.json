@@ -1,0 +1,55 @@
+{
+  "schema_version": "1",
+  "kind": "rope",
+  "name": "RoPE schemes — plain / PI×2 / hidden-thinking",
+  "variants": [
+    {
+      "name": "plain RoPE",
+      "N": 10,
+      "tokens": [
+        { "label": "<s>",  "abs_pos": 0, "q_pos": 0, "k_pos": 0, "is_bos": true },
+        { "label": "the",  "abs_pos": 1, "q_pos": 1, "k_pos": 1 },
+        { "label": "cat",  "abs_pos": 2, "q_pos": 2, "k_pos": 2 },
+        { "label": "sat",  "abs_pos": 3, "q_pos": 3, "k_pos": 3 },
+        { "label": "on",   "abs_pos": 4, "q_pos": 4, "k_pos": 4 },
+        { "label": "the",  "abs_pos": 5, "q_pos": 5, "k_pos": 5 },
+        { "label": "mat",  "abs_pos": 6, "q_pos": 6, "k_pos": 6 },
+        { "label": "by",   "abs_pos": 7, "q_pos": 7, "k_pos": 7 },
+        { "label": "the",  "abs_pos": 8, "q_pos": 8, "k_pos": 8 },
+        { "label": "door", "abs_pos": 9, "q_pos": 9, "k_pos": 9 }
+      ]
+    },
+    {
+      "name": "position interpolation ×2",
+      "N": 10,
+      "tokens": [
+        { "label": "<s>",  "abs_pos": 0, "q_pos": 0,   "k_pos": 0,   "is_bos": true, "extra": "PI: q,k = abs/2" },
+        { "label": "the",  "abs_pos": 1, "q_pos": 0.5, "k_pos": 0.5 },
+        { "label": "cat",  "abs_pos": 2, "q_pos": 1,   "k_pos": 1 },
+        { "label": "sat",  "abs_pos": 3, "q_pos": 1.5, "k_pos": 1.5 },
+        { "label": "on",   "abs_pos": 4, "q_pos": 2,   "k_pos": 2 },
+        { "label": "the",  "abs_pos": 5, "q_pos": 2.5, "k_pos": 2.5 },
+        { "label": "mat",  "abs_pos": 6, "q_pos": 3,   "k_pos": 3 },
+        { "label": "by",   "abs_pos": 7, "q_pos": 3.5, "k_pos": 3.5 },
+        { "label": "the",  "abs_pos": 8, "q_pos": 4,   "k_pos": 4 },
+        { "label": "door", "abs_pos": 9, "q_pos": 4.5, "k_pos": 4.5 }
+      ]
+    },
+    {
+      "name": "hidden-thinking tokens (q≠k)",
+      "N": 10,
+      "tokens": [
+        { "label": "<s>",  "abs_pos": 0, "q_pos": 0, "k_pos": 0, "doc": 0, "is_bos": true },
+        { "label": "the",  "abs_pos": 1, "q_pos": 1, "k_pos": 1, "doc": 0 },
+        { "label": "cat",  "abs_pos": 2, "q_pos": 2, "k_pos": 2, "doc": 0 },
+        { "label": "sat",  "abs_pos": 3, "q_pos": 3, "k_pos": 3, "doc": 0 },
+        { "label": "<th>", "abs_pos": 4, "q_pos": 4, "k_pos": 3, "doc": 1, "extra": "thinking: k_pos pinned to parent" },
+        { "label": "<th>", "abs_pos": 5, "q_pos": 5, "k_pos": 3, "doc": 1, "extra": "thinking: k_pos pinned to parent" },
+        { "label": "on",   "abs_pos": 6, "q_pos": 4, "k_pos": 4, "doc": 2, "extra": "post-think: position skipped past thinking" },
+        { "label": "the",  "abs_pos": 7, "q_pos": 5, "k_pos": 5, "doc": 2 },
+        { "label": "mat",  "abs_pos": 8, "q_pos": 6, "k_pos": 6, "doc": 2 },
+        { "label": ".",    "abs_pos": 9, "q_pos": 7, "k_pos": 7, "doc": 2 }
+      ]
+    }
+  ]
+}
