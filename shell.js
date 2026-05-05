@@ -3,11 +3,11 @@
      <header id="shell" data-page="dataloader"></header>
      <script src="shell.js"></script>
    The home page omits data-page (or sets data-page="home") and gets a large
-   hero title; subpages get a "← Eyeball LLM / <page>" back-breadcrumb.
+   hero title; subpages get a "← Eyeball Transformer / <page>" back-breadcrumb.
    shell.js also sets document.title to "<PROJECT> · <page>". */
 
 (function () {
-  const PROJECT_NAME = "Eyeball LLM";
+  const PROJECT_NAME = "Eyeball Transformer";
   const HOME_HREF    = "index.html";
 
   const SHELL_CSS = `

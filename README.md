@@ -1,4 +1,4 @@
-# llm-visual
+# Eyeball Transformer
 
 ## Usage
 

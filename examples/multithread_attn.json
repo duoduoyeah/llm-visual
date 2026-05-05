@@ -1,0 +1,897 @@
+{
+  "schema_version": "1",
+  "kind": "attention",
+  "name": "Multithread-LM | 3-thread wave | mutual (primary) vs blind (comparison)",
+  "matrices": [
+    {
+      "name": "3-thread wave (t0=4, t1=2, t2=2; t2=decision, t0=laggard) | mask-B mutual (primary) | N=15",
+      "N": 15,
+      "rows": [
+        {
+          "label": "t0.1",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok=c100 thread=0 stage=0 local_step=1 rope_idx=0"
+        },
+        {
+          "label": "t0.2",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok=c101 thread=0 stage=0 local_step=2 rope_idx=1"
+        },
+        {
+          "label": "<bot-3>",
+          "doc": 0,
+          "is_bos": true,
+          "extra": "tok=<bot-3> thread=0 stage=0 local_step=3 rope_idx=2"
+        },
+        {
+          "label": "<sot>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<sot> thread=1 stage=1 local_step=0 rope_idx=3"
+        },
+        {
+          "label": "<sot>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<sot> thread=2 stage=1 local_step=0 rope_idx=259"
+        },
+        {
+          "label": "<sot>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<sot> thread=3 stage=1 local_step=0 rope_idx=515"
+        },
+        {
+          "label": "t1.1",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c102 thread=1 stage=1 local_step=1 rope_idx=4"
+        },
+        {
+          "label": "t2.1",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c106 thread=2 stage=1 local_step=1 rope_idx=260"
+        },
+        {
+          "label": "t3.1",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c108 thread=3 stage=1 local_step=1 rope_idx=516"
+        },
+        {
+          "label": "t1.2",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c103 thread=1 stage=1 local_step=2 rope_idx=5"
+        },
+        {
+          "label": "t2.2",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c107 thread=2 stage=1 local_step=2 rope_idx=261"
+        },
+        {
+          "label": "t3.2",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c109 thread=3 stage=1 local_step=2 rope_idx=517"
+        },
+        {
+          "label": "t1.3",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c104 thread=1 stage=1 local_step=3 rope_idx=6"
+        },
+        {
+          "label": "t1.4",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c105 thread=1 stage=1 local_step=4 rope_idx=7"
+        },
+        {
+          "label": "<bos>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<bos> thread=3 stage=1 local_step=5 rope_idx=518"
+        }
+      ],
+      "cols": [
+        {
+          "label": "t0.1",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok=c100 thread=0 stage=0 local_step=1 rope_idx=0"
+        },
+        {
+          "label": "t0.2",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok=c101 thread=0 stage=0 local_step=2 rope_idx=1"
+        },
+        {
+          "label": "<bot-3>",
+          "doc": 0,
+          "is_bos": true,
+          "extra": "tok=<bot-3> thread=0 stage=0 local_step=3 rope_idx=2"
+        },
+        {
+          "label": "<sot>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<sot> thread=1 stage=1 local_step=0 rope_idx=3"
+        },
+        {
+          "label": "<sot>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<sot> thread=2 stage=1 local_step=0 rope_idx=259"
+        },
+        {
+          "label": "<sot>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<sot> thread=3 stage=1 local_step=0 rope_idx=515"
+        },
+        {
+          "label": "t1.1",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c102 thread=1 stage=1 local_step=1 rope_idx=4"
+        },
+        {
+          "label": "t2.1",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c106 thread=2 stage=1 local_step=1 rope_idx=260"
+        },
+        {
+          "label": "t3.1",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c108 thread=3 stage=1 local_step=1 rope_idx=516"
+        },
+        {
+          "label": "t1.2",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c103 thread=1 stage=1 local_step=2 rope_idx=5"
+        },
+        {
+          "label": "t2.2",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c107 thread=2 stage=1 local_step=2 rope_idx=261"
+        },
+        {
+          "label": "t3.2",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c109 thread=3 stage=1 local_step=2 rope_idx=517"
+        },
+        {
+          "label": "t1.3",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c104 thread=1 stage=1 local_step=3 rope_idx=6"
+        },
+        {
+          "label": "t1.4",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c105 thread=1 stage=1 local_step=4 rope_idx=7"
+        },
+        {
+          "label": "<bos>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<bos> thread=3 stage=1 local_step=5 rope_idx=518"
+        }
+      ],
+      "mask": [
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "name": "3-thread wave (t0=4, t1=2, t2=2; t2=decision, t0=laggard) | mask-A blind (comparison) | N=15",
+      "N": 15,
+      "rows": [
+        {
+          "label": "t0.1",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok=c100 thread=0 stage=0 local_step=1 rope_idx=0"
+        },
+        {
+          "label": "t0.2",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok=c101 thread=0 stage=0 local_step=2 rope_idx=1"
+        },
+        {
+          "label": "<bot-3>",
+          "doc": 0,
+          "is_bos": true,
+          "extra": "tok=<bot-3> thread=0 stage=0 local_step=3 rope_idx=2"
+        },
+        {
+          "label": "<sot>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<sot> thread=1 stage=1 local_step=0 rope_idx=3"
+        },
+        {
+          "label": "<sot>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<sot> thread=2 stage=1 local_step=0 rope_idx=259"
+        },
+        {
+          "label": "<sot>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<sot> thread=3 stage=1 local_step=0 rope_idx=515"
+        },
+        {
+          "label": "t1.1",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c102 thread=1 stage=1 local_step=1 rope_idx=4"
+        },
+        {
+          "label": "t2.1",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c106 thread=2 stage=1 local_step=1 rope_idx=260"
+        },
+        {
+          "label": "t3.1",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c108 thread=3 stage=1 local_step=1 rope_idx=516"
+        },
+        {
+          "label": "t1.2",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c103 thread=1 stage=1 local_step=2 rope_idx=5"
+        },
+        {
+          "label": "t2.2",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c107 thread=2 stage=1 local_step=2 rope_idx=261"
+        },
+        {
+          "label": "t3.2",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c109 thread=3 stage=1 local_step=2 rope_idx=517"
+        },
+        {
+          "label": "t1.3",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c104 thread=1 stage=1 local_step=3 rope_idx=6"
+        },
+        {
+          "label": "t1.4",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c105 thread=1 stage=1 local_step=4 rope_idx=7"
+        },
+        {
+          "label": "<bos>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<bos> thread=3 stage=1 local_step=5 rope_idx=518"
+        }
+      ],
+      "cols": [
+        {
+          "label": "t0.1",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok=c100 thread=0 stage=0 local_step=1 rope_idx=0"
+        },
+        {
+          "label": "t0.2",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok=c101 thread=0 stage=0 local_step=2 rope_idx=1"
+        },
+        {
+          "label": "<bot-3>",
+          "doc": 0,
+          "is_bos": true,
+          "extra": "tok=<bot-3> thread=0 stage=0 local_step=3 rope_idx=2"
+        },
+        {
+          "label": "<sot>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<sot> thread=1 stage=1 local_step=0 rope_idx=3"
+        },
+        {
+          "label": "<sot>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<sot> thread=2 stage=1 local_step=0 rope_idx=259"
+        },
+        {
+          "label": "<sot>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<sot> thread=3 stage=1 local_step=0 rope_idx=515"
+        },
+        {
+          "label": "t1.1",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c102 thread=1 stage=1 local_step=1 rope_idx=4"
+        },
+        {
+          "label": "t2.1",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c106 thread=2 stage=1 local_step=1 rope_idx=260"
+        },
+        {
+          "label": "t3.1",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c108 thread=3 stage=1 local_step=1 rope_idx=516"
+        },
+        {
+          "label": "t1.2",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c103 thread=1 stage=1 local_step=2 rope_idx=5"
+        },
+        {
+          "label": "t2.2",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c107 thread=2 stage=1 local_step=2 rope_idx=261"
+        },
+        {
+          "label": "t3.2",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c109 thread=3 stage=1 local_step=2 rope_idx=517"
+        },
+        {
+          "label": "t1.3",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c104 thread=1 stage=1 local_step=3 rope_idx=6"
+        },
+        {
+          "label": "t1.4",
+          "doc": 1,
+          "is_bos": false,
+          "extra": "tok=c105 thread=1 stage=1 local_step=4 rope_idx=7"
+        },
+        {
+          "label": "<bos>",
+          "doc": 1,
+          "is_bos": true,
+          "extra": "tok=<bos> thread=3 stage=1 local_step=5 rope_idx=518"
+        }
+      ],
+      "mask": [
+        [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ]
+      ]
+    }
+  ]
+}

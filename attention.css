@@ -7,9 +7,9 @@
   --att-cell: rgba(255, 255, 255, 0.025);
   --att-cell-border: #2a2a2a;
   --att-bound: #ff8c4d;       /* doc-boundary line color (matches BOS marker) */
-  --att-cell-size: 22px;
-  --att-label-w: 56px;
-  --att-label-h: 24px;
+  --att-cell-size: 28px;
+  --att-label-w: 64px;
+  --att-label-h: 28px;
 }
 
 .att-leg-sw {

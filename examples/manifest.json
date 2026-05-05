@@ -40,5 +40,23 @@
     "file": "examples/butterfly_attn_N16_d8_8_20260502_151712.json",
     "title": "Butterfly / MIM masks (N=16)",
     "description": "Five variants: butterfly + naive/perdoc interleave × orig/seq coords. Doc boundaries marked."
+  },
+  {
+    "type": "dataloader",
+    "file": "examples/multithread_dataloader.json",
+    "title": "Multithread-LM dataloader (3-thread wave)",
+    "description": "Stage-1: per-position inputs/targets for the same 3-thread wave. Within-thread shift-by-1 with <eot> override at non-decision threads' last content; decision's last content predicts <bos>."
+  },
+  {
+    "type": "trace",
+    "file": "examples/multithread_visual.json",
+    "title": "Multithread-LM generation (3-thread wave)",
+    "description": "Stage-1 mimic: parent prompt at step 0, <bot-3> at step 1, 3 parallel <sot>s at step 2, siblings decode in lockstep, then the laggard runs alone, then <bos> fires (postpone rule)."
+  },
+  {
+    "type": "attention",
+    "file": "examples/multithread_attn.json",
+    "title": "Multithread-LM masks (mutual vs blind)",
+    "description": "Stage-1: 3-thread wave (parent=2, children 4/2/2; t2=decision, t0=laggard). Mask-B mutual is the primary design; mask-A blind kept for comparison. Postpone rule visible — <bos> sits at the row end."
   }
 ]
