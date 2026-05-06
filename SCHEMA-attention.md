@@ -25,6 +25,10 @@ optional metadata per query/key position.
 
 ## Matrix
 
+Square or rectangular (`N_q × N_k`). The renderer derives the shape from
+`rows.length` (= `N_q`) and `cols.length` (= `N_k`); the `N` field is
+informational and may be omitted for rectangular matrices.
+
 ```json
 {
   "name": "butterfly (orig coords)",
@@ -38,10 +42,10 @@ optional metadata per query/key position.
 | field | required | description |
 |---|---|---|
 | `name` | yes | Short label for the matrix dropdown. |
-| `N` | yes | Side length. Must equal `len(rows) == len(cols) == len(mask)` and each `len(mask[i]) == N`. |
-| `rows` | yes | Length-N axis entries describing each query position (top-to-bottom). |
-| `cols` | yes | Length-N axis entries describing each key position (left-to-right). |
-| `mask` | yes | N×N integer (0 or 1). `mask[q][k] == 1` means query `q` can attend to key `k`. |
+| `N` | optional | Convenience for square matrices. The actual shape is `len(rows) × len(cols)`; ignored if absent or if `rows.length != cols.length`. |
+| `rows` | yes | Length-`N_q` axis entries describing each query position (top-to-bottom). |
+| `cols` | yes | Length-`N_k` axis entries describing each key position (left-to-right). For compact / non-square matrices, `cols` may carry abstract slot labels rather than actual key positions. |
+| `mask` | yes | `N_q × N_k` integer (0 or 1). `mask[q][k] == 1` means query `q` can attend to key `k` (or the abstract slot `k` of `q`'s context, in compact representations). |
 
 ## Axis entry
 

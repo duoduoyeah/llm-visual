@@ -62,23 +62,27 @@
 
   function render(doc, matIdx) {
     const m = doc.matrices[matIdx];
-    const N = m.N;
-    if (m.rows.length !== N || m.cols.length !== N || m.mask.length !== N) {
-      showError(`matrix ${matIdx}: size mismatch (N=${N}, rows=${m.rows.length}, cols=${m.cols.length}, mask=${m.mask.length}).`);
+    // Allow rectangular matrices: N_q (rows) and N_k (cols) may differ. Legacy
+    // square matrices set m.N == N_q == N_k.
+    const Nq = m.rows.length;
+    const Nk = m.cols.length;
+    if (m.mask.length !== Nq || (Nq > 0 && m.mask[0].length !== Nk)) {
+      showError(`matrix ${matIdx}: shape mismatch (rows=${Nq}, cols=${Nk}, mask=${m.mask.length}×${m.mask[0]?.length ?? 0}).`);
       return;
     }
 
     const numRowDocs = (new Set(m.rows.map(r => r.doc).filter(d => d != null))).size;
     const visibleCount = m.mask.flat().reduce((a, b) => a + b, 0);
-    els.info.textContent = `${m.name}  |  N=${N}  |  docs=${numRowDocs || 1}  |  visible cells = ${visibleCount} / ${N * N}`;
+    const sizeLabel = Nq === Nk ? `N=${Nq}` : `N_q=${Nq} × N_k=${Nk}`;
+    els.info.textContent = `${m.name}  |  ${sizeLabel}  |  docs=${numRowDocs || 1}  |  visible cells = ${visibleCount} / ${Nq * Nk}`;
 
     els.scroll.innerHTML = "";
     const grid = document.createElement("div");
     grid.className = "att-grid";
     grid.style.gridTemplateColumns =
-      `var(--att-label-w) repeat(${N}, var(--att-cell-size))`;
+      `var(--att-label-w) repeat(${Nk}, var(--att-cell-size))`;
     grid.style.gridTemplateRows =
-      `var(--att-label-h) repeat(${N}, var(--att-cell-size))`;
+      `var(--att-label-h) repeat(${Nq}, var(--att-cell-size))`;
 
     // top-left corner
     const corner = document.createElement("div");
@@ -86,12 +90,12 @@
     grid.appendChild(corner);
 
     // column labels (top row)
-    for (let k = 0; k < N; k++) {
+    for (let k = 0; k < Nk; k++) {
       const c = m.cols[k];
       const el = document.createElement("div");
       el.className = "att-col-label";
       if (c.is_bos) el.classList.add("att-bos");
-      if (k < N - 1 && m.cols[k + 1].doc != null && c.doc != null && m.cols[k + 1].doc !== c.doc) {
+      if (k < Nk - 1 && m.cols[k + 1].doc != null && c.doc != null && m.cols[k + 1].doc !== c.doc) {
         el.classList.add("att-doc-bound-right");
       }
       el.textContent = c.label ?? String(k + 1);
@@ -99,27 +103,27 @@
       grid.appendChild(el);
     }
 
-    // body rows (left label + N cells each)
-    for (let q = 0; q < N; q++) {
+    // body rows (left label + N_k cells each)
+    for (let q = 0; q < Nq; q++) {
       const r = m.rows[q];
       const lbl = document.createElement("div");
       lbl.className = "att-row-label";
       if (r.is_bos) lbl.classList.add("att-bos");
-      if (q < N - 1 && m.rows[q + 1].doc != null && r.doc != null && m.rows[q + 1].doc !== r.doc) {
+      if (q < Nq - 1 && m.rows[q + 1].doc != null && r.doc != null && m.rows[q + 1].doc !== r.doc) {
         lbl.classList.add("att-doc-bound-bot");
       }
       lbl.textContent = r.label ?? String(q + 1);
       grid.appendChild(lbl);
 
-      for (let k = 0; k < N; k++) {
+      for (let k = 0; k < Nk; k++) {
         const c = m.cols[k];
         const cell = document.createElement("div");
         cell.className = "att-cell";
         if (m.mask[q][k]) cell.classList.add("att-vis");
-        if (k < N - 1 && m.cols[k + 1].doc != null && c.doc != null && m.cols[k + 1].doc !== c.doc) {
+        if (k < Nk - 1 && m.cols[k + 1].doc != null && c.doc != null && m.cols[k + 1].doc !== c.doc) {
           cell.classList.add("att-doc-bound-right");
         }
-        if (q < N - 1 && m.rows[q + 1].doc != null && r.doc != null && m.rows[q + 1].doc !== r.doc) {
+        if (q < Nq - 1 && m.rows[q + 1].doc != null && r.doc != null && m.rows[q + 1].doc !== r.doc) {
           cell.classList.add("att-doc-bound-bot");
         }
         cell.dataset.q = q;
