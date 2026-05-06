@@ -1,68 +1,56 @@
 [
   {
     "type": "trace",
-    "file": "examples/hello-world.json",
-    "title": "Hello World",
-    "description": "Minimal forward-autoregressive trace"
-  },
-  {
-    "type": "trace",
     "file": "examples/d8_r20_simplestory.json",
-    "title": "Simple Story",
+    "title": "Causal AR — Simple Story",
     "description": "Forward generation, depth 8, repeat 20"
   },
   {
     "type": "trace",
-    "file": "examples/d8_r20_simplestory_rev.json",
-    "title": "Simple Story — Reversed",
-    "description": "Right-to-left generation trace"
-  },
-  {
-    "type": "trace",
     "file": "examples/d8_r20_simplestory_butterfly_butterfly.json",
-    "title": "Butterfly × Butterfly",
-    "description": "Between-token insertion (speculative positioning)"
-  },
-  {
-    "type": "dataloader",
-    "file": "examples/dataloader_simple_story_B4_T512_20260502_145600.json",
-    "title": "BOS-bestfit (simple_story, T=512)",
-    "description": "4 rows from the standard causal-LM dataloader; row 3 shows multi-doc packing."
-  },
-  {
-    "type": "dataloader",
-    "file": "examples/dataloader_simple_story_B1_T2048_20260502_150435.json",
-    "title": "BOS-bestfit (simple_story, T=2048)",
-    "description": "Single row at the real training T; multi-doc packing visible across the row."
-  },
-  {
-    "type": "attention",
-    "file": "examples/butterfly_attn_N16_d8_8_20260502_151712.json",
-    "title": "Butterfly / MIM masks (N=16)",
-    "description": "Five variants: butterfly + naive/perdoc interleave × orig/seq coords. Doc boundaries marked."
-  },
-  {
-    "type": "dataloader",
-    "file": "examples/multithread_dataloader.json",
-    "title": "Multithread-LM dataloader (3-thread wave)",
-    "description": "Stage-1: per-position inputs/targets for the same 3-thread wave. Within-thread shift-by-1 with <eot> override at non-decision threads' last content; decision's last content predicts <bos>."
+    "title": "Butterfly — Simple Story (between-token insertion)",
+    "description": "Meet-in-the-middle decoder under butterfly RoPE; speculative positioning across the seam."
   },
   {
     "type": "trace",
     "file": "examples/multithread_visual.json",
-    "title": "Multithread-LM generation (3-thread wave)",
-    "description": "Stage-1 mimic: parent prompt at step 0, <bot-3> at step 1, 3 parallel <sot>s at step 2, siblings decode in lockstep, then the laggard runs alone, then <bos> fires (postpone rule)."
+    "title": "Multithread-LM — generation (synth)",
+    "description": "Mimic trace: parent prompt, <bot-K>, parallel <sot>s, lockstep sibling decode, laggard tail, <bos> committed at the wave's row end (postpone rule structural under the new layout)."
+  },
+  {
+    "type": "dataloader",
+    "file": "examples/dataloader_simple_story_B1_T2048_20260502_150435.json",
+    "title": "Causal AR — BOS-bestfit (simple_story, B=1 T=2048)",
+    "description": "Single row at the real training T; multi-doc packing visible across the row."
+  },
+  {
+    "type": "dataloader",
+    "file": "examples/multithread_dataloader_real_simple_story_pairs_B2_T1024_20260506_124250.json",
+    "title": "Multithread-LM — dataloader (real, B=2 T=1024)",
+    "description": "Real-corpus multithread loader on simple_story, policy=pairs. BOS-bestfit row-packing reproduced via compile_doc; doc_idx tints between packed docs; paragraph-end target overrides visible (<|bot_K|>, <|eot|>, <|bos|>); held decision-last positions sit at end of each wave's row segment."
   },
   {
     "type": "attention",
-    "file": "examples/multithread_attn.json",
-    "title": "Multithread-LM masks (mutual vs blind)",
-    "description": "Stage-1: 3-thread wave (parent=2, children 4/2/2; t2=decision, t0=laggard). Mask-B mutual is the primary design; mask-A blind kept for comparison. Postpone rule visible — <bos> sits at the row end."
+    "file": "examples/butterfly_attn_N16_d8_8_20260502_151712.json",
+    "title": "Butterfly — MIM masks (N=16)",
+    "description": "Five variants: butterfly + naive/perdoc interleave × orig/seq coords. Doc boundaries marked."
+  },
+  {
+    "type": "attention",
+    "file": "examples/multithread_attn_real_simple_story_all_parallel_N213_20260506_123133.json",
+    "title": "Multithread-LM — staircase mask (real, N=213)",
+    "description": "Real-corpus all_parallel doc, K=2 wave: width-1 parent → width-2 lockstep wave content → width-1 laggard tail → width-1 held decision-last. Pure block-lower-triangular vs vanilla causal side-by-side."
   },
   {
     "type": "rope",
     "file": "examples/rope_demo.json",
-    "title": "RoPE — plain / PI×2 / hidden-thinking",
+    "title": "Causal AR — RoPE schemes (plain / PI×2 / hidden-thinking)",
     "description": "Three positional schemes on a 10-token sequence. Hidden-thinking variant pins thinking-token k_pos to the parent so later queries see them as co-positioned."
+  },
+  {
+    "type": "rope",
+    "file": "examples/multithread_rope_real_simple_story_all_parallel_N213_20260506_123707.json",
+    "title": "Multithread-LM — RoPE (real, N=213)",
+    "description": "Multithread paragraph-aligned RoPE (anchors at paragraph_idx*256) vs seq-position baseline. BOS at rope 0; sibling <sot>s at 256, 512; held decision-last at its thread's natural rope_idx, decoupled from row position."
   }
 ]
