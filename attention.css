@@ -68,7 +68,10 @@
   height: var(--att-label-h);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* anchor to the left so the first chars
+                                  always remain visible when a token text
+                                  is wider than the 28px cell. The right
+                                  side gets clipped by overflow:hidden. */
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.66rem;
   color: var(--text-dim);
@@ -110,6 +113,19 @@
   border-right: 1px solid var(--att-cell-border);
   border-bottom: 1px solid var(--att-cell-border);
   cursor: default;
+  /* Compact-mask cell labels: tiny centered text on top of the
+     visibility tint so each row's k0/k1 cell shows the actual key
+     token at that position (different per row). */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.55rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.85);
+  padding: 0 1px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .att-cell.att-vis { background: var(--att-vis); }
 .att-cell.att-doc-bound-right { border-right: 2px solid var(--att-bound); }

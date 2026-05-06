@@ -46,6 +46,7 @@ informational and may be omitted for rectangular matrices.
 | `rows` | yes | Length-`N_q` axis entries describing each query position (top-to-bottom). |
 | `cols` | yes | Length-`N_k` axis entries describing each key position (left-to-right). For compact / non-square matrices, `cols` may carry abstract slot labels rather than actual key positions. |
 | `mask` | yes | `N_q × N_k` integer (0 or 1). `mask[q][k] == 1` means query `q` can attend to key `k` (or the abstract slot `k` of `q`'s context, in compact representations). |
+| `cell_labels` | optional | `N_q × N_k` array of short strings to render inside each cell. Used by compact / per-row representations where each cell's "actual" key differs per row (e.g., row q's `k0` cell maps to a different absolute key than row q+1's `k0`). Empty string means no text in that cell. |
 
 ## Axis entry
 

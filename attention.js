@@ -76,6 +76,13 @@
     const sizeLabel = Nq === Nk ? `N=${Nq}` : `N_q=${Nq} × N_k=${Nk}`;
     els.info.textContent = `${m.name}  |  ${sizeLabel}  |  docs=${numRowDocs || 1}  |  visible cells = ${visibleCount} / ${Nq * Nk}`;
 
+    // Optional per-cell text overlay (used by the compact-staircase variant
+    // to print "first chars of each row's actual key token" inside each
+    // cell — column k0 shows different tokens per row because each row's
+    // block_start differs).
+    const hasCellLabels =
+      Array.isArray(m.cell_labels) && m.cell_labels.length === Nq;
+
     els.scroll.innerHTML = "";
     const grid = document.createElement("div");
     grid.className = "att-grid";
@@ -125,6 +132,10 @@
         }
         if (q < Nq - 1 && m.rows[q + 1].doc != null && r.doc != null && m.rows[q + 1].doc !== r.doc) {
           cell.classList.add("att-doc-bound-bot");
+        }
+        if (hasCellLabels) {
+          const txt = m.cell_labels[q][k];
+          if (txt) cell.textContent = txt;
         }
         cell.dataset.q = q;
         cell.dataset.k = k;

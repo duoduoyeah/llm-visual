@@ -37,7 +37,7 @@
   },
   {
     "type": "attention",
-    "file": "examples/multithread_attn_real_simple_story_all_parallel_N213_20260506_125930.json",
+    "file": "examples/multithread_attn_real_simple_story_all_parallel_N213_20260506_131659.json",
     "title": "Multithread-LM — staircase mask (real, N=213)",
     "description": "Real-corpus all_parallel doc, widths 1*67, 2*71, 1*4. Three matrices: full N×N staircase, vanilla causal comparison, and compact N×max_W staircase that drops the uniformly-visible lower-triangular bulk and shows only the staircase silhouette (1 cell for width-1 blocks, K cells for K-parallel blocks)."
   },
