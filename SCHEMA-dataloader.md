@@ -36,7 +36,8 @@ There is no `gen_step` here — this is data, not generation.
   "T": 512,
   "inputs":  [<vocab_id>, ...],
   "targets": [<vocab_id>, ...],
-  "doc_idx": [0, 0, ..., 1, 1, ...]
+  "doc_idx": [0, 0, ..., 1, 1, ...],
+  "rope_idx": [0, 1, 2, ..., 256, 257, ...]
 }
 ```
 
@@ -51,6 +52,7 @@ labelling makes sense for your producer.)
 | `inputs` | yes | Token-id sequence the model receives at each position. |
 | `targets` | yes | Token-id sequence the model is asked to predict at each position. For standard causal LM, `targets[i] == inputs[i+1]` *within* a doc (and may cross doc boundaries depending on the dataloader). A value of `-1` means "no target at this position". |
 | `doc_idx` | yes | Integer per position naming which doc-within-row each position belongs to (0-indexed, monotone non-decreasing). Computed by the producer from BOS markers in `inputs`. The renderer uses this to tint adjacent docs differently. |
+| `rope_idx` | no | Integer per position: the 1D positional index actually fed into RoPE at that row position. Vanilla LM dumps may omit this; multithread dumps emit it because thread bands stagger rope by `i * stride` so rope_idx ≠ row position. When present, the renderer adds a second view that lays the row out as one continuous strip (no doc segmentation), with each cell labeled by its `rope_idx`. |
 
 ## Producer checklist
 

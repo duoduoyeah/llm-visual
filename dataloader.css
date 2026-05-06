@@ -112,6 +112,14 @@
   z-index: 1;
 }
 
+.dl-cell.dl-rope-label {
+  color: var(--text-dim);
+  font-size: 0.65rem;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid var(--card-border);
+  justify-content: center;
+}
+
 .dl-rowlabel {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.7rem;

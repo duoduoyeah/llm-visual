@@ -100,6 +100,9 @@
       const pageEl = renderPage(row, g, vocab, vocab_meta, bosId);
       els.pages.appendChild(pageEl);
     }
+    if (Array.isArray(row.rope_idx) && row.rope_idx.length === T) {
+      els.pages.appendChild(renderRopePage(row, vocab, vocab_meta, bosId));
+    }
   }
 
   /* Split the row into one group per contiguous doc (constant doc_idx run). */
@@ -160,12 +163,15 @@
     return page;
   }
 
-  function makeCell(row, i, which, vocab, vocab_meta, bosId) {
+  function makeCell(row, i, which, vocab, vocab_meta, bosId, opts = {}) {
     const tid = which === "in" ? row.inputs[i] : row.targets[i];
     const docId = row.doc_idx[i];
     const cell = document.createElement("div");
-    cell.className = "dl-cell dl-row-" + which
-      + (docId % 2 === 0 ? " dl-doc-even" : " dl-doc-odd");
+    let cls = "dl-cell dl-row-" + which;
+    if (!opts.noTint) {
+      cls += (docId % 2 === 0 ? " dl-doc-even" : " dl-doc-odd");
+    }
+    cell.className = cls;
 
     if (tid === -1) {
       cell.classList.add("dl-no-target");
@@ -185,6 +191,72 @@
     return cell;
   }
 
+  /* Second view: one continuous strip across the whole row, no doc tinting,
+     each column carries its rope_idx label. Lays out the row in seq order
+     (cells contiguous), so thread-band staggering shows up as jumps in the
+     rope_idx label between adjacent cells (e.g. "30" → "256"). */
+  function renderRopePage(row, vocab, vocab_meta, bosId) {
+    const cols = row.T;
+    const page = document.createElement("div");
+    page.className = "dl-page dl-page-rope";
+
+    const ropeMin = Math.min(...row.rope_idx);
+    const ropeMax = Math.max(...row.rope_idx);
+    const head = document.createElement("div");
+    head.className = "dl-page-head";
+    head.textContent = `by rope_idx (no doc segmentation)  |  T=${cols}  |  rope ${ropeMin} … ${ropeMax}`;
+    page.appendChild(head);
+
+    const scroll = document.createElement("div");
+    scroll.className = "dl-page-scroll";
+    const gridCols = `auto repeat(${cols}, ${CELL_W_PX}px)`;
+
+    // rope label row (top)
+    const rowRope = document.createElement("div");
+    rowRope.className = "dl-row";
+    rowRope.style.gridTemplateColumns = gridCols;
+    const lblRope = document.createElement("div");
+    lblRope.className = "dl-rowlabel";
+    lblRope.textContent = "rope";
+    rowRope.appendChild(lblRope);
+    for (let i = 0; i < cols; i++) {
+      const c = document.createElement("div");
+      c.className = "dl-cell dl-rope-label";
+      c.textContent = String(row.rope_idx[i]);
+      rowRope.appendChild(c);
+    }
+    scroll.appendChild(rowRope);
+
+    // inputs row
+    const rowIn = document.createElement("div");
+    rowIn.className = "dl-row";
+    rowIn.style.gridTemplateColumns = gridCols;
+    const lblIn = document.createElement("div");
+    lblIn.className = "dl-rowlabel";
+    lblIn.textContent = "in";
+    rowIn.appendChild(lblIn);
+    for (let i = 0; i < cols; i++) {
+      rowIn.appendChild(makeCell(row, i, "in", vocab, vocab_meta, bosId, { noTint: true }));
+    }
+    scroll.appendChild(rowIn);
+
+    // targets row
+    const rowTg = document.createElement("div");
+    rowTg.className = "dl-row";
+    rowTg.style.gridTemplateColumns = gridCols;
+    const lblTg = document.createElement("div");
+    lblTg.className = "dl-rowlabel";
+    lblTg.textContent = "tg";
+    rowTg.appendChild(lblTg);
+    for (let i = 0; i < cols; i++) {
+      rowTg.appendChild(makeCell(row, i, "tg", vocab, vocab_meta, bosId, { noTint: true }));
+    }
+    scroll.appendChild(rowTg);
+
+    page.appendChild(scroll);
+    return page;
+  }
+
   function lookupBosId(vocab) {
     for (const [id, txt] of Object.entries(vocab)) {
       if (txt === "<|bos|>") return parseInt(id, 10);
@@ -198,9 +270,12 @@
     const tgText = tgId === -1 ? "(no target)" : (vocab[String(tgId)] ?? `?id${tgId}`);
     const inSpec = vocab_meta[String(inId)]?.is_special;
     const tgSpec = vocab_meta[String(tgId)]?.is_special;
+    const ropeBit = Array.isArray(row.rope_idx)
+      ? `&nbsp;&nbsp;<span class="k">rope</span> <span class="v">${row.rope_idx[i]}</span>`
+      : "";
     els.tip.innerHTML =
       `<div><span class="k">pos</span> <span class="v">${i}</span>`
-      + `&nbsp;&nbsp;<span class="k">doc</span> <span class="v">${row.doc_idx[i]}</span></div>`
+      + `&nbsp;&nbsp;<span class="k">doc</span> <span class="v">${row.doc_idx[i]}</span>${ropeBit}</div>`
       + `<div><span class="k">in </span> <span class="v ${inSpec ? "special" : ""}">${esc(JSON.stringify(inText))}</span> <span class="k">id=${inId}</span></div>`
       + `<div><span class="k">tg </span> <span class="v ${tgSpec ? "special" : ""}">${esc(JSON.stringify(tgText))}</span> <span class="k">id=${tgId}</span></div>`;
     els.tip.style.display = "block";

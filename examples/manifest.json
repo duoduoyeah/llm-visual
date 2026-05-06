@@ -25,9 +25,9 @@
   },
   {
     "type": "dataloader",
-    "file": "examples/multithread_dataloader_real_simple_story_pairs_B2_T1024_20260506_124250.json",
+    "file": "examples/multithread_dataloader_real_simple_story_pairs_B2_T1024_20260506_134749.json",
     "title": "Multithread-LM — dataloader (real, B=2 T=1024)",
-    "description": "Real-corpus multithread loader on simple_story, policy=pairs. BOS-bestfit row-packing reproduced via compile_doc; doc_idx tints between packed docs; paragraph-end target overrides visible (<|bot_K|>, <|eot|>, <|bos|>); held decision-last positions sit at end of each wave's row segment."
+    "description": "Real-corpus multithread loader on simple_story, policy=pairs. Two stacked views: (1) absolute row position with doc-idx tinting and BOS-bestfit packing; (2) by rope_idx — the actual 1D position fed into RoPE — with no doc segmentation, exposing the per-paragraph stride bands (anchors at paragraph_idx*256, cross-doc cursor stride-aligned). Paragraph-end target overrides (<|bot_K|>, <|eot|>, <|bos|>) and held decision-last positions visible in both views."
   },
   {
     "type": "attention",
