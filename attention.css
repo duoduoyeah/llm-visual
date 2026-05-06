@@ -43,6 +43,11 @@
   /* grid-template-columns / grid-template-rows set inline */
   width: max-content;
 }
+/* Declared widths (var(--att-label-w), var(--att-cell-size)) are intended to
+   match the grid tracks. Without border-box the padding+border get added on
+   top, so the row-label box becomes 64+12+1 = 77px in a 64px track and bleeds
+   ~13px into the adjacent BOS column when sticky-left. */
+.att-grid > * { box-sizing: border-box; }
 
 /* Top-left corner cell (empty, sticky in both directions). */
 .att-corner {
