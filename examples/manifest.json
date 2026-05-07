@@ -26,8 +26,14 @@
   {
     "type": "dataloader",
     "file": "examples/multithread_dataloader_real_simple_story_pairs_B2_T1024_20260506_134749.json",
-    "title": "Multithread-LM — dataloader (real, B=2 T=1024)",
-    "description": "Real-corpus multithread loader on simple_story, policy=pairs. Two stacked views: (1) absolute row position with doc-idx tinting and BOS-bestfit packing; (2) by rope_idx — the actual 1D position fed into RoPE — with no doc segmentation, exposing the per-paragraph stride bands (anchors at paragraph_idx*256, cross-doc cursor stride-aligned). Paragraph-end target overrides (<|bot_K|>, <|eot|>, <|bos|>) and held decision-last positions visible in both views."
+    "title": "Multithread-LM — dataloader, policy=pairs (real, B=2 T=1024)",
+    "description": "Real-corpus multithread loader on simple_story, policy=pairs (K=2 waves chained). Two stacked views: (1) absolute row position with doc-idx tinting and BOS-bestfit packing; (2) by rope_idx — the actual 1D position fed into RoPE — with no doc segmentation, exposing the per-paragraph stride bands (anchors at paragraph_idx*256, cross-doc cursor stride-aligned). Paragraph-end target overrides (<|bot_K|>, <|eot|>, <|bos|>) and held decision-last positions visible in both views."
+  },
+  {
+    "type": "dataloader",
+    "file": "examples/multithread_dataloader_real_simple_story_all_parallel_B2_T1024_20260507_125314.json",
+    "title": "Multithread-LM — dataloader, policy=all_parallel (real, B=2 T=1024)",
+    "description": "Sibling of the pairs dump above, policy=all_parallel: parent (K=1) followed by a single K=(N-1) wave per doc. Same two stacked views; the difference vs pairs is structural — one wide wave with K parallel <sot>s instead of a chain of K=2 waves. Stride bands and target overrides identical."
   },
   {
     "type": "attention",
@@ -37,9 +43,9 @@
   },
   {
     "type": "attention",
-    "file": "examples/multithread_attn_real_simple_story_all_parallel_N213_20260506_131659.json",
-    "title": "Multithread-LM — staircase mask (real, N=213)",
-    "description": "Real-corpus all_parallel doc, widths 1*67, 2*71, 1*4. Three matrices: full N×N staircase, vanilla causal comparison, and compact N×max_W staircase that drops the uniformly-visible lower-triangular bulk and shows only the staircase silhouette (1 cell for width-1 blocks, K cells for K-parallel blocks)."
+    "file": "examples/multithread_attn_real_simple_story_all_parallel_N327_20260507_125322.json",
+    "title": "Multithread-LM — staircase strip, policy=all_parallel (real, N=327)",
+    "description": "Real-corpus all_parallel doc with K=4 wave (5 paragraphs). Block widths 1*75, 4*57, 3*1, 2*8, 1*5: parent K=1 (width-1 strip), then 57 lockstep K=4 steps, then the staircase descent (3→2→1) as non-decision threads retire. Compact rectangular strip only (N_q × max_W=4) — the lower-triangular bulk is uniformly visible by block_id[k] <= block_id[q] and is omitted."
   },
   {
     "type": "rope",

@@ -1,0 +1,5920 @@
+{
+  "schema_version": "1",
+  "kind": "attention",
+  "name": "Multithread-LM real | dataset=simple_story policy=all_parallel stride=256 | compact staircase strip (lower-triangular bulk uniformly visible, omitted) | N=327",
+  "matrices": [
+    {
+      "name": "multithread staircase \u2014 compact strip | N_q=327 N_k=4 widths=[1*75, 4*57, 3*1, 2*8, 1*5] | earlier blocks fully visible (omitted)",
+      "rows": [
+        {
+          "label": "<bos>",
+          "doc": 0,
+          "is_bos": true,
+          "extra": "tok_id=8165 thread=0 stage=0 ls=0 rope=0 block=0 | target=Calm | block_start_row=0 block_width=1 siblings_at_rows=[0]"
+        },
+        {
+          "label": "Calm",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=3776 thread=0 stage=0 ls=1 rope=1 block=1 | target= waves | block_start_row=1 block_width=1 siblings_at_rows=[1]"
+        },
+        {
+          "label": " waves",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1356 thread=0 stage=0 ls=2 rope=2 block=2 | target= lapped | block_start_row=2 block_width=1 siblings_at_rows=[2]"
+        },
+        {
+          "label": " lapped",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=5962 thread=0 stage=0 ls=3 rope=3 block=3 | target= at | block_start_row=3 block_width=1 siblings_at_rows=[3]"
+        },
+        {
+          "label": " at",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=457 thread=0 stage=0 ls=4 rope=4 block=4 | target= the | block_start_row=4 block_width=1 siblings_at_rows=[4]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=0 stage=0 ls=5 rope=5 block=5 | target= shore | block_start_row=5 block_width=1 siblings_at_rows=[5]"
+        },
+        {
+          "label": " shore",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1767 thread=0 stage=0 ls=6 rope=6 block=6 | target= as | block_start_row=6 block_width=1 siblings_at_rows=[6]"
+        },
+        {
+          "label": " as",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=368 thread=0 stage=0 ls=7 rope=7 block=7 | target= a | block_start_row=7 block_width=1 siblings_at_rows=[7]"
+        },
+        {
+          "label": " a",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=258 thread=0 stage=0 ls=8 rope=8 block=8 | target= man | block_start_row=8 block_width=1 siblings_at_rows=[8]"
+        },
+        {
+          "label": " man",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=628 thread=0 stage=0 ls=9 rope=9 block=9 | target= strolled | block_start_row=9 block_width=1 siblings_at_rows=[9]"
+        },
+        {
+          "label": " strolle",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=5319 thread=0 stage=0 ls=10 rope=10 block=10 | target= along | block_start_row=10 block_width=1 siblings_at_rows=[10]"
+        },
+        {
+          "label": " along",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1750 thread=0 stage=0 ls=11 rope=11 block=11 | target= the | block_start_row=11 block_width=1 siblings_at_rows=[11]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=0 stage=0 ls=12 rope=12 block=12 | target= beach | block_start_row=12 block_width=1 siblings_at_rows=[12]"
+        },
+        {
+          "label": " beach",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1848 thread=0 stage=0 ls=13 rope=13 block=13 | target=. | block_start_row=13 block_width=1 siblings_at_rows=[13]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=0 stage=0 ls=14 rope=14 block=14 | target= He | block_start_row=14 block_width=1 siblings_at_rows=[14]"
+        },
+        {
+          "label": " He",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=361 thread=0 stage=0 ls=15 rope=15 block=15 | target= loved | block_start_row=15 block_width=1 siblings_at_rows=[15]"
+        },
+        {
+          "label": " loved",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=842 thread=0 stage=0 ls=16 rope=16 block=16 | target= to | block_start_row=16 block_width=1 siblings_at_rows=[16]"
+        },
+        {
+          "label": " to",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=278 thread=0 stage=0 ls=17 rope=17 block=17 | target= listen | block_start_row=17 block_width=1 siblings_at_rows=[17]"
+        },
+        {
+          "label": " listen",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=2011 thread=0 stage=0 ls=18 rope=18 block=18 | target= to | block_start_row=18 block_width=1 siblings_at_rows=[18]"
+        },
+        {
+          "label": " to",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=278 thread=0 stage=0 ls=19 rope=19 block=19 | target= the | block_start_row=19 block_width=1 siblings_at_rows=[19]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=0 stage=0 ls=20 rope=20 block=20 | target= sound | block_start_row=20 block_width=1 siblings_at_rows=[20]"
+        },
+        {
+          "label": " sound",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1070 thread=0 stage=0 ls=21 rope=21 block=21 | target= of | block_start_row=21 block_width=1 siblings_at_rows=[21]"
+        },
+        {
+          "label": " of",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=299 thread=0 stage=0 ls=22 rope=22 block=22 | target= the | block_start_row=22 block_width=1 siblings_at_rows=[22]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=0 stage=0 ls=23 rope=23 block=23 | target= ocean | block_start_row=23 block_width=1 siblings_at_rows=[23]"
+        },
+        {
+          "label": " ocean",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1525 thread=0 stage=0 ls=24 rope=24 block=24 | target= and | block_start_row=24 block_width=1 siblings_at_rows=[24]"
+        },
+        {
+          "label": " and",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=280 thread=0 stage=0 ls=25 rope=25 block=25 | target= feel | block_start_row=25 block_width=1 siblings_at_rows=[25]"
+        },
+        {
+          "label": " feel",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=482 thread=0 stage=0 ls=26 rope=26 block=26 | target= the | block_start_row=26 block_width=1 siblings_at_rows=[26]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=0 stage=0 ls=27 rope=27 block=27 | target= soft | block_start_row=27 block_width=1 siblings_at_rows=[27]"
+        },
+        {
+          "label": " soft",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=733 thread=0 stage=0 ls=28 rope=28 block=28 | target= sand | block_start_row=28 block_width=1 siblings_at_rows=[28]"
+        },
+        {
+          "label": " sand",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1511 thread=0 stage=0 ls=29 rope=29 block=29 | target= under | block_start_row=29 block_width=1 siblings_at_rows=[29]"
+        },
+        {
+          "label": " under",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=651 thread=0 stage=0 ls=30 rope=30 block=30 | target= his | block_start_row=30 block_width=1 siblings_at_rows=[30]"
+        },
+        {
+          "label": " his",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=356 thread=0 stage=0 ls=31 rope=31 block=31 | target= feet | block_start_row=31 block_width=1 siblings_at_rows=[31]"
+        },
+        {
+          "label": " feet",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=2150 thread=0 stage=0 ls=32 rope=32 block=32 | target=. | block_start_row=32 block_width=1 siblings_at_rows=[32]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=0 stage=0 ls=33 rope=33 block=33 | target= One | block_start_row=33 block_width=1 siblings_at_rows=[33]"
+        },
+        {
+          "label": " One",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=724 thread=0 stage=0 ls=34 rope=34 block=34 | target= day | block_start_row=34 block_width=1 siblings_at_rows=[34]"
+        },
+        {
+          "label": " day",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=432 thread=0 stage=0 ls=35 rope=35 block=35 | target=, | block_start_row=35 block_width=1 siblings_at_rows=[35]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=0 stage=0 ls=36 rope=36 block=36 | target= he | block_start_row=36 block_width=1 siblings_at_rows=[36]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=0 stage=0 ls=37 rope=37 block=37 | target= spotted | block_start_row=37 block_width=1 siblings_at_rows=[37]"
+        },
+        {
+          "label": " spotted",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1519 thread=0 stage=0 ls=38 rope=38 block=38 | target= a | block_start_row=38 block_width=1 siblings_at_rows=[38]"
+        },
+        {
+          "label": " a",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=258 thread=0 stage=0 ls=39 rope=39 block=39 | target= colorful | block_start_row=39 block_width=1 siblings_at_rows=[39]"
+        },
+        {
+          "label": " colorfu",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1264 thread=0 stage=0 ls=40 rope=40 block=40 | target= shell | block_start_row=40 block_width=1 siblings_at_rows=[40]"
+        },
+        {
+          "label": " shell",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1579 thread=0 stage=0 ls=41 rope=41 block=41 | target= half | block_start_row=41 block_width=1 siblings_at_rows=[41]"
+        },
+        {
+          "label": " half",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=3296 thread=0 stage=0 ls=42 rope=42 block=42 | target=-buried | block_start_row=42 block_width=1 siblings_at_rows=[42]"
+        },
+        {
+          "label": "-buried",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=4235 thread=0 stage=0 ls=43 rope=43 block=43 | target= in | block_start_row=43 block_width=1 siblings_at_rows=[43]"
+        },
+        {
+          "label": " in",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=298 thread=0 stage=0 ls=44 rope=44 block=44 | target= the | block_start_row=44 block_width=1 siblings_at_rows=[44]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=0 stage=0 ls=45 rope=45 block=45 | target= sand | block_start_row=45 block_width=1 siblings_at_rows=[45]"
+        },
+        {
+          "label": " sand",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1511 thread=0 stage=0 ls=46 rope=46 block=46 | target=. | block_start_row=46 block_width=1 siblings_at_rows=[46]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=0 stage=0 ls=47 rope=47 block=47 | target= Curious | block_start_row=47 block_width=1 siblings_at_rows=[47]"
+        },
+        {
+          "label": " Curious",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1842 thread=0 stage=0 ls=48 rope=48 block=48 | target=, | block_start_row=48 block_width=1 siblings_at_rows=[48]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=0 stage=0 ls=49 rope=49 block=49 | target= he | block_start_row=49 block_width=1 siblings_at_rows=[49]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=0 stage=0 ls=50 rope=50 block=50 | target= picked | block_start_row=50 block_width=1 siblings_at_rows=[50]"
+        },
+        {
+          "label": " picked",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1280 thread=0 stage=0 ls=51 rope=51 block=51 | target= it | block_start_row=51 block_width=1 siblings_at_rows=[51]"
+        },
+        {
+          "label": " it",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=326 thread=0 stage=0 ls=52 rope=52 block=52 | target= up | block_start_row=52 block_width=1 siblings_at_rows=[52]"
+        },
+        {
+          "label": " up",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=499 thread=0 stage=0 ls=53 rope=53 block=53 | target= and | block_start_row=53 block_width=1 siblings_at_rows=[53]"
+        },
+        {
+          "label": " and",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=280 thread=0 stage=0 ls=54 rope=54 block=54 | target= held | block_start_row=54 block_width=1 siblings_at_rows=[54]"
+        },
+        {
+          "label": " held",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=909 thread=0 stage=0 ls=55 rope=55 block=55 | target= it | block_start_row=55 block_width=1 siblings_at_rows=[55]"
+        },
+        {
+          "label": " it",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=326 thread=0 stage=0 ls=56 rope=56 block=56 | target= close | block_start_row=56 block_width=1 siblings_at_rows=[56]"
+        },
+        {
+          "label": " close",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1515 thread=0 stage=0 ls=57 rope=57 block=57 | target=. | block_start_row=57 block_width=1 siblings_at_rows=[57]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=0 stage=0 ls=58 rope=58 block=58 | target= The | block_start_row=58 block_width=1 siblings_at_rows=[58]"
+        },
+        {
+          "label": " The",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=289 thread=0 stage=0 ls=59 rope=59 block=59 | target= shell | block_start_row=59 block_width=1 siblings_at_rows=[59]"
+        },
+        {
+          "label": " shell",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1579 thread=0 stage=0 ls=60 rope=60 block=60 | target= seemed | block_start_row=60 block_width=1 siblings_at_rows=[60]"
+        },
+        {
+          "label": " seemed",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1112 thread=0 stage=0 ls=61 rope=61 block=61 | target= to | block_start_row=61 block_width=1 siblings_at_rows=[61]"
+        },
+        {
+          "label": " to",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=278 thread=0 stage=0 ls=62 rope=62 block=62 | target= hum | block_start_row=62 block_width=1 siblings_at_rows=[62]"
+        },
+        {
+          "label": " hum",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=2380 thread=0 stage=0 ls=63 rope=63 block=63 | target= with | block_start_row=63 block_width=1 siblings_at_rows=[63]"
+        },
+        {
+          "label": " with",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=333 thread=0 stage=0 ls=64 rope=64 block=64 | target= a | block_start_row=64 block_width=1 siblings_at_rows=[64]"
+        },
+        {
+          "label": " a",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=258 thread=0 stage=0 ls=65 rope=65 block=65 | target= sound | block_start_row=65 block_width=1 siblings_at_rows=[65]"
+        },
+        {
+          "label": " sound",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1070 thread=0 stage=0 ls=66 rope=66 block=66 | target= that | block_start_row=66 block_width=1 siblings_at_rows=[66]"
+        },
+        {
+          "label": " that",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=346 thread=0 stage=0 ls=67 rope=67 block=67 | target= was | block_start_row=67 block_width=1 siblings_at_rows=[67]"
+        },
+        {
+          "label": " was",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=316 thread=0 stage=0 ls=68 rope=68 block=68 | target= like | block_start_row=68 block_width=1 siblings_at_rows=[68]"
+        },
+        {
+          "label": " like",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=454 thread=0 stage=0 ls=69 rope=69 block=69 | target= the | block_start_row=69 block_width=1 siblings_at_rows=[69]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=0 stage=0 ls=70 rope=70 block=70 | target= sea | block_start_row=70 block_width=1 siblings_at_rows=[70]"
+        },
+        {
+          "label": " sea",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1224 thread=0 stage=0 ls=71 rope=71 block=71 | target= calling | block_start_row=71 block_width=1 siblings_at_rows=[71]"
+        },
+        {
+          "label": " calling",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=2482 thread=0 stage=0 ls=72 rope=72 block=72 | target= him | block_start_row=72 block_width=1 siblings_at_rows=[72]"
+        },
+        {
+          "label": " him",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=404 thread=0 stage=0 ls=73 rope=73 block=73 | target=. | block_start_row=73 block_width=1 siblings_at_rows=[73]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=0 stage=0 ls=74 rope=74 block=74 | target=<|bot_4|> | block_start_row=74 block_width=1 siblings_at_rows=[74]"
+        },
+        {
+          "label": "<sot>",
+          "doc": 0,
+          "is_bos": true,
+          "extra": "tok_id=8174 thread=1 stage=1 ls=0 rope=256 block=75 | target=With | block_start_row=75 block_width=4 siblings_at_rows=[75, 76, 77, 78]"
+        },
+        {
+          "label": "<sot>",
+          "doc": 0,
+          "is_bos": true,
+          "extra": "tok_id=8174 thread=2 stage=1 ls=0 rope=512 block=75 | target=Soon | block_start_row=75 block_width=4 siblings_at_rows=[75, 76, 77, 78]"
+        },
+        {
+          "label": "<sot>",
+          "doc": 0,
+          "is_bos": true,
+          "extra": "tok_id=8174 thread=3 stage=1 ls=0 rope=768 block=75 | target=After | block_start_row=75 block_width=4 siblings_at_rows=[75, 76, 77, 78]"
+        },
+        {
+          "label": "<sot>",
+          "doc": 0,
+          "is_bos": true,
+          "extra": "tok_id=8174 thread=4 stage=1 ls=0 rope=1024 block=75 | target=Back | block_start_row=75 block_width=4 siblings_at_rows=[75, 76, 77, 78]"
+        },
+        {
+          "label": "With",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=785 thread=1 stage=1 ls=1 rope=257 block=76 | target= a | block_start_row=79 block_width=4 siblings_at_rows=[79, 80, 81, 82]"
+        },
+        {
+          "label": "Soon",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=2704 thread=2 stage=1 ls=1 rope=513 block=76 | target=, | block_start_row=79 block_width=4 siblings_at_rows=[79, 80, 81, 82]"
+        },
+        {
+          "label": "After",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1232 thread=3 stage=1 ls=1 rope=769 block=76 | target= a | block_start_row=79 block_width=4 siblings_at_rows=[79, 80, 81, 82]"
+        },
+        {
+          "label": "Back",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=3544 thread=4 stage=1 ls=1 rope=1025 block=76 | target= on | block_start_row=79 block_width=4 siblings_at_rows=[79, 80, 81, 82]"
+        },
+        {
+          "label": " a",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=258 thread=1 stage=1 ls=2 rope=258 block=77 | target= single | block_start_row=83 block_width=4 siblings_at_rows=[83, 84, 85, 86]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=2 stage=1 ls=2 rope=514 block=77 | target= he | block_start_row=83 block_width=4 siblings_at_rows=[83, 84, 85, 86]"
+        },
+        {
+          "label": " a",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=258 thread=3 stage=1 ls=2 rope=770 block=77 | target= fun | block_start_row=83 block_width=4 siblings_at_rows=[83, 84, 85, 86]"
+        },
+        {
+          "label": " on",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=350 thread=4 stage=1 ls=2 rope=1026 block=77 | target= the | block_start_row=83 block_width=4 siblings_at_rows=[83, 84, 85, 86]"
+        },
+        {
+          "label": " single",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=4428 thread=1 stage=1 ls=3 rope=259 block=78 | target= breath | block_start_row=87 block_width=4 siblings_at_rows=[87, 88, 89, 90]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=2 stage=1 ls=3 rope=515 block=78 | target= saw | block_start_row=87 block_width=4 siblings_at_rows=[87, 88, 89, 90]"
+        },
+        {
+          "label": " fun",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=744 thread=3 stage=1 ls=3 rope=771 block=78 | target= day | block_start_row=87 block_width=4 siblings_at_rows=[87, 88, 89, 90]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=4 stage=1 ls=3 rope=1027 block=78 | target= beach | block_start_row=87 block_width=4 siblings_at_rows=[87, 88, 89, 90]"
+        },
+        {
+          "label": " breath",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1000 thread=1 stage=1 ls=4 rope=260 block=79 | target=, | block_start_row=91 block_width=4 siblings_at_rows=[91, 92, 93, 94]"
+        },
+        {
+          "label": " saw",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=570 thread=2 stage=1 ls=4 rope=516 block=79 | target= a | block_start_row=91 block_width=4 siblings_at_rows=[91, 92, 93, 94]"
+        },
+        {
+          "label": " day",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=432 thread=3 stage=1 ls=4 rope=772 block=79 | target=, | block_start_row=91 block_width=4 siblings_at_rows=[91, 92, 93, 94]"
+        },
+        {
+          "label": " beach",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1848 thread=4 stage=1 ls=4 rope=1028 block=79 | target=, | block_start_row=91 block_width=4 siblings_at_rows=[91, 92, 93, 94]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=1 stage=1 ls=5 rope=261 block=80 | target= he | block_start_row=95 block_width=4 siblings_at_rows=[95, 96, 97, 98]"
+        },
+        {
+          "label": " a",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=258 thread=2 stage=1 ls=5 rope=517 block=80 | target= small | block_start_row=95 block_width=4 siblings_at_rows=[95, 96, 97, 98]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=3 stage=1 ls=5 rope=773 block=80 | target= he | block_start_row=95 block_width=4 siblings_at_rows=[95, 96, 97, 98]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=4 stage=1 ls=5 rope=1029 block=80 | target= he | block_start_row=95 block_width=4 siblings_at_rows=[95, 96, 97, 98]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=1 stage=1 ls=6 rope=262 block=81 | target= imagined | block_start_row=99 block_width=4 siblings_at_rows=[99, 100, 101, 102]"
+        },
+        {
+          "label": " small",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=562 thread=2 stage=1 ls=6 rope=518 block=81 | target= island | block_start_row=99 block_width=4 siblings_at_rows=[99, 100, 101, 102]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=3 stage=1 ls=6 rope=774 block=81 | target= realized | block_start_row=99 block_width=4 siblings_at_rows=[99, 100, 101, 102]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=4 stage=1 ls=6 rope=1030 block=81 | target= opened | block_start_row=99 block_width=4 siblings_at_rows=[99, 100, 101, 102]"
+        },
+        {
+          "label": " imagine",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1578 thread=1 stage=1 ls=7 rope=263 block=82 | target= traveling | block_start_row=103 block_width=4 siblings_at_rows=[103, 104, 105, 106]"
+        },
+        {
+          "label": " island",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1308 thread=2 stage=1 ls=7 rope=519 block=82 | target= in | block_start_row=103 block_width=4 siblings_at_rows=[103, 104, 105, 106]"
+        },
+        {
+          "label": " realize",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=696 thread=3 stage=1 ls=7 rope=775 block=82 | target= it | block_start_row=103 block_width=4 siblings_at_rows=[103, 104, 105, 106]"
+        },
+        {
+          "label": " opened",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=911 thread=4 stage=1 ls=7 rope=1031 block=82 | target= his | block_start_row=103 block_width=4 siblings_at_rows=[103, 104, 105, 106]"
+        },
+        {
+          "label": " traveli",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=5941 thread=1 stage=1 ls=8 rope=264 block=83 | target= across | block_start_row=107 block_width=4 siblings_at_rows=[107, 108, 109, 110]"
+        },
+        {
+          "label": " in",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=298 thread=2 stage=1 ls=8 rope=520 block=83 | target= the | block_start_row=107 block_width=4 siblings_at_rows=[107, 108, 109, 110]"
+        },
+        {
+          "label": " it",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=326 thread=3 stage=1 ls=8 rope=776 block=83 | target= was | block_start_row=107 block_width=4 siblings_at_rows=[107, 108, 109, 110]"
+        },
+        {
+          "label": " his",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=356 thread=4 stage=1 ls=8 rope=1032 block=83 | target= eyes | block_start_row=107 block_width=4 siblings_at_rows=[107, 108, 109, 110]"
+        },
+        {
+          "label": " across",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1600 thread=1 stage=1 ls=9 rope=265 block=84 | target= the | block_start_row=111 block_width=4 siblings_at_rows=[111, 112, 113, 114]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=2 stage=1 ls=9 rope=521 block=84 | target= distance | block_start_row=111 block_width=4 siblings_at_rows=[111, 112, 113, 114]"
+        },
+        {
+          "label": " was",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=316 thread=3 stage=1 ls=9 rope=777 block=84 | target= time | block_start_row=111 block_width=4 siblings_at_rows=[111, 112, 113, 114]"
+        },
+        {
+          "label": " eyes",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=564 thread=4 stage=1 ls=9 rope=1033 block=84 | target=, | block_start_row=111 block_width=4 siblings_at_rows=[111, 112, 113, 114]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=1 stage=1 ls=10 rope=266 block=85 | target= ocean | block_start_row=115 block_width=4 siblings_at_rows=[115, 116, 117, 118]"
+        },
+        {
+          "label": " distanc",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1999 thread=2 stage=1 ls=10 rope=522 block=85 | target=. | block_start_row=115 block_width=4 siblings_at_rows=[115, 116, 117, 118]"
+        },
+        {
+          "label": " time",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=641 thread=3 stage=1 ls=10 rope=778 block=85 | target= to | block_start_row=115 block_width=4 siblings_at_rows=[115, 116, 117, 118]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=4 stage=1 ls=10 rope=1034 block=85 | target= holding | block_start_row=115 block_width=4 siblings_at_rows=[115, 116, 117, 118]"
+        },
+        {
+          "label": " ocean",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1525 thread=1 stage=1 ls=11 rope=267 block=86 | target=. | block_start_row=119 block_width=4 siblings_at_rows=[119, 120, 121, 122]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=2 stage=1 ls=11 rope=523 block=86 | target= It | block_start_row=119 block_width=4 siblings_at_rows=[119, 120, 121, 122]"
+        },
+        {
+          "label": " to",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=278 thread=3 stage=1 ls=11 rope=779 block=86 | target= go | block_start_row=119 block_width=4 siblings_at_rows=[119, 120, 121, 122]"
+        },
+        {
+          "label": " holding",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1831 thread=4 stage=1 ls=11 rope=1035 block=86 | target= the | block_start_row=119 block_width=4 siblings_at_rows=[119, 120, 121, 122]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=1 stage=1 ls=12 rope=268 block=87 | target= As | block_start_row=123 block_width=4 siblings_at_rows=[123, 124, 125, 126]"
+        },
+        {
+          "label": " It",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=422 thread=2 stage=1 ls=12 rope=524 block=87 | target= was | block_start_row=123 block_width=4 siblings_at_rows=[123, 124, 125, 126]"
+        },
+        {
+          "label": " go",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=626 thread=3 stage=1 ls=12 rope=780 block=87 | target= home | block_start_row=123 block_width=4 siblings_at_rows=[123, 124, 125, 126]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=4 stage=1 ls=12 rope=1036 block=87 | target= shell | block_start_row=123 block_width=4 siblings_at_rows=[123, 124, 125, 126]"
+        },
+        {
+          "label": " As",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=693 thread=1 stage=1 ls=13 rope=269 block=88 | target= he | block_start_row=127 block_width=4 siblings_at_rows=[127, 128, 129, 130]"
+        },
+        {
+          "label": " was",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=316 thread=2 stage=1 ls=13 rope=525 block=88 | target= green | block_start_row=127 block_width=4 siblings_at_rows=[127, 128, 129, 130]"
+        },
+        {
+          "label": " home",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=751 thread=3 stage=1 ls=13 rope=781 block=88 | target=. | block_start_row=127 block_width=4 siblings_at_rows=[127, 128, 129, 130]"
+        },
+        {
+          "label": " shell",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1579 thread=4 stage=1 ls=13 rope=1037 block=88 | target= tightly | block_start_row=127 block_width=4 siblings_at_rows=[127, 128, 129, 130]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=1 stage=1 ls=14 rope=270 block=89 | target= closed | block_start_row=131 block_width=4 siblings_at_rows=[131, 132, 133, 134]"
+        },
+        {
+          "label": " green",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1986 thread=2 stage=1 ls=14 rope=526 block=89 | target= and | block_start_row=131 block_width=4 siblings_at_rows=[131, 132, 133, 134]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=3 stage=1 ls=14 rope=782 block=89 | target= The | block_start_row=131 block_width=4 siblings_at_rows=[131, 132, 133, 134]"
+        },
+        {
+          "label": " tightly",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1932 thread=4 stage=1 ls=14 rope=1038 block=89 | target=. | block_start_row=131 block_width=4 siblings_at_rows=[131, 132, 133, 134]"
+        },
+        {
+          "label": " closed",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1394 thread=1 stage=1 ls=15 rope=271 block=90 | target= his | block_start_row=135 block_width=4 siblings_at_rows=[135, 136, 137, 138]"
+        },
+        {
+          "label": " and",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=280 thread=2 stage=1 ls=15 rope=527 block=90 | target= full | block_start_row=135 block_width=4 siblings_at_rows=[135, 136, 137, 138]"
+        },
+        {
+          "label": " The",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=289 thread=3 stage=1 ls=15 rope=783 block=90 | target= sun | block_start_row=135 block_width=4 siblings_at_rows=[135, 136, 137, 138]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=4 stage=1 ls=15 rope=1039 block=90 | target= The | block_start_row=135 block_width=4 siblings_at_rows=[135, 136, 137, 138]"
+        },
+        {
+          "label": " his",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=356 thread=1 stage=1 ls=16 rope=272 block=91 | target= eyes | block_start_row=139 block_width=4 siblings_at_rows=[139, 140, 141, 142]"
+        },
+        {
+          "label": " full",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=831 thread=2 stage=1 ls=16 rope=528 block=91 | target= of | block_start_row=139 block_width=4 siblings_at_rows=[139, 140, 141, 142]"
+        },
+        {
+          "label": " sun",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=587 thread=3 stage=1 ls=16 rope=784 block=91 | target= began | block_start_row=139 block_width=4 siblings_at_rows=[139, 140, 141, 142]"
+        },
+        {
+          "label": " The",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=289 thread=4 stage=1 ls=16 rope=1040 block=91 | target= waves | block_start_row=139 block_width=4 siblings_at_rows=[139, 140, 141, 142]"
+        },
+        {
+          "label": " eyes",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=564 thread=1 stage=1 ls=17 rope=273 block=92 | target=, | block_start_row=143 block_width=4 siblings_at_rows=[143, 144, 145, 146]"
+        },
+        {
+          "label": " of",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=299 thread=2 stage=1 ls=17 rope=529 block=92 | target= trees | block_start_row=143 block_width=4 siblings_at_rows=[143, 144, 145, 146]"
+        },
+        {
+          "label": " began",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=618 thread=3 stage=1 ls=17 rope=785 block=92 | target= to | block_start_row=143 block_width=4 siblings_at_rows=[143, 144, 145, 146]"
+        },
+        {
+          "label": " waves",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1356 thread=4 stage=1 ls=17 rope=1041 block=92 | target= still | block_start_row=143 block_width=4 siblings_at_rows=[143, 144, 145, 146]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=1 stage=1 ls=18 rope=274 block=93 | target= he | block_start_row=147 block_width=4 siblings_at_rows=[147, 148, 149, 150]"
+        },
+        {
+          "label": " trees",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=877 thread=2 stage=1 ls=18 rope=530 block=93 | target=. | block_start_row=147 block_width=4 siblings_at_rows=[147, 148, 149, 150]"
+        },
+        {
+          "label": " to",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=278 thread=3 stage=1 ls=18 rope=786 block=93 | target= set | block_start_row=147 block_width=4 siblings_at_rows=[147, 148, 149, 150]"
+        },
+        {
+          "label": " still",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1124 thread=4 stage=1 ls=18 rope=1042 block=93 | target= crashed | block_start_row=147 block_width=4 siblings_at_rows=[147, 148, 149, 150]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=1 stage=1 ls=19 rope=275 block=94 | target= felt | block_start_row=151 block_width=4 siblings_at_rows=[151, 152, 153, 154]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=2 stage=1 ls=19 rope=531 block=94 | target= Excited | block_start_row=151 block_width=4 siblings_at_rows=[151, 152, 153, 154]"
+        },
+        {
+          "label": " set",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=869 thread=3 stage=1 ls=19 rope=787 block=94 | target=, | block_start_row=151 block_width=4 siblings_at_rows=[151, 152, 153, 154]"
+        },
+        {
+          "label": " crashed",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=2567 thread=4 stage=1 ls=19 rope=1043 block=94 | target= against | block_start_row=151 block_width=4 siblings_at_rows=[151, 152, 153, 154]"
+        },
+        {
+          "label": " felt",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=349 thread=1 stage=1 ls=20 rope=276 block=95 | target= the | block_start_row=155 block_width=4 siblings_at_rows=[155, 156, 157, 158]"
+        },
+        {
+          "label": " Excited",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=2466 thread=2 stage=1 ls=20 rope=532 block=95 | target=, | block_start_row=155 block_width=4 siblings_at_rows=[155, 156, 157, 158]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=3 stage=1 ls=20 rope=788 block=95 | target= painting | block_start_row=155 block_width=4 siblings_at_rows=[155, 156, 157, 158]"
+        },
+        {
+          "label": " against",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1641 thread=4 stage=1 ls=20 rope=1044 block=95 | target= the | block_start_row=155 block_width=4 siblings_at_rows=[155, 156, 157, 158]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=1 stage=1 ls=21 rope=277 block=96 | target= world | block_start_row=159 block_width=4 siblings_at_rows=[159, 160, 161, 162]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=2 stage=1 ls=21 rope=533 block=96 | target= he | block_start_row=159 block_width=4 siblings_at_rows=[159, 160, 161, 162]"
+        },
+        {
+          "label": " paintin",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1779 thread=3 stage=1 ls=21 rope=789 block=96 | target= the | block_start_row=159 block_width=4 siblings_at_rows=[159, 160, 161, 162]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=4 stage=1 ls=21 rope=1045 block=96 | target= shore | block_start_row=159 block_width=4 siblings_at_rows=[159, 160, 161, 162]"
+        },
+        {
+          "label": " world",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=600 thread=1 stage=1 ls=22 rope=278 block=97 | target= spin | block_start_row=163 block_width=4 siblings_at_rows=[163, 164, 165, 166]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=2 stage=1 ls=22 rope=534 block=97 | target= steered | block_start_row=163 block_width=4 siblings_at_rows=[163, 164, 165, 166]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=3 stage=1 ls=22 rope=790 block=97 | target= sky | block_start_row=163 block_width=4 siblings_at_rows=[163, 164, 165, 166]"
+        },
+        {
+          "label": " shore",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1767 thread=4 stage=1 ls=22 rope=1046 block=97 | target=, | block_start_row=163 block_width=4 siblings_at_rows=[163, 164, 165, 166]"
+        },
+        {
+          "label": " spin",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=4219 thread=1 stage=1 ls=23 rope=279 block=98 | target=. | block_start_row=167 block_width=4 siblings_at_rows=[167, 168, 169, 170]"
+        },
+        {
+          "label": " steered",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=6733 thread=2 stage=1 ls=23 rope=535 block=98 | target= the | block_start_row=167 block_width=4 siblings_at_rows=[167, 168, 169, 170]"
+        },
+        {
+          "label": " sky",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=625 thread=3 stage=1 ls=23 rope=791 block=98 | target= with | block_start_row=167 block_width=4 siblings_at_rows=[167, 168, 169, 170]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=4 stage=1 ls=23 rope=1047 block=98 | target= and | block_start_row=167 block_width=4 siblings_at_rows=[167, 168, 169, 170]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=1 stage=1 ls=24 rope=280 block=99 | target= When | block_start_row=171 block_width=4 siblings_at_rows=[171, 172, 173, 174]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=2 stage=1 ls=24 rope=536 block=99 | target= boat | block_start_row=171 block_width=4 siblings_at_rows=[171, 172, 173, 174]"
+        },
+        {
+          "label": " with",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=333 thread=3 stage=1 ls=24 rope=792 block=99 | target= colors | block_start_row=171 block_width=4 siblings_at_rows=[171, 172, 173, 174]"
+        },
+        {
+          "label": " and",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=280 thread=4 stage=1 ls=24 rope=1048 block=99 | target= he | block_start_row=171 block_width=4 siblings_at_rows=[171, 172, 173, 174]"
+        },
+        {
+          "label": " When",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1125 thread=1 stage=1 ls=25 rope=281 block=100 | target= he | block_start_row=175 block_width=4 siblings_at_rows=[175, 176, 177, 178]"
+        },
+        {
+          "label": " boat",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1512 thread=2 stage=1 ls=25 rope=537 block=100 | target= toward | block_start_row=175 block_width=4 siblings_at_rows=[175, 176, 177, 178]"
+        },
+        {
+          "label": " colors",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=856 thread=3 stage=1 ls=25 rope=793 block=100 | target=. | block_start_row=175 block_width=4 siblings_at_rows=[175, 176, 177, 178]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=4 stage=1 ls=25 rope=1049 block=100 | target= smiled | block_start_row=175 block_width=4 siblings_at_rows=[175, 176, 177, 178]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=1 stage=1 ls=26 rope=282 block=101 | target= opened | block_start_row=179 block_width=4 siblings_at_rows=[179, 180, 181, 182]"
+        },
+        {
+          "label": " toward",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1460 thread=2 stage=1 ls=26 rope=538 block=101 | target= it | block_start_row=179 block_width=4 siblings_at_rows=[179, 180, 181, 182]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=3 stage=1 ls=26 rope=794 block=101 | target= He | block_start_row=179 block_width=4 siblings_at_rows=[179, 180, 181, 182]"
+        },
+        {
+          "label": " smiled",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=571 thread=4 stage=1 ls=26 rope=1050 block=101 | target=. | block_start_row=179 block_width=4 siblings_at_rows=[179, 180, 181, 182]"
+        },
+        {
+          "label": " opened",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=911 thread=1 stage=1 ls=27 rope=283 block=102 | target= them | block_start_row=183 block_width=4 siblings_at_rows=[183, 184, 185, 186]"
+        },
+        {
+          "label": " it",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=326 thread=2 stage=1 ls=27 rope=539 block=102 | target=. | block_start_row=183 block_width=4 siblings_at_rows=[183, 184, 185, 186]"
+        },
+        {
+          "label": " He",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=361 thread=3 stage=1 ls=27 rope=795 block=102 | target= said | block_start_row=183 block_width=4 siblings_at_rows=[183, 184, 185, 186]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=4 stage=1 ls=27 rope=1051 block=102 | target= The | block_start_row=183 block_width=4 siblings_at_rows=[183, 184, 185, 186]"
+        },
+        {
+          "label": " them",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=459 thread=1 stage=1 ls=28 rope=284 block=103 | target= again | block_start_row=187 block_width=4 siblings_at_rows=[187, 188, 189, 190]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=2 stage=1 ls=28 rope=540 block=103 | target= When | block_start_row=187 block_width=4 siblings_at_rows=[187, 188, 189, 190]"
+        },
+        {
+          "label": " said",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=401 thread=3 stage=1 ls=28 rope=796 block=103 | target= goodbye | block_start_row=187 block_width=4 siblings_at_rows=[187, 188, 189, 190]"
+        },
+        {
+          "label": " The",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=289 thread=4 stage=1 ls=28 rope=1052 block=103 | target= shell | block_start_row=187 block_width=4 siblings_at_rows=[187, 188, 189, 190]"
+        },
+        {
+          "label": " again",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=702 thread=1 stage=1 ls=29 rope=285 block=104 | target=, | block_start_row=191 block_width=4 siblings_at_rows=[191, 192, 193, 194]"
+        },
+        {
+          "label": " When",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1125 thread=2 stage=1 ls=29 rope=541 block=104 | target= he | block_start_row=191 block_width=4 siblings_at_rows=[191, 192, 193, 194]"
+        },
+        {
+          "label": " goodbye",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=2120 thread=3 stage=1 ls=29 rope=797 block=104 | target= to | block_start_row=191 block_width=4 siblings_at_rows=[191, 192, 193, 194]"
+        },
+        {
+          "label": " shell",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1579 thread=4 stage=1 ls=29 rope=1053 block=104 | target= was | block_start_row=191 block_width=4 siblings_at_rows=[191, 192, 193, 194]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=1 stage=1 ls=30 rope=286 block=105 | target= he | block_start_row=195 block_width=4 siblings_at_rows=[195, 196, 197, 198]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=2 stage=1 ls=30 rope=542 block=105 | target= arrived | block_start_row=195 block_width=4 siblings_at_rows=[195, 196, 197, 198]"
+        },
+        {
+          "label": " to",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=278 thread=3 stage=1 ls=30 rope=798 block=105 | target= his | block_start_row=195 block_width=4 siblings_at_rows=[195, 196, 197, 198]"
+        },
+        {
+          "label": " was",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=316 thread=4 stage=1 ls=30 rope=1054 block=105 | target= a | block_start_row=195 block_width=4 siblings_at_rows=[195, 196, 197, 198]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=1 stage=1 ls=31 rope=287 block=106 | target= was | block_start_row=199 block_width=4 siblings_at_rows=[199, 200, 201, 202]"
+        },
+        {
+          "label": " arrived",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1588 thread=2 stage=1 ls=31 rope=543 block=106 | target=, | block_start_row=199 block_width=4 siblings_at_rows=[199, 200, 201, 202]"
+        },
+        {
+          "label": " his",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=356 thread=3 stage=1 ls=31 rope=799 block=106 | target= new | block_start_row=199 block_width=4 siblings_at_rows=[199, 200, 201, 202]"
+        },
+        {
+          "label": " a",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=258 thread=4 stage=1 ls=31 rope=1055 block=106 | target= reminder | block_start_row=199 block_width=4 siblings_at_rows=[199, 200, 201, 202]"
+        },
+        {
+          "label": " was",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=316 thread=1 stage=1 ls=32 rope=288 block=107 | target= on | block_start_row=203 block_width=4 siblings_at_rows=[203, 204, 205, 206]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=2 stage=1 ls=32 rope=544 block=107 | target= he | block_start_row=203 block_width=4 siblings_at_rows=[203, 204, 205, 206]"
+        },
+        {
+          "label": " new",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=688 thread=3 stage=1 ls=32 rope=800 block=107 | target= friends | block_start_row=203 block_width=4 siblings_at_rows=[203, 204, 205, 206]"
+        },
+        {
+          "label": " reminde",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=2027 thread=4 stage=1 ls=32 rope=1056 block=107 | target= that | block_start_row=203 block_width=4 siblings_at_rows=[203, 204, 205, 206]"
+        },
+        {
+          "label": " on",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=350 thread=1 stage=1 ls=33 rope=289 block=108 | target= a | block_start_row=207 block_width=4 siblings_at_rows=[207, 208, 209, 210]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=2 stage=1 ls=33 rope=545 block=108 | target= found | block_start_row=207 block_width=4 siblings_at_rows=[207, 208, 209, 210]"
+        },
+        {
+          "label": " friends",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=477 thread=3 stage=1 ls=33 rope=801 block=108 | target= and | block_start_row=207 block_width=4 siblings_at_rows=[207, 208, 209, 210]"
+        },
+        {
+          "label": " that",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=346 thread=4 stage=1 ls=33 rope=1057 block=108 | target= adventures | block_start_row=207 block_width=4 siblings_at_rows=[207, 208, 209, 210]"
+        },
+        {
+          "label": " a",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=258 thread=1 stage=1 ls=34 rope=290 block=109 | target= boat | block_start_row=211 block_width=4 siblings_at_rows=[211, 212, 213, 214]"
+        },
+        {
+          "label": " found",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=441 thread=2 stage=1 ls=34 rope=546 block=109 | target= new | block_start_row=211 block_width=4 siblings_at_rows=[211, 212, 213, 214]"
+        },
+        {
+          "label": " and",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=280 thread=3 stage=1 ls=34 rope=802 block=109 | target= stepped | block_start_row=211 block_width=4 siblings_at_rows=[211, 212, 213, 214]"
+        },
+        {
+          "label": " adventu",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1260 thread=4 stage=1 ls=34 rope=1058 block=109 | target= are | block_start_row=211 block_width=4 siblings_at_rows=[211, 212, 213, 214]"
+        },
+        {
+          "label": " boat",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1512 thread=1 stage=1 ls=35 rope=291 block=110 | target= sailing | block_start_row=215 block_width=4 siblings_at_rows=[215, 216, 217, 218]"
+        },
+        {
+          "label": " new",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=688 thread=2 stage=1 ls=35 rope=547 block=110 | target= friends | block_start_row=215 block_width=4 siblings_at_rows=[215, 216, 217, 218]"
+        },
+        {
+          "label": " stepped",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1008 thread=3 stage=1 ls=35 rope=803 block=110 | target= back | block_start_row=215 block_width=4 siblings_at_rows=[215, 216, 217, 218]"
+        },
+        {
+          "label": " are",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=730 thread=4 stage=1 ls=35 rope=1059 block=110 | target= not | block_start_row=215 block_width=4 siblings_at_rows=[215, 216, 217, 218]"
+        },
+        {
+          "label": " sailing",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=3917 thread=1 stage=1 ls=36 rope=292 block=111 | target= through | block_start_row=219 block_width=4 siblings_at_rows=[219, 220, 221, 222]"
+        },
+        {
+          "label": " friends",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=477 thread=2 stage=1 ls=36 rope=548 block=111 | target= waiting | block_start_row=219 block_width=4 siblings_at_rows=[219, 220, 221, 222]"
+        },
+        {
+          "label": " back",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=532 thread=3 stage=1 ls=36 rope=804 block=111 | target= into | block_start_row=219 block_width=4 siblings_at_rows=[219, 220, 221, 222]"
+        },
+        {
+          "label": " not",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=399 thread=4 stage=1 ls=36 rope=1060 block=111 | target= just | block_start_row=219 block_width=4 siblings_at_rows=[219, 220, 221, 222]"
+        },
+        {
+          "label": " through",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=596 thread=1 stage=1 ls=37 rope=293 block=112 | target= the | block_start_row=223 block_width=4 siblings_at_rows=[223, 224, 225, 226]"
+        },
+        {
+          "label": " waiting",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1371 thread=2 stage=1 ls=37 rope=549 block=112 | target= there | block_start_row=223 block_width=4 siblings_at_rows=[223, 224, 225, 226]"
+        },
+        {
+          "label": " into",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=505 thread=3 stage=1 ls=37 rope=805 block=112 | target= his | block_start_row=223 block_width=4 siblings_at_rows=[223, 224, 225, 226]"
+        },
+        {
+          "label": " just",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=553 thread=4 stage=1 ls=37 rope=1061 block=112 | target= about | block_start_row=223 block_width=4 siblings_at_rows=[223, 224, 225, 226]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=1 stage=1 ls=38 rope=294 block=113 | target= blue | block_start_row=227 block_width=4 siblings_at_rows=[227, 228, 229, 230]"
+        },
+        {
+          "label": " there",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=840 thread=2 stage=1 ls=38 rope=550 block=113 | target=. | block_start_row=227 block_width=4 siblings_at_rows=[227, 228, 229, 230]"
+        },
+        {
+          "label": " his",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=356 thread=3 stage=1 ls=38 rope=806 block=113 | target= boat | block_start_row=227 block_width=4 siblings_at_rows=[227, 228, 229, 230]"
+        },
+        {
+          "label": " about",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=497 thread=4 stage=1 ls=38 rope=1062 block=113 | target= places | block_start_row=227 block_width=4 siblings_at_rows=[227, 228, 229, 230]"
+        },
+        {
+          "label": " blue",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1522 thread=1 stage=1 ls=39 rope=295 block=114 | target= sea | block_start_row=231 block_width=4 siblings_at_rows=[231, 232, 233, 234]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=2 stage=1 ls=39 rope=551 block=114 | target= They | block_start_row=231 block_width=4 siblings_at_rows=[231, 232, 233, 234]"
+        },
+        {
+          "label": " boat",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1512 thread=3 stage=1 ls=39 rope=807 block=114 | target=. | block_start_row=231 block_width=4 siblings_at_rows=[231, 232, 233, 234]"
+        },
+        {
+          "label": " places",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1839 thread=4 stage=1 ls=39 rope=1063 block=114 | target= but | block_start_row=231 block_width=4 siblings_at_rows=[231, 232, 233, 234]"
+        },
+        {
+          "label": " sea",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1224 thread=1 stage=1 ls=40 rope=296 block=115 | target=. | block_start_row=235 block_width=4 siblings_at_rows=[235, 236, 237, 238]"
+        },
+        {
+          "label": " They",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=353 thread=2 stage=1 ls=40 rope=552 block=115 | target= shared | block_start_row=235 block_width=4 siblings_at_rows=[235, 236, 237, 238]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=3 stage=1 ls=40 rope=808 block=115 | target= As | block_start_row=235 block_width=4 siblings_at_rows=[235, 236, 237, 238]"
+        },
+        {
+          "label": " but",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=362 thread=4 stage=1 ls=40 rope=1064 block=115 | target= also | block_start_row=235 block_width=4 siblings_at_rows=[235, 236, 237, 238]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=1 stage=1 ls=41 rope=297 block=116 | target= The | block_start_row=239 block_width=4 siblings_at_rows=[239, 240, 241, 242]"
+        },
+        {
+          "label": " shared",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=680 thread=2 stage=1 ls=41 rope=553 block=116 | target= stories | block_start_row=239 block_width=4 siblings_at_rows=[239, 240, 241, 242]"
+        },
+        {
+          "label": " As",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=693 thread=3 stage=1 ls=41 rope=809 block=116 | target= he | block_start_row=239 block_width=4 siblings_at_rows=[239, 240, 241, 242]"
+        },
+        {
+          "label": " also",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1175 thread=4 stage=1 ls=41 rope=1065 block=116 | target= about | block_start_row=239 block_width=4 siblings_at_rows=[239, 240, 241, 242]"
+        },
+        {
+          "label": " The",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=289 thread=1 stage=1 ls=42 rope=298 block=117 | target= sun | block_start_row=243 block_width=4 siblings_at_rows=[243, 244, 245, 246]"
+        },
+        {
+          "label": " stories",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=622 thread=2 stage=1 ls=42 rope=554 block=117 | target= and | block_start_row=243 block_width=4 siblings_at_rows=[243, 244, 245, 246]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=3 stage=1 ls=42 rope=810 block=117 | target= sailed | block_start_row=243 block_width=4 siblings_at_rows=[243, 244, 245, 246]"
+        },
+        {
+          "label": " about",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=497 thread=4 stage=1 ls=42 rope=1066 block=117 | target= the | block_start_row=243 block_width=4 siblings_at_rows=[243, 244, 245, 246]"
+        },
+        {
+          "label": " sun",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=587 thread=1 stage=1 ls=43 rope=299 block=118 | target= shone | block_start_row=247 block_width=4 siblings_at_rows=[247, 248, 249, 250]"
+        },
+        {
+          "label": " and",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=280 thread=2 stage=1 ls=43 rope=555 block=118 | target= played | block_start_row=247 block_width=4 siblings_at_rows=[247, 248, 249, 250]"
+        },
+        {
+          "label": " sailed",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=2256 thread=3 stage=1 ls=43 rope=811 block=118 | target= away | block_start_row=247 block_width=4 siblings_at_rows=[247, 248, 249, 250]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=4 stage=1 ls=43 rope=1067 block=118 | target= friends | block_start_row=247 block_width=4 siblings_at_rows=[247, 248, 249, 250]"
+        },
+        {
+          "label": " shone",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1430 thread=1 stage=1 ls=44 rope=300 block=119 | target= bright | block_start_row=251 block_width=4 siblings_at_rows=[251, 252, 253, 254]"
+        },
+        {
+          "label": " played",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1007 thread=2 stage=1 ls=44 rope=556 block=119 | target= games | block_start_row=251 block_width=4 siblings_at_rows=[251, 252, 253, 254]"
+        },
+        {
+          "label": " away",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=761 thread=3 stage=1 ls=44 rope=812 block=119 | target=, | block_start_row=251 block_width=4 siblings_at_rows=[251, 252, 253, 254]"
+        },
+        {
+          "label": " friends",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=477 thread=4 stage=1 ls=44 rope=1068 block=119 | target= we | block_start_row=251 block_width=4 siblings_at_rows=[251, 252, 253, 254]"
+        },
+        {
+          "label": " bright",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=504 thread=1 stage=1 ls=45 rope=301 block=120 | target= above | block_start_row=255 block_width=4 siblings_at_rows=[255, 256, 257, 258]"
+        },
+        {
+          "label": " games",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1660 thread=2 stage=1 ls=45 rope=557 block=120 | target= in | block_start_row=255 block_width=4 siblings_at_rows=[255, 256, 257, 258]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=3 stage=1 ls=45 rope=813 block=120 | target= he | block_start_row=255 block_width=4 siblings_at_rows=[255, 256, 257, 258]"
+        },
+        {
+          "label": " we",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=389 thread=4 stage=1 ls=45 rope=1069 block=120 | target= make | block_start_row=255 block_width=4 siblings_at_rows=[255, 256, 257, 258]"
+        },
+        {
+          "label": " above",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1166 thread=1 stage=1 ls=46 rope=302 block=121 | target=, | block_start_row=259 block_width=4 siblings_at_rows=[259, 260, 261, 262]"
+        },
+        {
+          "label": " in",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=298 thread=2 stage=1 ls=46 rope=558 block=121 | target= the | block_start_row=259 block_width=4 siblings_at_rows=[259, 260, 261, 262]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=3 stage=1 ls=46 rope=814 block=121 | target= promised | block_start_row=259 block_width=4 siblings_at_rows=[259, 260, 261, 262]"
+        },
+        {
+          "label": " make",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=872 thread=4 stage=1 ls=46 rope=1070 block=121 | target=. | block_start_row=259 block_width=4 siblings_at_rows=[259, 260, 261, 262]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=1 stage=1 ls=47 rope=303 block=122 | target= and | block_start_row=263 block_width=4 siblings_at_rows=[263, 264, 265, 266]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=2 stage=1 ls=47 rope=559 block=122 | target= sun | block_start_row=263 block_width=4 siblings_at_rows=[263, 264, 265, 266]"
+        },
+        {
+          "label": " promise",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1181 thread=3 stage=1 ls=47 rope=815 block=122 | target= to | block_start_row=263 block_width=4 siblings_at_rows=[263, 264, 265, 266]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=4 stage=1 ls=47 rope=1071 block=122 | target= He | block_start_row=263 block_width=4 siblings_at_rows=[263, 264, 265, 266]"
+        },
+        {
+          "label": " and",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=280 thread=1 stage=1 ls=48 rope=304 block=123 | target= the | block_start_row=267 block_width=4 siblings_at_rows=[267, 268, 269, 270]"
+        },
+        {
+          "label": " sun",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=587 thread=2 stage=1 ls=48 rope=560 block=123 | target=. | block_start_row=267 block_width=4 siblings_at_rows=[267, 268, 269, 270]"
+        },
+        {
+          "label": " to",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=278 thread=3 stage=1 ls=48 rope=816 block=123 | target= return | block_start_row=267 block_width=4 siblings_at_rows=[267, 268, 269, 270]"
+        },
+        {
+          "label": " He",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=361 thread=4 stage=1 ls=48 rope=1072 block=123 | target= walked | block_start_row=267 block_width=4 siblings_at_rows=[267, 268, 269, 270]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=1 stage=1 ls=49 rope=305 block=124 | target= sky | block_start_row=271 block_width=4 siblings_at_rows=[271, 272, 273, 274]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=2 stage=1 ls=49 rope=561 block=124 | target= The | block_start_row=271 block_width=4 siblings_at_rows=[271, 272, 273, 274]"
+        },
+        {
+          "label": " return",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1461 thread=3 stage=1 ls=49 rope=817 block=124 | target= someday | block_start_row=271 block_width=4 siblings_at_rows=[271, 272, 273, 274]"
+        },
+        {
+          "label": " walked",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=763 thread=4 stage=1 ls=49 rope=1073 block=124 | target= home | block_start_row=271 block_width=4 siblings_at_rows=[271, 272, 273, 274]"
+        },
+        {
+          "label": " sky",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=625 thread=1 stage=1 ls=50 rope=306 block=125 | target= was | block_start_row=275 block_width=4 siblings_at_rows=[275, 276, 277, 278]"
+        },
+        {
+          "label": " The",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=289 thread=2 stage=1 ls=50 rope=562 block=125 | target= man | block_start_row=275 block_width=4 siblings_at_rows=[275, 276, 277, 278]"
+        },
+        {
+          "label": " someday",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=6563 thread=3 stage=1 ls=50 rope=818 block=125 | target=, | block_start_row=275 block_width=4 siblings_at_rows=[275, 276, 277, 278]"
+        },
+        {
+          "label": " home",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=751 thread=4 stage=1 ls=50 rope=1074 block=125 | target=, | block_start_row=275 block_width=4 siblings_at_rows=[275, 276, 277, 278]"
+        },
+        {
+          "label": " was",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=316 thread=1 stage=1 ls=51 rope=307 block=126 | target= clear | block_start_row=279 block_width=4 siblings_at_rows=[279, 280, 281, 282]"
+        },
+        {
+          "label": " man",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=628 thread=2 stage=1 ls=51 rope=563 block=126 | target= felt | block_start_row=279 block_width=4 siblings_at_rows=[279, 280, 281, 282]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=3 stage=1 ls=51 rope=819 block=126 | target= keeping | block_start_row=279 block_width=4 siblings_at_rows=[279, 280, 281, 282]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=4 stage=1 ls=51 rope=1075 block=126 | target= dreaming | block_start_row=279 block_width=4 siblings_at_rows=[279, 280, 281, 282]"
+        },
+        {
+          "label": " clear",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=2148 thread=1 stage=1 ls=52 rope=308 block=127 | target= and | block_start_row=283 block_width=4 siblings_at_rows=[283, 284, 285, 286]"
+        },
+        {
+          "label": " felt",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=349 thread=2 stage=1 ls=52 rope=564 block=127 | target= joy | block_start_row=283 block_width=4 siblings_at_rows=[283, 284, 285, 286]"
+        },
+        {
+          "label": " keeping",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=3391 thread=3 stage=1 ls=52 rope=820 block=127 | target= the | block_start_row=283 block_width=4 siblings_at_rows=[283, 284, 285, 286]"
+        },
+        {
+          "label": " dreamin",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1754 thread=4 stage=1 ls=52 rope=1076 block=127 | target= of | block_start_row=283 block_width=4 siblings_at_rows=[283, 284, 285, 286]"
+        },
+        {
+          "label": " and",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=280 thread=1 stage=1 ls=53 rope=309 block=128 | target= endless | block_start_row=287 block_width=4 siblings_at_rows=[287, 288, 289, 290]"
+        },
+        {
+          "label": " joy",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=500 thread=2 stage=1 ls=53 rope=565 block=128 | target= in | block_start_row=287 block_width=4 siblings_at_rows=[287, 288, 289, 290]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=3 stage=1 ls=53 rope=821 block=128 | target= happy | block_start_row=287 block_width=4 siblings_at_rows=[287, 288, 289, 290]"
+        },
+        {
+          "label": " of",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=299 thread=4 stage=1 ls=53 rope=1077 block=128 | target= the | block_start_row=287 block_width=4 siblings_at_rows=[287, 288, 289, 290]"
+        },
+        {
+          "label": " endless",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=3373 thread=1 stage=1 ls=54 rope=310 block=129 | target=. | block_start_row=291 block_width=4 siblings_at_rows=[291, 292, 293, 294]"
+        },
+        {
+          "label": " in",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=298 thread=2 stage=1 ls=54 rope=566 block=129 | target= his | block_start_row=291 block_width=4 siblings_at_rows=[291, 292, 293, 294]"
+        },
+        {
+          "label": " happy",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=839 thread=3 stage=1 ls=54 rope=822 block=129 | target= memories | block_start_row=291 block_width=4 siblings_at_rows=[291, 292, 293, 294]"
+        },
+        {
+          "label": " the",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=261 thread=4 stage=1 ls=54 rope=1078 block=129 | target= next | block_start_row=291 block_width=4 siblings_at_rows=[291, 292, 293, 294]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=1 stage=1 ls=55 rope=311 block=130 | target= He | block_start_row=295 block_width=4 siblings_at_rows=[295, 296, 297, 298]"
+        },
+        {
+          "label": " his",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=356 thread=2 stage=1 ls=55 rope=567 block=130 | target= heart | block_start_row=295 block_width=4 siblings_at_rows=[295, 296, 297, 298]"
+        },
+        {
+          "label": " memorie",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1194 thread=3 stage=1 ls=55 rope=823 block=130 | target= close | block_start_row=295 block_width=4 siblings_at_rows=[295, 296, 297, 298]"
+        },
+        {
+          "label": " next",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1168 thread=4 stage=1 ls=55 rope=1079 block=130 | target= journey | block_start_row=295 block_width=4 siblings_at_rows=[295, 296, 297, 298]"
+        },
+        {
+          "label": " He",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=361 thread=1 stage=1 ls=56 rope=312 block=131 | target= laughed | block_start_row=299 block_width=4 siblings_at_rows=[299, 300, 301, 302]"
+        },
+        {
+          "label": " heart",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=411 thread=2 stage=1 ls=56 rope=568 block=131 | target=, | block_start_row=299 block_width=4 siblings_at_rows=[299, 300, 301, 302]"
+        },
+        {
+          "label": " close",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1515 thread=3 stage=1 ls=56 rope=824 block=131 | target=. | block_start_row=299 block_width=4 siblings_at_rows=[299, 300, 301, 302]"
+        },
+        {
+          "label": " journey",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1160 thread=4 stage=1 ls=56 rope=1080 block=131 | target=. | block_start_row=299 block_width=4 siblings_at_rows=[299, 300, 301, 302]"
+        },
+        {
+          "label": " laughed",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=701 thread=1 stage=1 ls=57 rope=313 block=132 | target=, | block_start_row=303 block_width=3 siblings_at_rows=[303, 304, 305]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=2 stage=1 ls=57 rope=569 block=132 | target= knowing | block_start_row=303 block_width=3 siblings_at_rows=[303, 304, 305]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=3 stage=1 ls=57 rope=825 block=132 | target=<|eot|> | block_start_row=303 block_width=3 siblings_at_rows=[303, 304, 305]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=1 stage=1 ls=58 rope=314 block=133 | target= feeling | block_start_row=306 block_width=2 siblings_at_rows=[306, 307]"
+        },
+        {
+          "label": " knowing",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=851 thread=2 stage=1 ls=58 rope=570 block=133 | target= he | block_start_row=306 block_width=2 siblings_at_rows=[306, 307]"
+        },
+        {
+          "label": " feeling",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=576 thread=1 stage=1 ls=59 rope=315 block=134 | target= free | block_start_row=308 block_width=2 siblings_at_rows=[308, 309]"
+        },
+        {
+          "label": " he",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=269 thread=2 stage=1 ls=59 rope=571 block=134 | target= was | block_start_row=308 block_width=2 siblings_at_rows=[308, 309]"
+        },
+        {
+          "label": " free",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1249 thread=1 stage=1 ls=60 rope=316 block=135 | target= and | block_start_row=310 block_width=2 siblings_at_rows=[310, 311]"
+        },
+        {
+          "label": " was",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=316 thread=2 stage=1 ls=60 rope=572 block=135 | target= part | block_start_row=310 block_width=2 siblings_at_rows=[310, 311]"
+        },
+        {
+          "label": " and",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=280 thread=1 stage=1 ls=61 rope=317 block=136 | target= alive | block_start_row=312 block_width=2 siblings_at_rows=[312, 313]"
+        },
+        {
+          "label": " part",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=991 thread=2 stage=1 ls=61 rope=573 block=136 | target= of | block_start_row=312 block_width=2 siblings_at_rows=[312, 313]"
+        },
+        {
+          "label": " alive",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1193 thread=1 stage=1 ls=62 rope=318 block=137 | target=, | block_start_row=314 block_width=2 siblings_at_rows=[314, 315]"
+        },
+        {
+          "label": " of",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=299 thread=2 stage=1 ls=62 rope=574 block=137 | target= something | block_start_row=314 block_width=2 siblings_at_rows=[314, 315]"
+        },
+        {
+          "label": ",",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=44 thread=1 stage=1 ls=63 rope=319 block=138 | target= as | block_start_row=316 block_width=2 siblings_at_rows=[316, 317]"
+        },
+        {
+          "label": " somethi",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=720 thread=2 stage=1 ls=63 rope=575 block=138 | target= special | block_start_row=316 block_width=2 siblings_at_rows=[316, 317]"
+        },
+        {
+          "label": " as",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=368 thread=1 stage=1 ls=64 rope=320 block=139 | target= waves | block_start_row=318 block_width=2 siblings_at_rows=[318, 319]"
+        },
+        {
+          "label": " special",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1043 thread=2 stage=1 ls=64 rope=576 block=139 | target=. | block_start_row=318 block_width=2 siblings_at_rows=[318, 319]"
+        },
+        {
+          "label": " waves",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=1356 thread=1 stage=1 ls=65 rope=321 block=140 | target= splashed | block_start_row=320 block_width=2 siblings_at_rows=[320, 321]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=2 stage=1 ls=65 rope=577 block=140 | target=<|eot|> | block_start_row=320 block_width=2 siblings_at_rows=[320, 321]"
+        },
+        {
+          "label": " splashe",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=2804 thread=1 stage=1 ls=66 rope=322 block=141 | target= around | block_start_row=322 block_width=1 siblings_at_rows=[322]"
+        },
+        {
+          "label": " around",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=599 thread=1 stage=1 ls=67 rope=323 block=142 | target= him | block_start_row=323 block_width=1 siblings_at_rows=[323]"
+        },
+        {
+          "label": " him",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=404 thread=1 stage=1 ls=68 rope=324 block=143 | target=. | block_start_row=324 block_width=1 siblings_at_rows=[324]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=1 stage=1 ls=69 rope=325 block=144 | target=<|eot|> | block_start_row=325 block_width=1 siblings_at_rows=[325]"
+        },
+        {
+          "label": ".",
+          "doc": 0,
+          "is_bos": false,
+          "extra": "tok_id=46 thread=4 stage=1 ls=57 rope=1081 block=145 | target=<bos> | block_start_row=326 block_width=1 siblings_at_rows=[326]"
+        }
+      ],
+      "cols": [
+        {
+          "label": "k0",
+          "extra": "block-slot 0 (= q's 0-th sibling at block_start_row + 0)"
+        },
+        {
+          "label": "k1",
+          "extra": "block-slot 1 (= q's 1-th sibling at block_start_row + 1)"
+        },
+        {
+          "label": "k2",
+          "extra": "block-slot 2 (= q's 2-th sibling at block_start_row + 2)"
+        },
+        {
+          "label": "k3",
+          "extra": "block-slot 3 (= q's 3-th sibling at block_start_row + 3)"
+        }
+      ],
+      "mask": [
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0
+        ]
+      ],
+      "cell_labels": [
+        [
+          "<bos>",
+          "",
+          "",
+          ""
+        ],
+        [
+          "Calm",
+          "",
+          "",
+          ""
+        ],
+        [
+          " wav",
+          "",
+          "",
+          ""
+        ],
+        [
+          " lap",
+          "",
+          "",
+          ""
+        ],
+        [
+          " at",
+          "",
+          "",
+          ""
+        ],
+        [
+          " the",
+          "",
+          "",
+          ""
+        ],
+        [
+          " sho",
+          "",
+          "",
+          ""
+        ],
+        [
+          " as",
+          "",
+          "",
+          ""
+        ],
+        [
+          " a",
+          "",
+          "",
+          ""
+        ],
+        [
+          " man",
+          "",
+          "",
+          ""
+        ],
+        [
+          " str",
+          "",
+          "",
+          ""
+        ],
+        [
+          " alo",
+          "",
+          "",
+          ""
+        ],
+        [
+          " the",
+          "",
+          "",
+          ""
+        ],
+        [
+          " bea",
+          "",
+          "",
+          ""
+        ],
+        [
+          ".",
+          "",
+          "",
+          ""
+        ],
+        [
+          " He",
+          "",
+          "",
+          ""
+        ],
+        [
+          " lov",
+          "",
+          "",
+          ""
+        ],
+        [
+          " to",
+          "",
+          "",
+          ""
+        ],
+        [
+          " lis",
+          "",
+          "",
+          ""
+        ],
+        [
+          " to",
+          "",
+          "",
+          ""
+        ],
+        [
+          " the",
+          "",
+          "",
+          ""
+        ],
+        [
+          " sou",
+          "",
+          "",
+          ""
+        ],
+        [
+          " of",
+          "",
+          "",
+          ""
+        ],
+        [
+          " the",
+          "",
+          "",
+          ""
+        ],
+        [
+          " oce",
+          "",
+          "",
+          ""
+        ],
+        [
+          " and",
+          "",
+          "",
+          ""
+        ],
+        [
+          " fee",
+          "",
+          "",
+          ""
+        ],
+        [
+          " the",
+          "",
+          "",
+          ""
+        ],
+        [
+          " sof",
+          "",
+          "",
+          ""
+        ],
+        [
+          " san",
+          "",
+          "",
+          ""
+        ],
+        [
+          " und",
+          "",
+          "",
+          ""
+        ],
+        [
+          " his",
+          "",
+          "",
+          ""
+        ],
+        [
+          " fee",
+          "",
+          "",
+          ""
+        ],
+        [
+          ".",
+          "",
+          "",
+          ""
+        ],
+        [
+          " One",
+          "",
+          "",
+          ""
+        ],
+        [
+          " day",
+          "",
+          "",
+          ""
+        ],
+        [
+          ",",
+          "",
+          "",
+          ""
+        ],
+        [
+          " he",
+          "",
+          "",
+          ""
+        ],
+        [
+          " spo",
+          "",
+          "",
+          ""
+        ],
+        [
+          " a",
+          "",
+          "",
+          ""
+        ],
+        [
+          " col",
+          "",
+          "",
+          ""
+        ],
+        [
+          " she",
+          "",
+          "",
+          ""
+        ],
+        [
+          " hal",
+          "",
+          "",
+          ""
+        ],
+        [
+          "-bur",
+          "",
+          "",
+          ""
+        ],
+        [
+          " in",
+          "",
+          "",
+          ""
+        ],
+        [
+          " the",
+          "",
+          "",
+          ""
+        ],
+        [
+          " san",
+          "",
+          "",
+          ""
+        ],
+        [
+          ".",
+          "",
+          "",
+          ""
+        ],
+        [
+          " Cur",
+          "",
+          "",
+          ""
+        ],
+        [
+          ",",
+          "",
+          "",
+          ""
+        ],
+        [
+          " he",
+          "",
+          "",
+          ""
+        ],
+        [
+          " pic",
+          "",
+          "",
+          ""
+        ],
+        [
+          " it",
+          "",
+          "",
+          ""
+        ],
+        [
+          " up",
+          "",
+          "",
+          ""
+        ],
+        [
+          " and",
+          "",
+          "",
+          ""
+        ],
+        [
+          " hel",
+          "",
+          "",
+          ""
+        ],
+        [
+          " it",
+          "",
+          "",
+          ""
+        ],
+        [
+          " clo",
+          "",
+          "",
+          ""
+        ],
+        [
+          ".",
+          "",
+          "",
+          ""
+        ],
+        [
+          " The",
+          "",
+          "",
+          ""
+        ],
+        [
+          " she",
+          "",
+          "",
+          ""
+        ],
+        [
+          " see",
+          "",
+          "",
+          ""
+        ],
+        [
+          " to",
+          "",
+          "",
+          ""
+        ],
+        [
+          " hum",
+          "",
+          "",
+          ""
+        ],
+        [
+          " wit",
+          "",
+          "",
+          ""
+        ],
+        [
+          " a",
+          "",
+          "",
+          ""
+        ],
+        [
+          " sou",
+          "",
+          "",
+          ""
+        ],
+        [
+          " tha",
+          "",
+          "",
+          ""
+        ],
+        [
+          " was",
+          "",
+          "",
+          ""
+        ],
+        [
+          " lik",
+          "",
+          "",
+          ""
+        ],
+        [
+          " the",
+          "",
+          "",
+          ""
+        ],
+        [
+          " sea",
+          "",
+          "",
+          ""
+        ],
+        [
+          " cal",
+          "",
+          "",
+          ""
+        ],
+        [
+          " him",
+          "",
+          "",
+          ""
+        ],
+        [
+          ".",
+          "",
+          "",
+          ""
+        ],
+        [
+          "<sot>",
+          "<sot>",
+          "<sot>",
+          "<sot>"
+        ],
+        [
+          "<sot>",
+          "<sot>",
+          "<sot>",
+          "<sot>"
+        ],
+        [
+          "<sot>",
+          "<sot>",
+          "<sot>",
+          "<sot>"
+        ],
+        [
+          "<sot>",
+          "<sot>",
+          "<sot>",
+          "<sot>"
+        ],
+        [
+          "With",
+          "Soon",
+          "Afte",
+          "Back"
+        ],
+        [
+          "With",
+          "Soon",
+          "Afte",
+          "Back"
+        ],
+        [
+          "With",
+          "Soon",
+          "Afte",
+          "Back"
+        ],
+        [
+          "With",
+          "Soon",
+          "Afte",
+          "Back"
+        ],
+        [
+          " a",
+          ",",
+          " a",
+          " on"
+        ],
+        [
+          " a",
+          ",",
+          " a",
+          " on"
+        ],
+        [
+          " a",
+          ",",
+          " a",
+          " on"
+        ],
+        [
+          " a",
+          ",",
+          " a",
+          " on"
+        ],
+        [
+          " sin",
+          " he",
+          " fun",
+          " the"
+        ],
+        [
+          " sin",
+          " he",
+          " fun",
+          " the"
+        ],
+        [
+          " sin",
+          " he",
+          " fun",
+          " the"
+        ],
+        [
+          " sin",
+          " he",
+          " fun",
+          " the"
+        ],
+        [
+          " bre",
+          " saw",
+          " day",
+          " bea"
+        ],
+        [
+          " bre",
+          " saw",
+          " day",
+          " bea"
+        ],
+        [
+          " bre",
+          " saw",
+          " day",
+          " bea"
+        ],
+        [
+          " bre",
+          " saw",
+          " day",
+          " bea"
+        ],
+        [
+          ",",
+          " a",
+          ",",
+          ","
+        ],
+        [
+          ",",
+          " a",
+          ",",
+          ","
+        ],
+        [
+          ",",
+          " a",
+          ",",
+          ","
+        ],
+        [
+          ",",
+          " a",
+          ",",
+          ","
+        ],
+        [
+          " he",
+          " sma",
+          " he",
+          " he"
+        ],
+        [
+          " he",
+          " sma",
+          " he",
+          " he"
+        ],
+        [
+          " he",
+          " sma",
+          " he",
+          " he"
+        ],
+        [
+          " he",
+          " sma",
+          " he",
+          " he"
+        ],
+        [
+          " ima",
+          " isl",
+          " rea",
+          " ope"
+        ],
+        [
+          " ima",
+          " isl",
+          " rea",
+          " ope"
+        ],
+        [
+          " ima",
+          " isl",
+          " rea",
+          " ope"
+        ],
+        [
+          " ima",
+          " isl",
+          " rea",
+          " ope"
+        ],
+        [
+          " tra",
+          " in",
+          " it",
+          " his"
+        ],
+        [
+          " tra",
+          " in",
+          " it",
+          " his"
+        ],
+        [
+          " tra",
+          " in",
+          " it",
+          " his"
+        ],
+        [
+          " tra",
+          " in",
+          " it",
+          " his"
+        ],
+        [
+          " acr",
+          " the",
+          " was",
+          " eye"
+        ],
+        [
+          " acr",
+          " the",
+          " was",
+          " eye"
+        ],
+        [
+          " acr",
+          " the",
+          " was",
+          " eye"
+        ],
+        [
+          " acr",
+          " the",
+          " was",
+          " eye"
+        ],
+        [
+          " the",
+          " dis",
+          " tim",
+          ","
+        ],
+        [
+          " the",
+          " dis",
+          " tim",
+          ","
+        ],
+        [
+          " the",
+          " dis",
+          " tim",
+          ","
+        ],
+        [
+          " the",
+          " dis",
+          " tim",
+          ","
+        ],
+        [
+          " oce",
+          ".",
+          " to",
+          " hol"
+        ],
+        [
+          " oce",
+          ".",
+          " to",
+          " hol"
+        ],
+        [
+          " oce",
+          ".",
+          " to",
+          " hol"
+        ],
+        [
+          " oce",
+          ".",
+          " to",
+          " hol"
+        ],
+        [
+          ".",
+          " It",
+          " go",
+          " the"
+        ],
+        [
+          ".",
+          " It",
+          " go",
+          " the"
+        ],
+        [
+          ".",
+          " It",
+          " go",
+          " the"
+        ],
+        [
+          ".",
+          " It",
+          " go",
+          " the"
+        ],
+        [
+          " As",
+          " was",
+          " hom",
+          " she"
+        ],
+        [
+          " As",
+          " was",
+          " hom",
+          " she"
+        ],
+        [
+          " As",
+          " was",
+          " hom",
+          " she"
+        ],
+        [
+          " As",
+          " was",
+          " hom",
+          " she"
+        ],
+        [
+          " he",
+          " gre",
+          ".",
+          " tig"
+        ],
+        [
+          " he",
+          " gre",
+          ".",
+          " tig"
+        ],
+        [
+          " he",
+          " gre",
+          ".",
+          " tig"
+        ],
+        [
+          " he",
+          " gre",
+          ".",
+          " tig"
+        ],
+        [
+          " clo",
+          " and",
+          " The",
+          "."
+        ],
+        [
+          " clo",
+          " and",
+          " The",
+          "."
+        ],
+        [
+          " clo",
+          " and",
+          " The",
+          "."
+        ],
+        [
+          " clo",
+          " and",
+          " The",
+          "."
+        ],
+        [
+          " his",
+          " ful",
+          " sun",
+          " The"
+        ],
+        [
+          " his",
+          " ful",
+          " sun",
+          " The"
+        ],
+        [
+          " his",
+          " ful",
+          " sun",
+          " The"
+        ],
+        [
+          " his",
+          " ful",
+          " sun",
+          " The"
+        ],
+        [
+          " eye",
+          " of",
+          " beg",
+          " wav"
+        ],
+        [
+          " eye",
+          " of",
+          " beg",
+          " wav"
+        ],
+        [
+          " eye",
+          " of",
+          " beg",
+          " wav"
+        ],
+        [
+          " eye",
+          " of",
+          " beg",
+          " wav"
+        ],
+        [
+          ",",
+          " tre",
+          " to",
+          " sti"
+        ],
+        [
+          ",",
+          " tre",
+          " to",
+          " sti"
+        ],
+        [
+          ",",
+          " tre",
+          " to",
+          " sti"
+        ],
+        [
+          ",",
+          " tre",
+          " to",
+          " sti"
+        ],
+        [
+          " he",
+          ".",
+          " set",
+          " cra"
+        ],
+        [
+          " he",
+          ".",
+          " set",
+          " cra"
+        ],
+        [
+          " he",
+          ".",
+          " set",
+          " cra"
+        ],
+        [
+          " he",
+          ".",
+          " set",
+          " cra"
+        ],
+        [
+          " fel",
+          " Exc",
+          ",",
+          " aga"
+        ],
+        [
+          " fel",
+          " Exc",
+          ",",
+          " aga"
+        ],
+        [
+          " fel",
+          " Exc",
+          ",",
+          " aga"
+        ],
+        [
+          " fel",
+          " Exc",
+          ",",
+          " aga"
+        ],
+        [
+          " the",
+          ",",
+          " pai",
+          " the"
+        ],
+        [
+          " the",
+          ",",
+          " pai",
+          " the"
+        ],
+        [
+          " the",
+          ",",
+          " pai",
+          " the"
+        ],
+        [
+          " the",
+          ",",
+          " pai",
+          " the"
+        ],
+        [
+          " wor",
+          " he",
+          " the",
+          " sho"
+        ],
+        [
+          " wor",
+          " he",
+          " the",
+          " sho"
+        ],
+        [
+          " wor",
+          " he",
+          " the",
+          " sho"
+        ],
+        [
+          " wor",
+          " he",
+          " the",
+          " sho"
+        ],
+        [
+          " spi",
+          " ste",
+          " sky",
+          ","
+        ],
+        [
+          " spi",
+          " ste",
+          " sky",
+          ","
+        ],
+        [
+          " spi",
+          " ste",
+          " sky",
+          ","
+        ],
+        [
+          " spi",
+          " ste",
+          " sky",
+          ","
+        ],
+        [
+          ".",
+          " the",
+          " wit",
+          " and"
+        ],
+        [
+          ".",
+          " the",
+          " wit",
+          " and"
+        ],
+        [
+          ".",
+          " the",
+          " wit",
+          " and"
+        ],
+        [
+          ".",
+          " the",
+          " wit",
+          " and"
+        ],
+        [
+          " Whe",
+          " boa",
+          " col",
+          " he"
+        ],
+        [
+          " Whe",
+          " boa",
+          " col",
+          " he"
+        ],
+        [
+          " Whe",
+          " boa",
+          " col",
+          " he"
+        ],
+        [
+          " Whe",
+          " boa",
+          " col",
+          " he"
+        ],
+        [
+          " he",
+          " tow",
+          ".",
+          " smi"
+        ],
+        [
+          " he",
+          " tow",
+          ".",
+          " smi"
+        ],
+        [
+          " he",
+          " tow",
+          ".",
+          " smi"
+        ],
+        [
+          " he",
+          " tow",
+          ".",
+          " smi"
+        ],
+        [
+          " ope",
+          " it",
+          " He",
+          "."
+        ],
+        [
+          " ope",
+          " it",
+          " He",
+          "."
+        ],
+        [
+          " ope",
+          " it",
+          " He",
+          "."
+        ],
+        [
+          " ope",
+          " it",
+          " He",
+          "."
+        ],
+        [
+          " the",
+          ".",
+          " sai",
+          " The"
+        ],
+        [
+          " the",
+          ".",
+          " sai",
+          " The"
+        ],
+        [
+          " the",
+          ".",
+          " sai",
+          " The"
+        ],
+        [
+          " the",
+          ".",
+          " sai",
+          " The"
+        ],
+        [
+          " aga",
+          " Whe",
+          " goo",
+          " she"
+        ],
+        [
+          " aga",
+          " Whe",
+          " goo",
+          " she"
+        ],
+        [
+          " aga",
+          " Whe",
+          " goo",
+          " she"
+        ],
+        [
+          " aga",
+          " Whe",
+          " goo",
+          " she"
+        ],
+        [
+          ",",
+          " he",
+          " to",
+          " was"
+        ],
+        [
+          ",",
+          " he",
+          " to",
+          " was"
+        ],
+        [
+          ",",
+          " he",
+          " to",
+          " was"
+        ],
+        [
+          ",",
+          " he",
+          " to",
+          " was"
+        ],
+        [
+          " he",
+          " arr",
+          " his",
+          " a"
+        ],
+        [
+          " he",
+          " arr",
+          " his",
+          " a"
+        ],
+        [
+          " he",
+          " arr",
+          " his",
+          " a"
+        ],
+        [
+          " he",
+          " arr",
+          " his",
+          " a"
+        ],
+        [
+          " was",
+          ",",
+          " new",
+          " rem"
+        ],
+        [
+          " was",
+          ",",
+          " new",
+          " rem"
+        ],
+        [
+          " was",
+          ",",
+          " new",
+          " rem"
+        ],
+        [
+          " was",
+          ",",
+          " new",
+          " rem"
+        ],
+        [
+          " on",
+          " he",
+          " fri",
+          " tha"
+        ],
+        [
+          " on",
+          " he",
+          " fri",
+          " tha"
+        ],
+        [
+          " on",
+          " he",
+          " fri",
+          " tha"
+        ],
+        [
+          " on",
+          " he",
+          " fri",
+          " tha"
+        ],
+        [
+          " a",
+          " fou",
+          " and",
+          " adv"
+        ],
+        [
+          " a",
+          " fou",
+          " and",
+          " adv"
+        ],
+        [
+          " a",
+          " fou",
+          " and",
+          " adv"
+        ],
+        [
+          " a",
+          " fou",
+          " and",
+          " adv"
+        ],
+        [
+          " boa",
+          " new",
+          " ste",
+          " are"
+        ],
+        [
+          " boa",
+          " new",
+          " ste",
+          " are"
+        ],
+        [
+          " boa",
+          " new",
+          " ste",
+          " are"
+        ],
+        [
+          " boa",
+          " new",
+          " ste",
+          " are"
+        ],
+        [
+          " sai",
+          " fri",
+          " bac",
+          " not"
+        ],
+        [
+          " sai",
+          " fri",
+          " bac",
+          " not"
+        ],
+        [
+          " sai",
+          " fri",
+          " bac",
+          " not"
+        ],
+        [
+          " sai",
+          " fri",
+          " bac",
+          " not"
+        ],
+        [
+          " thr",
+          " wai",
+          " int",
+          " jus"
+        ],
+        [
+          " thr",
+          " wai",
+          " int",
+          " jus"
+        ],
+        [
+          " thr",
+          " wai",
+          " int",
+          " jus"
+        ],
+        [
+          " thr",
+          " wai",
+          " int",
+          " jus"
+        ],
+        [
+          " the",
+          " the",
+          " his",
+          " abo"
+        ],
+        [
+          " the",
+          " the",
+          " his",
+          " abo"
+        ],
+        [
+          " the",
+          " the",
+          " his",
+          " abo"
+        ],
+        [
+          " the",
+          " the",
+          " his",
+          " abo"
+        ],
+        [
+          " blu",
+          ".",
+          " boa",
+          " pla"
+        ],
+        [
+          " blu",
+          ".",
+          " boa",
+          " pla"
+        ],
+        [
+          " blu",
+          ".",
+          " boa",
+          " pla"
+        ],
+        [
+          " blu",
+          ".",
+          " boa",
+          " pla"
+        ],
+        [
+          " sea",
+          " The",
+          ".",
+          " but"
+        ],
+        [
+          " sea",
+          " The",
+          ".",
+          " but"
+        ],
+        [
+          " sea",
+          " The",
+          ".",
+          " but"
+        ],
+        [
+          " sea",
+          " The",
+          ".",
+          " but"
+        ],
+        [
+          ".",
+          " sha",
+          " As",
+          " als"
+        ],
+        [
+          ".",
+          " sha",
+          " As",
+          " als"
+        ],
+        [
+          ".",
+          " sha",
+          " As",
+          " als"
+        ],
+        [
+          ".",
+          " sha",
+          " As",
+          " als"
+        ],
+        [
+          " The",
+          " sto",
+          " he",
+          " abo"
+        ],
+        [
+          " The",
+          " sto",
+          " he",
+          " abo"
+        ],
+        [
+          " The",
+          " sto",
+          " he",
+          " abo"
+        ],
+        [
+          " The",
+          " sto",
+          " he",
+          " abo"
+        ],
+        [
+          " sun",
+          " and",
+          " sai",
+          " the"
+        ],
+        [
+          " sun",
+          " and",
+          " sai",
+          " the"
+        ],
+        [
+          " sun",
+          " and",
+          " sai",
+          " the"
+        ],
+        [
+          " sun",
+          " and",
+          " sai",
+          " the"
+        ],
+        [
+          " sho",
+          " pla",
+          " awa",
+          " fri"
+        ],
+        [
+          " sho",
+          " pla",
+          " awa",
+          " fri"
+        ],
+        [
+          " sho",
+          " pla",
+          " awa",
+          " fri"
+        ],
+        [
+          " sho",
+          " pla",
+          " awa",
+          " fri"
+        ],
+        [
+          " bri",
+          " gam",
+          ",",
+          " we"
+        ],
+        [
+          " bri",
+          " gam",
+          ",",
+          " we"
+        ],
+        [
+          " bri",
+          " gam",
+          ",",
+          " we"
+        ],
+        [
+          " bri",
+          " gam",
+          ",",
+          " we"
+        ],
+        [
+          " abo",
+          " in",
+          " he",
+          " mak"
+        ],
+        [
+          " abo",
+          " in",
+          " he",
+          " mak"
+        ],
+        [
+          " abo",
+          " in",
+          " he",
+          " mak"
+        ],
+        [
+          " abo",
+          " in",
+          " he",
+          " mak"
+        ],
+        [
+          ",",
+          " the",
+          " pro",
+          "."
+        ],
+        [
+          ",",
+          " the",
+          " pro",
+          "."
+        ],
+        [
+          ",",
+          " the",
+          " pro",
+          "."
+        ],
+        [
+          ",",
+          " the",
+          " pro",
+          "."
+        ],
+        [
+          " and",
+          " sun",
+          " to",
+          " He"
+        ],
+        [
+          " and",
+          " sun",
+          " to",
+          " He"
+        ],
+        [
+          " and",
+          " sun",
+          " to",
+          " He"
+        ],
+        [
+          " and",
+          " sun",
+          " to",
+          " He"
+        ],
+        [
+          " the",
+          ".",
+          " ret",
+          " wal"
+        ],
+        [
+          " the",
+          ".",
+          " ret",
+          " wal"
+        ],
+        [
+          " the",
+          ".",
+          " ret",
+          " wal"
+        ],
+        [
+          " the",
+          ".",
+          " ret",
+          " wal"
+        ],
+        [
+          " sky",
+          " The",
+          " som",
+          " hom"
+        ],
+        [
+          " sky",
+          " The",
+          " som",
+          " hom"
+        ],
+        [
+          " sky",
+          " The",
+          " som",
+          " hom"
+        ],
+        [
+          " sky",
+          " The",
+          " som",
+          " hom"
+        ],
+        [
+          " was",
+          " man",
+          ",",
+          ","
+        ],
+        [
+          " was",
+          " man",
+          ",",
+          ","
+        ],
+        [
+          " was",
+          " man",
+          ",",
+          ","
+        ],
+        [
+          " was",
+          " man",
+          ",",
+          ","
+        ],
+        [
+          " cle",
+          " fel",
+          " kee",
+          " dre"
+        ],
+        [
+          " cle",
+          " fel",
+          " kee",
+          " dre"
+        ],
+        [
+          " cle",
+          " fel",
+          " kee",
+          " dre"
+        ],
+        [
+          " cle",
+          " fel",
+          " kee",
+          " dre"
+        ],
+        [
+          " and",
+          " joy",
+          " the",
+          " of"
+        ],
+        [
+          " and",
+          " joy",
+          " the",
+          " of"
+        ],
+        [
+          " and",
+          " joy",
+          " the",
+          " of"
+        ],
+        [
+          " and",
+          " joy",
+          " the",
+          " of"
+        ],
+        [
+          " end",
+          " in",
+          " hap",
+          " the"
+        ],
+        [
+          " end",
+          " in",
+          " hap",
+          " the"
+        ],
+        [
+          " end",
+          " in",
+          " hap",
+          " the"
+        ],
+        [
+          " end",
+          " in",
+          " hap",
+          " the"
+        ],
+        [
+          ".",
+          " his",
+          " mem",
+          " nex"
+        ],
+        [
+          ".",
+          " his",
+          " mem",
+          " nex"
+        ],
+        [
+          ".",
+          " his",
+          " mem",
+          " nex"
+        ],
+        [
+          ".",
+          " his",
+          " mem",
+          " nex"
+        ],
+        [
+          " He",
+          " hea",
+          " clo",
+          " jou"
+        ],
+        [
+          " He",
+          " hea",
+          " clo",
+          " jou"
+        ],
+        [
+          " He",
+          " hea",
+          " clo",
+          " jou"
+        ],
+        [
+          " He",
+          " hea",
+          " clo",
+          " jou"
+        ],
+        [
+          " lau",
+          ",",
+          ".",
+          ""
+        ],
+        [
+          " lau",
+          ",",
+          ".",
+          ""
+        ],
+        [
+          " lau",
+          ",",
+          ".",
+          ""
+        ],
+        [
+          ",",
+          " kno",
+          "",
+          ""
+        ],
+        [
+          ",",
+          " kno",
+          "",
+          ""
+        ],
+        [
+          " fee",
+          " he",
+          "",
+          ""
+        ],
+        [
+          " fee",
+          " he",
+          "",
+          ""
+        ],
+        [
+          " fre",
+          " was",
+          "",
+          ""
+        ],
+        [
+          " fre",
+          " was",
+          "",
+          ""
+        ],
+        [
+          " and",
+          " par",
+          "",
+          ""
+        ],
+        [
+          " and",
+          " par",
+          "",
+          ""
+        ],
+        [
+          " ali",
+          " of",
+          "",
+          ""
+        ],
+        [
+          " ali",
+          " of",
+          "",
+          ""
+        ],
+        [
+          ",",
+          " som",
+          "",
+          ""
+        ],
+        [
+          ",",
+          " som",
+          "",
+          ""
+        ],
+        [
+          " as",
+          " spe",
+          "",
+          ""
+        ],
+        [
+          " as",
+          " spe",
+          "",
+          ""
+        ],
+        [
+          " wav",
+          ".",
+          "",
+          ""
+        ],
+        [
+          " wav",
+          ".",
+          "",
+          ""
+        ],
+        [
+          " spl",
+          "",
+          "",
+          ""
+        ],
+        [
+          " aro",
+          "",
+          "",
+          ""
+        ],
+        [
+          " him",
+          "",
+          "",
+          ""
+        ],
+        [
+          ".",
+          "",
+          "",
+          ""
+        ],
+        [
+          ".",
+          "",
+          "",
+          ""
+        ]
+      ]
+    }
+  ]
+}
