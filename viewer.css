@@ -124,8 +124,23 @@ select {
     color: var(--tok-prompt);
 }
 .lv-tok-special {
-    color: var(--text-dim);
+    /* Structural special tokens render as inline pill chips. Always visible
+       by default; the toolbar toggle hides them via .lv-prompt[data-hide-structural]. */
+    display: inline-block;
+    color: #d4c8a8;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 210, 120, 0.18);
+    border-radius: 4px;
+    padding: 0 5px;
+    margin: 0 2px;
+    font-size: 0.78em;
     font-style: italic;
+    line-height: 1.35;
+    vertical-align: 1px;
+    white-space: nowrap;
+}
+.lv-prompt[data-hide-structural] .lv-tok-special {
+    display: none;
 }
 .lv-tok-just {
     color: var(--tok-current);
@@ -140,16 +155,50 @@ select {
     font-size: 0.85em;
     vertical-align: super;
 }
+.lv-prompt br.lv-block-break {
+    /* Visible separation between paragraphs without taking too much vertical room. */
+    display: block;
+    content: "";
+    margin-top: 4px;
+}
 
 .lv-controls {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     margin-top: 14px;
 }
 .lv-controls input[type="range"] {
     flex: 1;
     accent-color: var(--slider-thumb);
+}
+.lv-step-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--btn-border);
+    border-radius: 6px;
+    width: 30px;
+    height: 26px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition:
+        background 0.12s,
+        border-color 0.12s,
+        color 0.12s;
+    font-family: inherit;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.lv-step-btn:hover:not(:disabled) {
+    background: var(--btn-hover);
+    border-color: #555;
+    color: #f2f2f2;
+}
+.lv-step-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
 }
 .lv-step {
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;

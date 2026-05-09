@@ -6,7 +6,7 @@ This is the contract between trace **producers** (any LLM repo: nanochat, HF, vL
 
 ```json
 {
-  "schema_version": "2",
+  "schema_version": "3",
   "vocab": { "<id>": "<text>", ... },
   "vocab_meta": { "<id>": { "is_special": true }, ... },
   "traces": [ <trace>, ... ]
@@ -15,10 +15,19 @@ This is the contract between trace **producers** (any LLM repo: nanochat, HF, vL
 
 | field | required | description |
 |---|---|---|
-| `schema_version` | yes | String. Bump when the schema changes incompatibly. Current: `"2"`. The renderer also accepts legacy `"1"` traces (their `abs` values are non-negative, which is a strict subset of v2). |
-| `vocab` | yes | Map from `vocab_id` (as string) to its human-readable text. Only IDs that appear in any trace need to be present. |
-| `vocab_meta` | no | Per-vocab-id extras. Renderer styles entries with `is_special: true` (italic, gray). |
+| `schema_version` | yes | String. Bump when the schema changes incompatibly. Current: `"3"`. The renderer also accepts `"1"` and `"2"` (v3 only adds optional fields). |
+| `vocab` | yes | Map from `vocab_id` (as string) to its human-readable text. Only IDs that appear in any trace need to be present. Whitespace, including `\n`, is preserved in the text — do **not** strip it. |
+| `vocab_meta` | no | Per-vocab-id extras. Renderer styles entries with `is_special: true` as inline pill chips. The renderer also auto-detects any token whose text matches `<\|...\|>` as special if `is_special` is missing. |
 | `traces` | yes | Array of one or more traces. The page shows a dropdown to pick one; the rest renders the chosen trace. |
+
+## Emission policy (important)
+
+Producers MUST emit **every token** that the model saw or produced — including:
+- Stream / structural specials: `<|bos|>`, `<|eos|>`, `<|sot|>`, `<|eot|>`, `<|bot_K|>`, etc.
+- Whitespace tokens whose text contains `\n` (paragraph / line breaks).
+- Forced / injected tokens (e.g. tool outputs).
+
+Do **not** filter the trace for "human readability" — the renderer is responsible for visual clutter management (a hide-structural toggle is built in). Stripping tokens at dump time loses information that downstream views (paragraph breaks, MT thread structure, special-token positions) need.
 
 ## Trace
 
@@ -45,7 +54,11 @@ This is the contract between trace **producers** (any LLM repo: nanochat, HF, vL
   "gen_step": 0,
   "position": { "abs": 0 },
   "forced": false,
-  "input_steps": [0, 1]
+  "input_steps": [0, 1],
+  "thread_id": 0,
+  "wave_id": 0,
+  "block_id": 0,
+  "role": null
 }
 ```
 
@@ -57,6 +70,27 @@ This is the contract between trace **producers** (any LLM repo: nanochat, HF, vL
 | `position` | yes | Exactly one of `{"abs": <int>}` or `{"between": ["<id_a>", "<id_b>"]}`. See **Position** below. |
 | `forced` | no | Boolean. `true` = injected by the producer (e.g. tool-use output), not sampled. Renderer marks with a small indicator. Defaults to `false`. |
 | `input_steps` | no | Array of ints — steps at which this token was input to the model. Currently stored but **not rendered** in v1. Reserved for future use (e.g. visualizing repeated re-feeds). |
+| `thread_id` | no | Integer. Which parallel thread emitted this token in MT mode. `0` (or omitted) = parent / non-MT default. Renderer tints the token's color by thread when present. |
+| `wave_id` | no | Integer. Which K-wave this token belongs to. `0` (or omitted) = parent prelude / non-MT. |
+| `block_id` | no | Integer. Paragraph / block grouping. Tokens sharing the same `block_id` belong to the same paragraph. Pure-AR producers can omit. |
+| `role` | no | Optional structural label. Recognized values: `"thread_start"`, `"thread_end"`, `"block_open"`, `"block_close"`, `"stream_start"`, `"stream_end"`. The renderer uses `block_close` (and a token text of exactly `<\|eot\|>`) to insert a paragraph break after this token. Other roles are surfaced in the hover tooltip. |
+
+## Paragraph breaks
+
+The renderer breaks a line whenever **either** of these holds:
+- The token's text contains a `\n` character (typical for tokenizers that keep newlines in the vocab).
+- The token's `role === "block_close"` OR its text is exactly `<|eot|>`.
+
+Producers should pick whichever matches their tokenizer's behavior. Mixed traces (some breaks via `\n`, some via `<|eot|>`) are fine.
+
+## Thread visualization (MT)
+
+When at least one token in a trace carries a non-zero `thread_id`, the renderer enables thread-aware tinting:
+
+- `thread_id == 0` (or absent): default coloring (prompt purple / step ramp / current-step yellow).
+- `thread_id >= 1`: the token's hue is selected from a small per-thread palette; lightness still ramps with `gen_step` so step-progress information is preserved.
+
+Tokens with `thread_id`, `wave_id`, `block_id`, or `role` set always show those values in the hover tooltip.
 
 ## Position
 
@@ -132,9 +166,10 @@ When instrumenting a repo (e.g. nanochat) to emit traces:
 
 1. Run your generation. For each step, capture the new token(s) added.
 2. Assign each token a unique string `id` within the trace (e.g. `t0`, `t1`, ...).
-3. Record `vocab_id`, `gen_step`, and `position` for each token.
-4. Build the `vocab` table: walk all tokens, collect unique `vocab_id`s, look each one up via your tokenizer's `id_to_token` (or equivalent). Optionally fill `vocab_meta.is_special` from your tokenizer's special-token list.
+3. Record `vocab_id`, `gen_step`, and `position` for **every** token, including specials and whitespace. See "Emission policy" — do not strip.
+4. Build the `vocab` table: walk all tokens, collect unique `vocab_id`s, look each one up via your tokenizer's `id_to_token` (or equivalent). Fill `vocab_meta.is_special` from your tokenizer's special-token list. (Tokens whose text is `<|...|>` will be auto-detected as special if you forget, but explicit is better.)
 5. Wrap the prompt as `gen_step: 0` tokens with `abs` positions in the order you want them displayed.
-6. Write JSON conforming to this schema. One file may contain multiple traces (the page dropdown will switch between them).
+6. **For multithread / parallel decoders:** also set `thread_id`, `wave_id`, and (optionally) `block_id` on each token. Mark structural specials with `role` (`thread_start` / `thread_end` / `block_close` / etc.) so the renderer can interpret them without parsing token text.
+7. Write JSON conforming to this schema. One file may contain multiple traces (the page dropdown will switch between them).
 
 The producer never needs to know anything about animation, color, or layout — that's the renderer's job.

@@ -11,7 +11,16 @@
     rampEnd: [212, 90, 20], //                  deep orange
     animMs: 8000, // total play duration cap
     minStepsPerSec: 4,
+    // Per-thread base hues (HSL). Cycled by (thread_id - 1) % length.
+    // thread_id 0 / absent uses the default ramp instead.
+    threadHues: [180, 320, 80, 220, 30, 280, 140, 0],
+    threadSat: 65,
+    // Lightness ramps from threadL0 (early) → threadL1 (late) by gen_step.
+    threadL0: 72,
+    threadL1: 46,
   };
+  const SPECIAL_TEXT_RE = /^<\|.+\|>$/;
+  const SPECIAL_BREAK_TEXT = new Set(["<|eot|>"]);
 
   // ------------------------------------------------------------
   // DOM refs
@@ -21,6 +30,9 @@
   const promptEl = $("lv-prompt");
   const selEl = $("lv-trace-select");
   const playBtn = $("lv-play");
+  const prevBtn = $("lv-prev");
+  const nextBtn = $("lv-next");
+  const toggleStructuralBtn = $("lv-toggle-structural");
   const exportBtn = $("lv-export");
   const exportGifBtn = $("lv-export-gif");
   const sliderEl = $("lv-slider");
@@ -37,6 +49,7 @@
   let currentStep = 0;
   let playing = false;
   let playTimer = null;
+  let hideStructural = false;
 
   // ------------------------------------------------------------
   // Utilities
@@ -70,9 +83,42 @@
   }
 
   function isSpecial(vocabId) {
-    if (!DOC || !DOC.vocab_meta) return false;
-    const m = DOC.vocab_meta[String(vocabId)];
-    return !!(m && m.is_special);
+    if (!DOC) return false;
+    if (DOC.vocab_meta) {
+      const m = DOC.vocab_meta[String(vocabId)];
+      if (m && m.is_special) return true;
+    }
+    // Fallback: any token whose text matches <|...|> is treated as special
+    // even if vocab_meta forgot to mark it. Matches the schema's auto-detect rule.
+    const text = DOC.vocab && DOC.vocab[String(vocabId)];
+    return typeof text === "string" && SPECIAL_TEXT_RE.test(text);
+  }
+
+  // True when the renderer should insert a paragraph break AFTER this token.
+  // Matches the schema's "break on either" rule:
+  //   - role === "block_close", OR token text is exactly <|eot|>.
+  // Newlines inside token text are handled separately (CSS pre-wrap / canvas split).
+  function tokenForcesBreak(t) {
+    if (t.role === "block_close") return true;
+    const text = DOC && DOC.vocab && DOC.vocab[String(t.vocab_id)];
+    return typeof text === "string" && SPECIAL_BREAK_TEXT.has(text);
+  }
+
+  // True if this trace carries any thread_id > 0 (enables thread-tint mode).
+  function traceHasThreads(trace) {
+    for (const t of trace.tokens) {
+      if (typeof t.thread_id === "number" && t.thread_id > 0) return true;
+    }
+    return false;
+  }
+
+  function threadColor(threadId, gen_step, maxStep) {
+    if (typeof threadId !== "number" || threadId <= 0) return null;
+    const hue =
+      CFG.threadHues[(threadId - 1) % CFG.threadHues.length];
+    const tt = maxStep <= 1 ? 0 : Math.max(0, (gen_step - 1) / (maxStep - 1));
+    const L = Math.round(CFG.threadL0 + (CFG.threadL1 - CFG.threadL0) * tt);
+    return `hsl(${hue}, ${CFG.threadSat}%, ${L}%)`;
   }
 
   // ------------------------------------------------------------
@@ -248,42 +294,55 @@
       const cls = ["lv-tok"];
       let inlineColor = "";
       const isJust = t.gen_step > 0 && t.gen_step === step;
+      const special = isSpecial(t.vocab_id);
+      const tColor =
+        !special && t.gen_step > 0 && !isJust
+          ? threadColor(t.thread_id, t.gen_step, LAYOUT.maxStep)
+          : null;
       if (t.gen_step === 0) {
         cls.push("lv-tok-prompt");
       } else if (isJust) {
         cls.push("lv-tok-just");
+      } else if (tColor) {
+        inlineColor = ' style="color:' + tColor + '"';
       } else {
         inlineColor =
           ' style="color:' + rampColor(t.gen_step, LAYOUT.maxStep) + '"';
       }
-      if (isSpecial(t.vocab_id)) cls.push("lv-tok-special");
+      if (special) cls.push("lv-tok-special");
       if (t.forced) cls.push("lv-tok-forced");
       const colVal = LAYOUT.colById ? LAYOUT.colById[t.id] : i;
+      const dataAttrs = [
+        ' data-id="' + escapeHtml(t.id) + '"',
+        ' data-vid="' + t.vocab_id + '"',
+        ' data-step="' + t.gen_step + '"',
+        ' data-col="' + i + '"',
+        ' data-abs="' + colVal + '"',
+      ];
+      if (t.forced) dataAttrs.push(' data-forced="1"');
+      if (typeof t.thread_id === "number")
+        dataAttrs.push(' data-thread="' + t.thread_id + '"');
+      if (typeof t.wave_id === "number")
+        dataAttrs.push(' data-wave="' + t.wave_id + '"');
+      if (typeof t.block_id === "number")
+        dataAttrs.push(' data-block="' + t.block_id + '"');
+      if (t.role) dataAttrs.push(' data-role="' + escapeHtml(t.role) + '"');
       parts.push(
         '<span class="' +
           cls.join(" ") +
           '"' +
           inlineColor +
-          ' data-id="' +
-          escapeHtml(t.id) +
-          '"' +
-          ' data-vid="' +
-          t.vocab_id +
-          '"' +
-          ' data-step="' +
-          t.gen_step +
-          '"' +
-          ' data-col="' +
-          i +
-          '"' +
-          ' data-abs="' +
-          colVal +
-          '"' +
-          (t.forced ? ' data-forced="1"' : "") +
+          dataAttrs.join("") +
           ">" +
           escapeHtml(text) +
           "</span>",
       );
+      // Paragraph-break sentinels: <|eot|> / role:block_close force a line
+      // break after the chip. The <br> is emitted regardless of the
+      // hide-structural toggle, so paragraph layout survives chip hiding.
+      if (tokenForcesBreak(t)) {
+        parts.push('<br class="lv-block-break">');
+      }
     }
     return parts.join("");
   }
@@ -301,30 +360,57 @@
     const vid = span.dataset.vid;
     const text = DOC.vocab[String(vid)] ?? "?";
     const special = isSpecial(parseInt(vid, 10));
-    tipEl.innerHTML =
+    const rows = [
       '<div><span class="k">token: </span><span class="v ' +
-      (special ? "special" : "") +
-      '">' +
-      escapeHtml(JSON.stringify(text)) +
-      "</span></div>" +
+        (special ? "special" : "") +
+        '">' +
+        escapeHtml(JSON.stringify(text)) +
+        "</span></div>",
       '<div><span class="k">vocab_id: </span><span class="v">' +
-      escapeHtml(vid) +
-      "</span></div>" +
+        escapeHtml(vid) +
+        "</span></div>",
       '<div><span class="k">id: </span><span class="v">' +
-      escapeHtml(span.dataset.id) +
-      "</span></div>" +
+        escapeHtml(span.dataset.id) +
+        "</span></div>",
       '<div><span class="k">gen_step: </span><span class="v">' +
-      escapeHtml(span.dataset.step) +
-      "</span></div>" +
+        escapeHtml(span.dataset.step) +
+        "</span></div>",
       '<div><span class="k">col: </span><span class="v">' +
-      escapeHtml(span.dataset.col) +
-      "</span></div>" +
+        escapeHtml(span.dataset.col) +
+        "</span></div>",
       '<div><span class="k">abs: </span><span class="v">' +
-      escapeHtml(span.dataset.abs) +
-      "</span></div>" +
-      (span.dataset.forced === "1"
-        ? '<div><span class="k">forced: </span><span class="v">true</span></div>'
-        : "");
+        escapeHtml(span.dataset.abs) +
+        "</span></div>",
+    ];
+    if (span.dataset.thread !== undefined)
+      rows.push(
+        '<div><span class="k">thread_id: </span><span class="v">' +
+          escapeHtml(span.dataset.thread) +
+          "</span></div>",
+      );
+    if (span.dataset.wave !== undefined)
+      rows.push(
+        '<div><span class="k">wave_id: </span><span class="v">' +
+          escapeHtml(span.dataset.wave) +
+          "</span></div>",
+      );
+    if (span.dataset.block !== undefined)
+      rows.push(
+        '<div><span class="k">block_id: </span><span class="v">' +
+          escapeHtml(span.dataset.block) +
+          "</span></div>",
+      );
+    if (span.dataset.role)
+      rows.push(
+        '<div><span class="k">role: </span><span class="v">' +
+          escapeHtml(span.dataset.role) +
+          "</span></div>",
+      );
+    if (span.dataset.forced === "1")
+      rows.push(
+        '<div><span class="k">forced: </span><span class="v">true</span></div>',
+      );
+    tipEl.innerHTML = rows.join("");
     tipEl.style.display = "block";
     tipEl.style.left = ev.clientX + 14 + "px";
     tipEl.style.top = ev.clientY + 14 + "px";
@@ -349,6 +435,10 @@
     sliderEl.value = String(currentStep);
     stepLabel.textContent = "step " + currentStep + " / " + LAYOUT.maxStep;
     promptEl.innerHTML = renderSequenceText(currentStep);
+    if (hideStructural) promptEl.setAttribute("data-hide-structural", "");
+    else promptEl.removeAttribute("data-hide-structural");
+    prevBtn.disabled = currentStep <= 0;
+    nextBtn.disabled = currentStep >= LAYOUT.maxStep;
   }
 
   function play() {
@@ -380,6 +470,34 @@
     setStep(Number(sliderEl.value));
   });
 
+  prevBtn.addEventListener("click", () => {
+    stop();
+    setStep(currentStep - 1);
+  });
+  nextBtn.addEventListener("click", () => {
+    stop();
+    setStep(currentStep + 1);
+  });
+
+  // Left/right arrow keys step one at a time. Skip when typing into a control
+  // (the slider already handles arrows; the trace dropdown should keep its native behavior).
+  document.addEventListener("keydown", (ev) => {
+    if (ev.key !== "ArrowLeft" && ev.key !== "ArrowRight") return;
+    const tag = (ev.target && ev.target.tagName) || "";
+    if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
+    if (!LAYOUT) return;
+    stop();
+    setStep(currentStep + (ev.key === "ArrowRight" ? 1 : -1));
+    ev.preventDefault();
+  });
+
+  toggleStructuralBtn.addEventListener("click", () => {
+    hideStructural = !hideStructural;
+    toggleStructuralBtn.textContent = hideStructural ? "Show ⟨|⟩" : "Hide ⟨|⟩";
+    if (hideStructural) promptEl.setAttribute("data-hide-structural", "");
+    else promptEl.removeAttribute("data-hide-structural");
+  });
+
   // ------------------------------------------------------------
   // Frame composer (shared by PNG + GIF export).
   // Layout dimensions are fixed across all frames using the final step,
@@ -400,16 +518,36 @@
   function spansForStep(step) {
     const { sequences, tokensById } = LAYOUT;
     const seq = sequences[step] || [];
-    return seq.map((id) => {
+    const out = [];
+    for (const id of seq) {
       const t = tokensById[id];
-      return {
-        text: DOC.vocab[String(t.vocab_id)] ?? "",
-        gen_step: t.gen_step,
-        special: isSpecial(t.vocab_id),
-        forced: !!t.forced,
-        isJust: t.gen_step > 0 && t.gen_step === step,
-      };
-    });
+      const special = isSpecial(t.vocab_id);
+      // Apply the hide-structural toggle in canvas exports too: drop the chip,
+      // but keep the block break it forces so paragraph layout is preserved.
+      if (!(hideStructural && special)) {
+        out.push({
+          text: DOC.vocab[String(t.vocab_id)] ?? "",
+          gen_step: t.gen_step,
+          special,
+          forced: !!t.forced,
+          isJust: t.gen_step > 0 && t.gen_step === step,
+          thread_id: typeof t.thread_id === "number" ? t.thread_id : 0,
+          forceBreakAfter: tokenForcesBreak(t),
+        });
+      } else if (tokenForcesBreak(t)) {
+        // Inject an empty span purely to carry the line-break flag through wrap.
+        out.push({
+          text: "",
+          gen_step: t.gen_step,
+          special: false,
+          forced: false,
+          isJust: false,
+          thread_id: 0,
+          forceBreakAfter: true,
+        });
+      }
+    }
+    return out;
   }
 
   function computeFrameDims() {
@@ -682,8 +820,13 @@
           special: sp.special,
           forced: sp.forced,
           isJust: sp.isJust,
+          thread_id: sp.thread_id,
         });
         curW += w;
+      }
+      if (sp.forceBreakAfter) {
+        lines.push([]);
+        curW = 0;
       }
     }
     return lines;
@@ -697,10 +840,26 @@
       const y = y0 + li * lineH;
       for (const sp of lines[li]) {
         let color;
-        if (sp.special) color = "#8a8a8a";
+        const tCol =
+          !sp.special && sp.gen_step > 0 && !sp.isJust
+            ? threadColor(sp.thread_id, sp.gen_step, LAYOUT.maxStep)
+            : null;
+        if (sp.special) color = "#d4c8a8";
         else if (sp.gen_step === 0) color = CFG.promptColor;
         else if (sp.isJust) color = CFG.currentColor;
+        else if (tCol) color = tCol;
         else color = rampColor(sp.gen_step, LAYOUT.maxStep);
+
+        // Subtle pill background behind structural specials so they read as
+        // chips in PNG/GIF, mirroring the HTML view.
+        if (sp.special) {
+          cx.fillStyle = "rgba(255,255,255,0.06)";
+          const px = 3;
+          cx.fillRect(x - px, y + 1, sp.w + 2 * px, lineH - 4);
+          cx.strokeStyle = "rgba(255,210,120,0.22)";
+          cx.lineWidth = 1;
+          cx.strokeRect(x - px + 0.5, y + 1.5, sp.w + 2 * px - 1, lineH - 5);
+        }
 
         cx.fillStyle = color;
         cx.fillText(sp.text, x, y);
@@ -783,11 +942,15 @@
       showError("missing schema_version");
       return;
     }
-    if (doc.schema_version !== "1" && doc.schema_version !== "2") {
+    if (
+      doc.schema_version !== "1" &&
+      doc.schema_version !== "2" &&
+      doc.schema_version !== "3"
+    ) {
       showError(
         "unsupported schema_version: " +
           doc.schema_version +
-          ' (expected "1" or "2")',
+          ' (expected "1", "2", or "3")',
       );
       return;
     }

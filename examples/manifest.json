@@ -18,6 +18,18 @@
     "description": "Mimic trace: parent prompt, <bot-K>, parallel <sot>s, lockstep sibling decode, laggard tail, <bos> committed at the wave's row end (postpone rule structural under the new layout)."
   },
   {
+    "type": "trace",
+    "file": "examples/compare_ar_simple.json",
+    "title": "Causal AR — simple_story (20 docs, real)",
+    "description": "Real-corpus AR generation pack: 20 prompts decoded greedily under the standard causal model (ss_8k tokenizer, val_bpb=0.4769). Pair with compare_mt_allparallel_mirror for side-by-side AR vs multithread comparison on matched prompts."
+  },
+  {
+    "type": "trace",
+    "file": "examples/compare_mt_allparallel_mirror.json",
+    "title": "Multithread-LM — all_parallel mirror_train (20 docs, real)",
+    "description": "Real-corpus multithread generation pack: 20 prompts under mode=multithread, policy=mirror_train (causal layout mirrors training-time all_parallel waves). ss_8k_mt tokenizer, step=2240, val_bpb=0.4769. Per-doc K varies (1–7). Pair with compare_ar_simple for AR-vs-multithread comparison on the same prompts."
+  },
+  {
     "type": "dataloader",
     "file": "examples/dataloader_simple_story_B1_T2048_20260502_150435.json",
     "title": "Causal AR — BOS-bestfit (simple_story, B=1 T=2048)",

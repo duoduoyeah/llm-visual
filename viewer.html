@@ -17,6 +17,7 @@
     <div class="lv-toolbar">
       <select id="lv-trace-select" title="Select trace"></select>
       <button class="lv-btn" id="lv-play">▶ Play</button>
+      <button class="lv-btn" id="lv-toggle-structural" title="Hide / show structural special tokens (⟨|...|⟩)">Hide ⟨|⟩</button>
       <button class="lv-btn" id="lv-export">Export PNG</button>
       <button class="lv-btn" id="lv-export-gif">Export GIF</button>
     </div>
@@ -25,7 +26,9 @@
   <p class="lv-prompt" id="lv-prompt"></p>
 
   <div class="lv-controls">
+    <button class="lv-step-btn" id="lv-prev" title="Previous step (←)" aria-label="Previous step" disabled>◀</button>
     <input type="range" id="lv-slider" min="0" max="0" value="0" step="1">
+    <button class="lv-step-btn" id="lv-next" title="Next step (→)" aria-label="Next step" disabled>▶</button>
     <span class="lv-step" id="lv-step-label">step 0 / 0</span>
   </div>
 
