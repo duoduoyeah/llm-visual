@@ -153,6 +153,14 @@
       if (t.gen_step > maxStep) maxStep = t.gen_step;
     }
 
+    // step 0 is the prompt; MT traces can emit multiple tokens per gen_step (one per thread).
+    const generatedCumulative = [];
+    let acc = 0;
+    for (let step = 0; step <= maxStep; step++) {
+      if (step >= 1) acc += (byStep.get(step) || []).length;
+      generatedCumulative.push(acc);
+    }
+
     const colById = Object.create(null);
     const sequences = [];
     let cur = [];
@@ -269,7 +277,7 @@
     let maxLen = 0;
     for (const s of sequences) if (s.length > maxLen) maxLen = s.length;
 
-    return { sequences, maxStep, maxLen, tokensById, colById };
+    return { sequences, maxStep, maxLen, tokensById, colById, generatedCumulative };
   }
 
   // ------------------------------------------------------------
@@ -460,7 +468,12 @@
     if (!LAYOUT) return;
     currentStep = Math.max(0, Math.min(s, LAYOUT.maxStep));
     sliderEl.value = String(currentStep);
-    stepLabel.textContent = "step " + currentStep + " / " + LAYOUT.maxStep;
+    const gen = LAYOUT.generatedCumulative[currentStep];
+    let label = "step " + currentStep + " / " + LAYOUT.maxStep + " · " + gen + " tok";
+    if (currentStep > 0) {
+      label += " · " + (gen / currentStep).toFixed(2) + " /step";
+    }
+    stepLabel.textContent = label;
     promptEl.innerHTML = renderSequenceText(currentStep);
     if (hideStructural) promptEl.setAttribute("data-hide-structural", "");
     else promptEl.removeAttribute("data-hide-structural");
