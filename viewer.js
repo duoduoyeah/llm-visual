@@ -20,7 +20,9 @@
     threadL1: 46,
   };
   const SPECIAL_TEXT_RE = /^<\|.+\|>$/;
-  const SPECIAL_BREAK_TEXT = new Set(["<|eot|>"]);
+  // Tokens that open a new paragraph: a line break is inserted BEFORE the
+  // chip so the chip itself becomes the first token of the new line.
+  const SPECIAL_BREAK_BEFORE_TEXT = new Set(["<|sot|>"]);
 
   // ------------------------------------------------------------
   // DOM refs
@@ -88,20 +90,33 @@
       const m = DOC.vocab_meta[String(vocabId)];
       if (m && m.is_special) return true;
     }
-    // Fallback: any token whose text matches <|...|> is treated as special
-    // even if vocab_meta forgot to mark it. Matches the schema's auto-detect rule.
+    // Fallback auto-detection: tokens whose text matches <|...|>, or tokens
+    // that carry a newline (paragraph break tokens) are treated as special so
+    // they render as visible chips instead of vanishing into the prose.
     const text = DOC.vocab && DOC.vocab[String(vocabId)];
-    return typeof text === "string" && SPECIAL_TEXT_RE.test(text);
+    if (typeof text !== "string") return false;
+    return SPECIAL_TEXT_RE.test(text) || text.includes("\n");
   }
 
-  // True when the renderer should insert a paragraph break AFTER this token.
-  // Matches the schema's "break on either" rule:
-  //   - role === "block_close", OR token text is exactly <|eot|>.
-  // Newlines inside token text are handled separately (CSS pre-wrap / canvas split).
-  function tokenForcesBreak(t) {
-    if (t.role === "block_close") return true;
+  function tokenHasNewline(t) {
     const text = DOC && DOC.vocab && DOC.vocab[String(t.vocab_id)];
-    return typeof text === "string" && SPECIAL_BREAK_TEXT.has(text);
+    return typeof text === "string" && text.includes("\n");
+  }
+
+  // Display form of a newline-bearing token's text inside a chip:
+  // replace each \n with a visible ↵ glyph so the chip stays on one line
+  // (white-space:nowrap on the chip) and the break is emitted by a sibling <br>.
+  function chipDisplayText(text) {
+    return text.replace(/\n/g, "↵");
+  }
+
+  // True when the renderer should insert a paragraph break BEFORE this token,
+  // so the chip leads the new paragraph (e.g. <|sot|> opens a fresh line).
+  // Newlines inside token text are handled separately (CSS pre-wrap / canvas split).
+  function tokenBreaksBefore(t) {
+    if (t.role === "thread_start") return true;
+    const text = DOC && DOC.vocab && DOC.vocab[String(t.vocab_id)];
+    return typeof text === "string" && SPECIAL_BREAK_BEFORE_TEXT.has(text);
   }
 
   // True if this trace carries any thread_id > 0 (enables thread-tint mode).
@@ -290,7 +305,11 @@
     for (let i = 0; i < seq.length; i++) {
       const id = seq[i];
       const t = LAYOUT.tokensById[id];
-      const text = DOC.vocab[String(t.vocab_id)] ?? "";
+      const rawText = DOC.vocab[String(t.vocab_id)] ?? "";
+      const newlineTok = rawText.includes("\n");
+      // Show ↵ glyphs in place of literal \n so the chip itself stays inline;
+      // the actual break is emitted as a separate <br> after the chip.
+      const text = newlineTok ? chipDisplayText(rawText) : rawText;
       const cls = ["lv-tok"];
       let inlineColor = "";
       const isJust = t.gen_step > 0 && t.gen_step === step;
@@ -327,6 +346,14 @@
       if (typeof t.block_id === "number")
         dataAttrs.push(' data-block="' + t.block_id + '"');
       if (t.role) dataAttrs.push(' data-role="' + escapeHtml(t.role) + '"');
+      // Paragraph-break sentinel (leading): <|sot|> / role:thread_start opens
+      // a new line, so the <br> is emitted BEFORE the chip and the chip becomes
+      // the first token on that new line. Skipped at the very start.
+      // <br>s are emitted regardless of the hide-structural toggle so
+      // paragraph layout survives chip hiding.
+      if (tokenBreaksBefore(t) && parts.length > 0) {
+        parts.push('<br class="lv-block-break">');
+      }
       parts.push(
         '<span class="' +
           cls.join(" ") +
@@ -337,10 +364,10 @@
           escapeHtml(text) +
           "</span>",
       );
-      // Paragraph-break sentinels: <|eot|> / role:block_close force a line
-      // break after the chip. The <br> is emitted regardless of the
-      // hide-structural toggle, so paragraph layout survives chip hiding.
-      if (tokenForcesBreak(t)) {
+      // Paragraph-break sentinel (trailing): a token whose text contains \n
+      // ends the current paragraph. The chip carries ↵ glyphs; the <br>
+      // realizes the break.
+      if (newlineTok) {
         parts.push('<br class="lv-block-break">');
       }
     }
@@ -524,18 +551,25 @@
       const special = isSpecial(t.vocab_id);
       // Apply the hide-structural toggle in canvas exports too: drop the chip,
       // but keep the block break it forces so paragraph layout is preserved.
+      const breakBefore = tokenBreaksBefore(t) && out.length > 0;
+      const newlineTok = tokenHasNewline(t);
+      const rawText = DOC.vocab[String(t.vocab_id)] ?? "";
+      // For canvas, replace \n with ↵ so the chip stays on one line, then
+      // emit the break as forceBreakAfter (mirrors the HTML ↵+<br> pattern).
+      const displayText = newlineTok ? chipDisplayText(rawText) : rawText;
       if (!(hideStructural && special)) {
         out.push({
-          text: DOC.vocab[String(t.vocab_id)] ?? "",
+          text: displayText,
           gen_step: t.gen_step,
           special,
           forced: !!t.forced,
           isJust: t.gen_step > 0 && t.gen_step === step,
           thread_id: typeof t.thread_id === "number" ? t.thread_id : 0,
-          forceBreakAfter: tokenForcesBreak(t),
+          forceBreakBefore: breakBefore,
+          forceBreakAfter: newlineTok,
         });
-      } else if (tokenForcesBreak(t)) {
-        // Inject an empty span purely to carry the line-break flag through wrap.
+      } else if (breakBefore || newlineTok) {
+        // Hidden chip but the structural break still has to land somewhere.
         out.push({
           text: "",
           gen_step: t.gen_step,
@@ -543,7 +577,8 @@
           forced: false,
           isJust: false,
           thread_id: 0,
-          forceBreakAfter: true,
+          forceBreakBefore: breakBefore,
+          forceBreakAfter: newlineTok,
         });
       }
     }
@@ -800,6 +835,14 @@
     const lines = [[]];
     let curW = 0;
     for (const sp of spans) {
+      // Leading paragraph break: opens a new line BEFORE this span (skipped
+      // when the current line is already empty so we don't stack blank rows).
+      if (sp.forceBreakBefore && lines[lines.length - 1].length > 0) {
+        lines.push([]);
+        curW = 0;
+      }
+      // The displayed text is already \n-free for newline tokens (↵ glyphs);
+      // any remaining \n inside non-special tokens is treated as a hard break.
       const segments = sp.text.split("\n");
       for (let i = 0; i < segments.length; i++) {
         if (i > 0) {
@@ -824,6 +867,7 @@
         });
         curW += w;
       }
+      // Trailing paragraph break: ends the line AFTER this span (newline tokens).
       if (sp.forceBreakAfter) {
         lines.push([]);
         curW = 0;

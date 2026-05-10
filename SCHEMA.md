@@ -73,15 +73,18 @@ Do **not** filter the trace for "human readability" — the renderer is responsi
 | `thread_id` | no | Integer. Which parallel thread emitted this token in MT mode. `0` (or omitted) = parent / non-MT default. Renderer tints the token's color by thread when present. |
 | `wave_id` | no | Integer. Which K-wave this token belongs to. `0` (or omitted) = parent prelude / non-MT. |
 | `block_id` | no | Integer. Paragraph / block grouping. Tokens sharing the same `block_id` belong to the same paragraph. Pure-AR producers can omit. |
-| `role` | no | Optional structural label. Recognized values: `"thread_start"`, `"thread_end"`, `"block_open"`, `"block_close"`, `"stream_start"`, `"stream_end"`. The renderer uses `block_close` (and a token text of exactly `<\|eot\|>`) to insert a paragraph break after this token. Other roles are surfaced in the hover tooltip. |
+| `role` | no | Optional structural label. Recognized values: `"thread_start"`, `"thread_end"`, `"block_open"`, `"block_close"`, `"stream_start"`, `"stream_end"`. The renderer uses `thread_start` (and a token text of exactly `<\|sot\|>`) to start a new paragraph **at** this token — the chip becomes the first token on the new line. Other roles are surfaced in the hover tooltip. |
 
 ## Paragraph breaks
 
-The renderer breaks a line whenever **either** of these holds:
-- The token's text contains a `\n` character (typical for tokenizers that keep newlines in the vocab).
-- The token's `role === "block_close"` OR its text is exactly `<|eot|>`.
+The renderer starts a new line when **either** of these holds:
 
-Producers should pick whichever matches their tokenizer's behavior. Mixed traces (some breaks via `\n`, some via `<|eot|>`) are fine.
+- **Newline-bearing token** (text contains `\n`): the renderer treats the token as a special chip, replaces every `\n` in the displayed text with a `↵` glyph (so the chip stays inline), and emits the line break **after** the chip. Surrounding non-newline characters in the token (e.g. the leading space in `' \n\n'`) are kept verbatim inside the chip.
+- **`<|sot|>` / `role === "thread_start"`**: the renderer emits the line break **before** the chip, so the `<|sot|>` chip leads the new paragraph. (No leading break at the very first token.)
+
+Both rules can coexist in the same trace. Producers should pick whichever matches their tokenizer's natural paragraph marker.
+
+Tokens that are special by `vocab_meta.is_special`, by `<\|...\|>` text shape, or by carrying a `\n` are all rendered as chips; the hide-structural toolbar toggle can hide them while preserving the layout breaks they imply.
 
 ## Thread visualization (MT)
 
