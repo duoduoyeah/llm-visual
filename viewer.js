@@ -374,9 +374,19 @@
       );
       // Paragraph-break sentinel (trailing): a token whose text contains \n
       // ends the current paragraph. The chip carries ↵ glyphs; the <br>
-      // realizes the break.
+      // realizes the break. Exception: a structural end marker trailing the
+      // newline (<|bot_K|>/<|eot|>/<|bos|>) gets tucked onto the same line
+      // as the ↵, so the break is deferred until after that chip — and the
+      // subsequent <|sot|>'s own tokenBreaksBefore opens the next line.
       if (newlineTok) {
-        parts.push('<br class="lv-block-break">');
+        const next = i + 1 < seq.length ? LAYOUT.tokensById[seq[i + 1]] : null;
+        const nextIsEndMarker =
+          next && (next.role === "block_close" ||
+                   next.role === "thread_end" ||
+                   next.role === "stream_end");
+        if (!nextIsEndMarker) {
+          parts.push('<br class="lv-block-break">');
+        }
       }
     }
     return parts.join("");
@@ -559,13 +569,22 @@
     const { sequences, tokensById } = LAYOUT;
     const seq = sequences[step] || [];
     const out = [];
-    for (const id of seq) {
-      const t = tokensById[id];
+    for (let i = 0; i < seq.length; i++) {
+      const t = tokensById[seq[i]];
       const special = isSpecial(t.vocab_id);
       // Apply the hide-structural toggle in canvas exports too: drop the chip,
       // but keep the block break it forces so paragraph layout is preserved.
       const breakBefore = tokenBreaksBefore(t) && out.length > 0;
       const newlineTok = tokenHasNewline(t);
+      // Defer the newline's trailing break if the next token is a structural
+      // end marker (block_close / thread_end / stream_end) — same rule as
+      // renderSequenceText.
+      const nextTok = i + 1 < seq.length ? tokensById[seq[i + 1]] : null;
+      const nextIsEndMarker =
+        nextTok && (nextTok.role === "block_close" ||
+                    nextTok.role === "thread_end" ||
+                    nextTok.role === "stream_end");
+      const breakAfter = newlineTok && !nextIsEndMarker;
       const rawText = DOC.vocab[String(t.vocab_id)] ?? "";
       // For canvas, replace \n with ↵ so the chip stays on one line, then
       // emit the break as forceBreakAfter (mirrors the HTML ↵+<br> pattern).
@@ -579,9 +598,9 @@
           isJust: t.gen_step > 0 && t.gen_step === step,
           thread_id: typeof t.thread_id === "number" ? t.thread_id : 0,
           forceBreakBefore: breakBefore,
-          forceBreakAfter: newlineTok,
+          forceBreakAfter: breakAfter,
         });
-      } else if (breakBefore || newlineTok) {
+      } else if (breakBefore || breakAfter) {
         // Hidden chip but the structural break still has to land somewhere.
         out.push({
           text: "",
@@ -591,7 +610,7 @@
           isJust: false,
           thread_id: 0,
           forceBreakBefore: breakBefore,
-          forceBreakAfter: newlineTok,
+          forceBreakAfter: breakAfter,
         });
       }
     }
