@@ -14,9 +14,27 @@ from __future__ import annotations
 
 import argparse
 import http.server
+import json
 import os
 import socket
 import sys
+
+
+def write_examples_index(examples_dir: str = "examples") -> None:
+    """Scan examples/ and write _files.json so the frontend can list
+    contents without relying on directory-listing HTML (GitHub Pages
+    doesn't serve directory indexes)."""
+    if not os.path.isdir(examples_dir):
+        return
+    files = sorted(
+        f for f in os.listdir(examples_dir)
+        if f.endswith(".json") and f not in ("_files.json", "manifest.json")
+    )
+    out = os.path.join(examples_dir, "_files.json")
+    with open(out, "w") as fh:
+        json.dump(files, fh, indent=2)
+        fh.write("\n")
+    print(f"wrote {out} ({len(files)} files)")
 
 
 def _port_is_free(port: int) -> bool:
@@ -49,6 +67,8 @@ def main():
 
     here = os.path.dirname(os.path.abspath(__file__))
     os.chdir(here)
+
+    write_examples_index()
 
     port = args.port if args.port is not None else find_free_port()
     if args.port is not None and not _port_is_free(args.port):
