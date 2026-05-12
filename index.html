@@ -259,39 +259,112 @@
                 rope: "rope-grid",
             };
 
-            async function loadManifest() {
+            function inferType(filename) {
+                const f = filename.toLowerCase();
+                if (f.includes("dataloader")) return "dataloader";
+                if (f.includes("attn") || f.includes("attention"))
+                    return "attention";
+                if (f.includes("rope")) return "rope";
+                return "trace";
+            }
+
+            function prettyTitle(filename) {
+                return filename.replace(/\.json$/i, "").replace(/_/g, " ");
+            }
+
+            async function discoverFiles() {
+                // SimpleHTTPRequestHandler renders an HTML directory listing
+                // for examples/ (no index.html there); parse out .json links.
+                const res = await fetch("examples/");
+                if (!res.ok)
+                    throw new Error(
+                        "Could not list examples/: " + res.statusText,
+                    );
+                const html = await res.text();
+                const doc = new DOMParser().parseFromString(
+                    html,
+                    "text/html",
+                );
+                const seen = new Set();
+                for (const a of doc.querySelectorAll("a")) {
+                    const href = a.getAttribute("href") || "";
+                    const base = href.split("/").pop().split("?")[0];
+                    if (!base.endsWith(".json") || base === "manifest.json")
+                        continue;
+                    seen.add(base);
+                }
+                return [...seen];
+            }
+
+            async function loadManifestMeta() {
+                try {
+                    const res = await fetch("examples/manifest.json");
+                    if (!res.ok) return {};
+                    const items = await res.json();
+                    const m = {};
+                    for (const it of items) {
+                        const base = (it.file || "").split("/").pop();
+                        if (base) m[base] = it;
+                    }
+                    return m;
+                } catch (e) {
+                    return {};
+                }
+            }
+
+            async function loadIndex() {
                 const grids = Object.fromEntries(
                     Object.entries(GRID_MAP).map(([type, id]) => [
                         type,
                         document.getElementById(id),
                     ]),
                 );
+                let files, meta;
                 try {
-                    const res = await fetch("examples/manifest.json");
-                    if (!res.ok) throw new Error(res.statusText);
-                    const items = await res.json();
-                    for (const type of Object.keys(GRID_MAP)) {
-                        const grid = grids[type];
-                        const typeItems = items.filter((x) => x.type === type);
-                        grid.innerHTML = "";
-                        if (typeItems.length === 0) {
-                            grid.innerHTML =
-                                '<p style="color:var(--text-dim);font-size:0.82rem">No examples found.</p>';
-                            continue;
-                        }
-                        for (const item of typeItems) {
-                            const viewer =
-                                VIEWER_MAP[item.type] || "viewer.html";
-                            const a = document.createElement("a");
-                            a.className = "ex-card";
-                            a.href = `${viewer}?trace=./${item.file}`;
-                            a.innerHTML = `<p class="ex-card-name">${esc(item.title)}</p><p class="ex-card-desc">${esc(item.description)}</p>`;
-                            grid.appendChild(a);
-                        }
-                    }
+                    [files, meta] = await Promise.all([
+                        discoverFiles(),
+                        loadManifestMeta(),
+                    ]);
                 } catch (e) {
                     for (const grid of Object.values(grids)) {
-                        grid.innerHTML = `<p style="color:#ff6b6b;font-size:0.82rem">Could not load manifest: ${esc(e.message)}</p>`;
+                        grid.innerHTML = `<p style="color:#ff6b6b;font-size:0.82rem">Could not list examples: ${esc(e.message)}</p>`;
+                    }
+                    return;
+                }
+
+                const byType = {};
+                for (const type of Object.keys(GRID_MAP)) byType[type] = [];
+                for (const file of files) {
+                    const m = meta[file] || {};
+                    const type = m.type || inferType(file);
+                    if (!byType[type]) byType[type] = [];
+                    byType[type].push({
+                        file,
+                        type,
+                        title: m.title || prettyTitle(file),
+                        description: m.description || "",
+                    });
+                }
+                for (const arr of Object.values(byType)) {
+                    arr.sort((a, b) => a.title.localeCompare(b.title));
+                }
+
+                for (const type of Object.keys(GRID_MAP)) {
+                    const grid = grids[type];
+                    const items = byType[type] || [];
+                    grid.innerHTML = "";
+                    if (items.length === 0) {
+                        grid.innerHTML =
+                            '<p style="color:var(--text-dim);font-size:0.82rem">No examples found.</p>';
+                        continue;
+                    }
+                    for (const item of items) {
+                        const viewer = VIEWER_MAP[type] || "viewer.html";
+                        const a = document.createElement("a");
+                        a.className = "ex-card";
+                        a.href = `${viewer}?trace=./examples/${item.file}`;
+                        a.innerHTML = `<p class="ex-card-name">${esc(item.title)}</p><p class="ex-card-desc">${esc(item.description)}</p>`;
+                        grid.appendChild(a);
                     }
                 }
             }
@@ -333,7 +406,7 @@
                 openFile(e.dataTransfer.files[0]);
             });
 
-            loadManifest();
+            loadIndex();
         </script>
     </body>
 </html>

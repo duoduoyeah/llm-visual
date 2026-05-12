@@ -55,8 +55,14 @@ def main():
         print(f"WARNING: port {args.port} is already in use, "
               f"http.server will fail to bind", file=sys.stderr)
 
-    handler = http.server.SimpleHTTPRequestHandler
-    server = http.server.ThreadingHTTPServer((args.bind, port), handler)
+    class NoCacheHandler(http.server.SimpleHTTPRequestHandler):
+        def end_headers(self):
+            self.send_header("Cache-Control", "no-store, must-revalidate")
+            self.send_header("Pragma", "no-cache")
+            self.send_header("Expires", "0")
+            super().end_headers()
+
+    server = http.server.ThreadingHTTPServer((args.bind, port), NoCacheHandler)
     print(f"Serving {here} on http://localhost:{port}")
     print(f"Open http://localhost:{port}/   (Ctrl-C to stop)")
     try:

@@ -556,9 +556,11 @@
   const FRAME = {
     PAD: 22,
     TITLE_FONT: "600 14px ui-sans-serif, -apple-system, system-ui, sans-serif",
+    STATUS_FONT: "600 14px ui-monospace, SFMono-Regular, Menlo, monospace",
     TEXT_FONT: "14px ui-monospace, SFMono-Regular, Menlo, monospace",
     SMALL_FONT: "11px ui-monospace, SFMono-Regular, Menlo, monospace",
     TITLE_H: 24,
+    STATUS_H: 22,
     LINE_H: 22,
     GAP: 14,
     LEG_H: 22,
@@ -639,6 +641,8 @@
       FRAME.PAD +
       FRAME.TITLE_H +
       FRAME.GAP +
+      FRAME.STATUS_H +
+      FRAME.GAP +
       seqH +
       FRAME.GAP +
       FRAME.LEG_H +
@@ -670,14 +674,20 @@
     cx.textBaseline = "top";
     cx.fillText(TRACE.name || "trace", FRAME.PAD, y);
 
-    cx.font = FRAME.SMALL_FONT;
-    cx.fillStyle = "#c9c9c9";
-    const stepsLabel =
-      "steps: " + LAYOUT.maxStep + " (snapshot at step " + step + ")";
-    const stepsW = cx.measureText(stepsLabel).width;
-    cx.fillText(stepsLabel, dims.totalW - FRAME.PAD - stepsW, y + 4);
-
     y += FRAME.TITLE_H + FRAME.GAP;
+
+    // Dedicated status row — mirrors the on-screen "step N / M · X tok · Y.YY /step" label
+    cx.font = FRAME.STATUS_FONT;
+    cx.fillStyle = "#ffd23f";
+    const gen = LAYOUT.generatedCumulative[step];
+    let stepsLabel =
+      "step " + step + " / " + LAYOUT.maxStep + " · " + gen + " tok";
+    if (step > 0) {
+      stepsLabel += " · " + (gen / step).toFixed(2) + " /step";
+    }
+    cx.fillText(stepsLabel, FRAME.PAD, y);
+
+    y += FRAME.STATUS_H + FRAME.GAP;
 
     // wrap THIS step's spans (not the final ones) so partial frames are correct
     const tmp = document.createElement("canvas").getContext("2d");
