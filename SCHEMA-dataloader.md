@@ -1,6 +1,6 @@
 # Dataloader Trace Schema
 
-Sibling to `SCHEMA.md` (the generation-trace schema). This one is consumed by
+Sibling to `SCHEMA-generation.md` (the generation-trace schema). This one is consumed by
 `dataloader.html` and describes a **batch of rows** as the model would see
 them at training time, with `inputs` and `targets` paired column-by-column.
 

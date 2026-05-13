@@ -1,6 +1,6 @@
 # RoPE Positional-Encoding Trace Schema
 
-Sibling to `SCHEMA.md`, `SCHEMA-attention.md`, `SCHEMA-dataloader.md`.
+Sibling to `SCHEMA-generation.md`, `SCHEMA-attention.md`, `SCHEMA-dataloader.md`.
 Consumed by `rope.html`.
 
 A file describes one or more **positional-encoding variants** over the same

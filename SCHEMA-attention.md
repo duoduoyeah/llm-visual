@@ -1,6 +1,6 @@
 # Attention-Mask Trace Schema
 
-Sibling to `SCHEMA.md` and `SCHEMA-dataloader.md`. Consumed by `attention.html`.
+Sibling to `SCHEMA-generation.md` and `SCHEMA-dataloader.md`. Consumed by `attention.html`.
 
 A file describes one or more **attention-mask matrices** (square, N×N) with
 optional metadata per query/key position.
