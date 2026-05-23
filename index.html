@@ -258,8 +258,16 @@
                 attention: "attention-grid",
                 rope: "rope-grid",
             };
+            const EXAMPLES_ROOT = "examples/";
 
-            function inferType(filename) {
+            function normalizeKind(kind) {
+                const k = String(kind || "").toLowerCase();
+                return GRID_MAP[k] ? k : "";
+            }
+
+            function inferType(filename, doc) {
+                const explicit = normalizeKind(doc && doc.kind);
+                if (explicit) return explicit;
                 const f = filename.toLowerCase();
                 if (f.includes("dataloader")) return "dataloader";
                 if (f.includes("attn") || f.includes("attention"))
@@ -268,17 +276,57 @@
                 return "trace";
             }
 
-            function prettyTitle(filename) {
-                return filename.replace(/\.json$/i, "").replace(/_/g, " ");
+            function isSupportedVisualDoc(doc, type) {
+                if (!doc || Array.isArray(doc) || typeof doc !== "object")
+                    return false;
+                const schema = String(doc.schema_version || "");
+                const schemaOk = schema === "1" || schema === "2" || schema === "3";
+                if (type === "trace")
+                    return schemaOk && Array.isArray(doc.traces) && doc.traces.length > 0;
+                if (type === "dataloader")
+                    return schemaOk && Array.isArray(doc.rows) && doc.rows.length > 0;
+                return schemaOk;
             }
 
-            async function discoverFiles() {
-                // SimpleHTTPRequestHandler renders an HTML directory listing
-                // for examples/ (no index.html there); parse out .json links.
-                const res = await fetch("examples/");
+            function basename(path) {
+                return path.split("/").filter(Boolean).pop() || path;
+            }
+
+            function prettyTitle(filename) {
+                return basename(filename).replace(/\.json$/i, "").replace(/_/g, " ");
+            }
+
+            function splitName(name, fallback) {
+                const raw = String(name || prettyTitle(fallback));
+                const parts = raw.split("|").map((p) => p.trim());
+                return {
+                    title: parts[0] || prettyTitle(fallback),
+                    description: parts.slice(1).join(" | "),
+                };
+            }
+
+            function relativeToExamples(pathname) {
+                const root = new URL(EXAMPLES_ROOT, location.href).pathname;
+                if (!pathname.startsWith(root)) return "";
+                return decodeURIComponent(pathname.slice(root.length));
+            }
+
+            function isSameOriginDirectoryLink(url) {
+                return url.origin === location.origin && url.pathname.endsWith("/");
+            }
+
+            async function discoverFiles(dir = EXAMPLES_ROOT, seenDirs = new Set()) {
+                // SimpleHTTPRequestHandler renders HTML directory listings.
+                // Walk them recursively so copied folders like examples/core_layouts/
+                // show up without a generated manifest file.
+                const dirUrl = new URL(dir, location.href);
+                if (seenDirs.has(dirUrl.href)) return [];
+                seenDirs.add(dirUrl.href);
+
+                const res = await fetch(dirUrl.href);
                 if (!res.ok)
                     throw new Error(
-                        "Could not list examples/: " + res.statusText,
+                        "Could not list " + dir + ": " + res.statusText,
                     );
                 const html = await res.text();
                 const doc = new DOMParser().parseFromString(
@@ -286,29 +334,54 @@
                     "text/html",
                 );
                 const seen = new Set();
+                const subdirs = [];
                 for (const a of doc.querySelectorAll("a")) {
                     const href = a.getAttribute("href") || "";
-                    const base = href.split("/").pop().split("?")[0];
-                    if (!base.endsWith(".json") || base === "manifest.json")
+                    const url = new URL(href, dirUrl);
+                    if (url.origin !== location.origin) continue;
+
+                    const rel = relativeToExamples(url.pathname);
+                    if (
+                        !rel ||
+                        rel === "../" ||
+                        rel.startsWith("../") ||
+                        rel.startsWith("example_cache/")
+                    )
                         continue;
-                    seen.add(base);
+                    if (isSameOriginDirectoryLink(url)) {
+                        subdirs.push(url.href);
+                        continue;
+                    }
+
+                    const file = rel.split("?")[0];
+                    if (!file.endsWith(".json") || basename(file) === "manifest.json")
+                        continue;
+                    seen.add(file);
+                }
+                for (const subdir of subdirs) {
+                    for (const file of await discoverFiles(subdir, seenDirs)) {
+                        seen.add(file);
+                    }
                 }
                 return [...seen];
             }
 
-            async function loadManifestMeta() {
+            async function loadExampleMeta(file) {
                 try {
-                    const res = await fetch("examples/manifest.json");
-                    if (!res.ok) return {};
-                    const items = await res.json();
-                    const m = {};
-                    for (const it of items) {
-                        const base = (it.file || "").split("/").pop();
-                        if (base) m[base] = it;
-                    }
-                    return m;
+                    const res = await fetch(EXAMPLES_ROOT + file);
+                    if (!res.ok) throw new Error(res.statusText);
+                    const doc = await res.json();
+                    const type = inferType(file, doc);
+                    if (!isSupportedVisualDoc(doc, type)) return null;
+                    const name = splitName(doc.name, file);
+                    return {
+                        file,
+                        type,
+                        title: name.title,
+                        description: name.description,
+                    };
                 } catch (e) {
-                    return {};
+                    return null;
                 }
             }
 
@@ -319,12 +392,9 @@
                         document.getElementById(id),
                     ]),
                 );
-                let files, meta;
+                let files;
                 try {
-                    [files, meta] = await Promise.all([
-                        discoverFiles(),
-                        loadManifestMeta(),
-                    ]);
+                    files = await discoverFiles();
                 } catch (e) {
                     for (const grid of Object.values(grids)) {
                         grid.innerHTML = `<p style="color:#ff6b6b;font-size:0.82rem">Could not list examples: ${esc(e.message)}</p>`;
@@ -334,16 +404,11 @@
 
                 const byType = {};
                 for (const type of Object.keys(GRID_MAP)) byType[type] = [];
-                for (const file of files) {
-                    const m = meta[file] || {};
-                    const type = m.type || inferType(file);
+                const items = (await Promise.all(files.map(loadExampleMeta))).filter(Boolean);
+                for (const item of items) {
+                    const type = item.type || "trace";
                     if (!byType[type]) byType[type] = [];
-                    byType[type].push({
-                        file,
-                        type,
-                        title: m.title || prettyTitle(file),
-                        description: m.description || "",
-                    });
+                    byType[type].push(item);
                 }
                 for (const arr of Object.values(byType)) {
                     arr.sort((a, b) => a.title.localeCompare(b.title));
@@ -362,7 +427,7 @@
                         const viewer = VIEWER_MAP[type] || "viewer.html";
                         const a = document.createElement("a");
                         a.className = "ex-card";
-                        a.href = `${viewer}?trace=./examples/${item.file}`;
+                        a.href = `${viewer}?trace=${encodeURIComponent("./examples/" + item.file)}`;
                         a.innerHTML = `<p class="ex-card-name">${esc(item.title)}</p><p class="ex-card-desc">${esc(item.description)}</p>`;
                         grid.appendChild(a);
                     }
