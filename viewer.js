@@ -104,15 +104,15 @@
   }
 
   // Display form of a newline-bearing token's text inside a chip:
-  // replace each \n with a visible ↵ glyph so the chip stays on one line
-  // (white-space:nowrap on the chip) and the break is emitted by a sibling <br>.
+  // replace each \n with a visible ↵ glyph so it remains visible without
+  // creating an extra layout row. Row boundaries come from <|sot|>.
   function chipDisplayText(text) {
     return text.replace(/\n/g, "↵");
   }
 
   // True when the renderer should insert a paragraph break BEFORE this token,
   // so the chip leads the new paragraph (e.g. <|sot|> opens a fresh line).
-  // Newlines inside token text are handled separately (CSS pre-wrap / canvas split).
+  // Newlines inside token text render as ↵ glyphs and do not force row breaks.
   function tokenBreaksBefore(t) {
     if (t.role === "thread_start") return true;
     const text = DOC && DOC.vocab && DOC.vocab[String(t.vocab_id)];
@@ -316,7 +316,7 @@
       const rawText = DOC.vocab[String(t.vocab_id)] ?? "";
       const newlineTok = rawText.includes("\n");
       // Show ↵ glyphs in place of literal \n so the chip itself stays inline;
-      // the actual break is emitted as a separate <br> after the chip.
+      // newline-bearing tokens do not create row breaks.
       const text = newlineTok ? chipDisplayText(rawText) : rawText;
       const cls = ["lv-tok"];
       let inlineColor = "";
@@ -359,29 +359,13 @@
       // the first token on that new line. Skipped at the very start.
       // <br>s are emitted regardless of the hide-structural toggle so
       // paragraph layout survives chip hiding.
-      // MT wave-step boundary: in a multithread wave, the first K wave-steps
-      // are each opened by a fresh <|sot|>, but wave-steps w>=K have no new
-      // <|sot|> — and without a break the whole post-K tail (plus the next
-      // wave's <bot_K> opener) collapses into one giant row. Detect those
-      // boundaries by a *thread_id drop* (within a wave, thread_id increases
-      // 1..K per step; the next step restarts at the lowest active thread,
-      // so any drop marks a new wave-step row or a new wave opener).
       //
-      // The <|sot|>(t=w) sits at the END of wave-step w's row (after every
-      // sibling thread's content for w). If the prev token is content of the
-      // same wave-step (same wave_id, ascending thread_id, not a structural
-      // <bot_K> opener), the leading <sot> break is suppressed so the chip
-      // stays attached to its wave-step's row instead of landing alone.
+      // MT wave-step boundary: wave steps without a fresh <|sot|> are still
+      // separated by a thread_id drop. Newline-bearing tokens never create
+      // rows; they render as visible ↵ chips only.
       const prevT = i > 0 ? LAYOUT.tokensById[seq[i - 1]] : null;
       const inMT = typeof t.wave_id === "number" && t.wave_id > 0;
-      const prevSameWaveStep =
-        prevT && inMT &&
-        prevT.wave_id === t.wave_id &&
-        prevT.role !== "block_open" &&
-        typeof prevT.thread_id === "number" &&
-        typeof t.thread_id === "number" &&
-        prevT.thread_id < t.thread_id;
-      const sotBreak = tokenBreaksBefore(t) && !prevSameWaveStep;
+      const sotBreak = tokenBreaksBefore(t);
       const thrDrop =
         prevT && inMT &&
         typeof t.thread_id === "number" &&
@@ -400,27 +384,9 @@
           escapeHtml(text) +
           "</span>",
       );
-      // Paragraph-break sentinel (trailing): a token whose text contains \n
-      // ends the current paragraph. The chip carries ↵ glyphs; the <br>
-      // realizes the break. Exception: a structural end marker trailing the
-      // newline (<|bot_K|>/<|eot|>/<|bos|>) gets tucked onto the same line
-      // as the ↵, so the break is deferred until after that chip — and the
-      // subsequent <|sot|>'s own tokenBreaksBefore opens the next line.
-      // MT exception: inside a multithread wave (wave_id > 0), a `\n` chip
-      // is just one of K parallel tokens occupying its slot in a wave step
-      // — it carries no paragraph semantics. Only `<sot>` separates wave
-      // steps; the trailing break would shatter the waterfall row.
-      if (newlineTok) {
-        const next = i + 1 < seq.length ? LAYOUT.tokensById[seq[i + 1]] : null;
-        const nextIsEndMarker =
-          next && (next.role === "block_close" ||
-                   next.role === "thread_end" ||
-                   next.role === "stream_end");
-        const inMTWave = typeof t.wave_id === "number" && t.wave_id > 0;
-        if (!nextIsEndMarker && !inMTWave) {
-          parts.push('<br class="lv-block-break">');
-        }
-      }
+      // Newline-bearing tokens are visible ↵ chips, not row boundaries. The
+      // MT trace already carries explicit <|sot|> / thread-drop structure, so
+      // adding breaks here duplicates rows and makes the trace harder to read.
     }
     return parts.join("");
   }
@@ -608,22 +574,12 @@
       const t = tokensById[seq[i]];
       const special = isSpecial(t.vocab_id);
       // Apply the hide-structural toggle in canvas exports too: drop the chip,
-      // but keep the block break it forces so paragraph layout is preserved.
-      // MT wave-step boundary (mirrors renderSequenceText): break before any
-      // token whose thread_id is less than the previous's, so post-K wave
-      // steps and cross-wave <bot_K> openers each open a new row. The
-      // leading <sot> break is suppressed when prev token is content of the
-      // same wave-step, so <sot>(t=w) stays attached to wave-step w's row.
+      // but keep any structural row break it forces so paragraph layout is
+      // preserved. <|sot|> always opens a new row; thread_id drops also mark
+      // MT wave-step boundaries. Newline-bearing tokens never force rows.
       const prevT = i > 0 ? tokensById[seq[i - 1]] : null;
       const inMT = typeof t.wave_id === "number" && t.wave_id > 0;
-      const prevSameWaveStep =
-        prevT && inMT &&
-        prevT.wave_id === t.wave_id &&
-        prevT.role !== "block_open" &&
-        typeof prevT.thread_id === "number" &&
-        typeof t.thread_id === "number" &&
-        prevT.thread_id < t.thread_id;
-      const sotBreak = tokenBreaksBefore(t) && !prevSameWaveStep;
+      const sotBreak = tokenBreaksBefore(t);
       const thrDrop =
         prevT && inMT &&
         typeof t.thread_id === "number" &&
@@ -631,21 +587,10 @@
         t.thread_id < prevT.thread_id;
       const breakBefore = (sotBreak || thrDrop) && out.length > 0;
       const newlineTok = tokenHasNewline(t);
-      // Defer the newline's trailing break if the next token is a structural
-      // end marker (block_close / thread_end / stream_end) — same rule as
-      // renderSequenceText. Also suppress inside MT waves (wave_id > 0)
-      // since `\n` there is just one of K parallel tokens, not a paragraph
-      // boundary.
-      const nextTok = i + 1 < seq.length ? tokensById[seq[i + 1]] : null;
-      const nextIsEndMarker =
-        nextTok && (nextTok.role === "block_close" ||
-                    nextTok.role === "thread_end" ||
-                    nextTok.role === "stream_end");
-      const inMTWave = typeof t.wave_id === "number" && t.wave_id > 0;
-      const breakAfter = newlineTok && !nextIsEndMarker && !inMTWave;
+      const breakAfter = false;
       const rawText = DOC.vocab[String(t.vocab_id)] ?? "";
-      // For canvas, replace \n with ↵ so the chip stays on one line, then
-      // emit the break as forceBreakAfter (mirrors the HTML ↵+<br> pattern).
+      // For canvas, replace \n with ↵ so the chip stays on one line without
+      // creating an extra layout row.
       const displayText = newlineTok ? chipDisplayText(rawText) : rawText;
       if (!(hideStructural && special)) {
         out.push({
