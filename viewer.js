@@ -166,6 +166,24 @@
     let cur = [];
     const sortByCol = (a, b) => colById[a] - colById[b];
 
+    // In MT traces (any thread_id > 0), present tokens grouped by thread
+    // instead of interleaved by wave-step / column. The waterfall (column)
+    // ordering is what the model SEES — but for a human reader, the
+    // per-step token slices from K different threads look like gibberish.
+    // Sorting by (thread_id, column) makes each <|sot|> precede its own
+    // thread's full content as a coherent paragraph. Internal validation
+    // (collision detection, between-anchor adjacency) still uses
+    // column order; only the rendered ordering changes.
+    const hasThreads = trace.tokens.some(
+      (t) => typeof t.thread_id === "number" && t.thread_id > 0,
+    );
+    const sortByThread = (a, b) => {
+      const ta = tokensById[a].thread_id || 0;
+      const tb = tokensById[b].thread_id || 0;
+      if (ta !== tb) return ta - tb;
+      return colById[a] - colById[b];
+    };
+
     for (let step = 0; step <= maxStep; step++) {
       const newOnes = byStep.get(step) || [];
       const abs = newOnes.filter((t) => "abs" in t.position);
@@ -271,7 +289,9 @@
       }
       cur.sort(sortByCol);
 
-      sequences.push(cur.slice());
+      sequences.push(
+        hasThreads ? cur.slice().sort(sortByThread) : cur.slice(),
+      );
     }
 
     let maxLen = 0;
