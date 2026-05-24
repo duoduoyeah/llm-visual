@@ -359,7 +359,21 @@
       // the first token on that new line. Skipped at the very start.
       // <br>s are emitted regardless of the hide-structural toggle so
       // paragraph layout survives chip hiding.
-      if (tokenBreaksBefore(t) && parts.length > 0) {
+      // MT wave-step boundary: in a multithread wave, the first K wave-steps
+      // are each opened by a fresh <|sot|>, but wave-steps w>=K have no new
+      // <|sot|> — and without a break the whole post-K tail (plus the next
+      // wave's <bot_K> opener) collapses into one giant row. Detect those
+      // boundaries by a *thread_id drop* (within a wave, thread_id increases
+      // 1..K per step; the next step restarts at the lowest active thread,
+      // so any drop marks a new wave-step row or a new wave opener).
+      const prevT = i > 0 ? LAYOUT.tokensById[seq[i - 1]] : null;
+      const inMT = typeof t.wave_id === "number" && t.wave_id > 0;
+      const thrDrop =
+        prevT && inMT &&
+        typeof t.thread_id === "number" &&
+        typeof prevT.thread_id === "number" &&
+        t.thread_id < prevT.thread_id;
+      if ((tokenBreaksBefore(t) || thrDrop) && parts.length > 0) {
         parts.push('<br class="lv-block-break">');
       }
       parts.push(
@@ -378,13 +392,18 @@
       // newline (<|bot_K|>/<|eot|>/<|bos|>) gets tucked onto the same line
       // as the ↵, so the break is deferred until after that chip — and the
       // subsequent <|sot|>'s own tokenBreaksBefore opens the next line.
+      // MT exception: inside a multithread wave (wave_id > 0), a `\n` chip
+      // is just one of K parallel tokens occupying its slot in a wave step
+      // — it carries no paragraph semantics. Only `<sot>` separates wave
+      // steps; the trailing break would shatter the waterfall row.
       if (newlineTok) {
         const next = i + 1 < seq.length ? LAYOUT.tokensById[seq[i + 1]] : null;
         const nextIsEndMarker =
           next && (next.role === "block_close" ||
                    next.role === "thread_end" ||
                    next.role === "stream_end");
-        if (!nextIsEndMarker) {
+        const inMTWave = typeof t.wave_id === "number" && t.wave_id > 0;
+        if (!nextIsEndMarker && !inMTWave) {
           parts.push('<br class="lv-block-break">');
         }
       }
@@ -576,17 +595,31 @@
       const special = isSpecial(t.vocab_id);
       // Apply the hide-structural toggle in canvas exports too: drop the chip,
       // but keep the block break it forces so paragraph layout is preserved.
-      const breakBefore = tokenBreaksBefore(t) && out.length > 0;
+      // MT wave-step boundary (mirrors renderSequenceText): break before any
+      // token whose thread_id is less than the previous's, so post-K wave
+      // steps and cross-wave <bot_K> openers each open a new row.
+      const prevT = i > 0 ? tokensById[seq[i - 1]] : null;
+      const inMT = typeof t.wave_id === "number" && t.wave_id > 0;
+      const thrDrop =
+        prevT && inMT &&
+        typeof t.thread_id === "number" &&
+        typeof prevT.thread_id === "number" &&
+        t.thread_id < prevT.thread_id;
+      const breakBefore =
+        (tokenBreaksBefore(t) || thrDrop) && out.length > 0;
       const newlineTok = tokenHasNewline(t);
       // Defer the newline's trailing break if the next token is a structural
       // end marker (block_close / thread_end / stream_end) — same rule as
-      // renderSequenceText.
+      // renderSequenceText. Also suppress inside MT waves (wave_id > 0)
+      // since `\n` there is just one of K parallel tokens, not a paragraph
+      // boundary.
       const nextTok = i + 1 < seq.length ? tokensById[seq[i + 1]] : null;
       const nextIsEndMarker =
         nextTok && (nextTok.role === "block_close" ||
                     nextTok.role === "thread_end" ||
                     nextTok.role === "stream_end");
-      const breakAfter = newlineTok && !nextIsEndMarker;
+      const inMTWave = typeof t.wave_id === "number" && t.wave_id > 0;
+      const breakAfter = newlineTok && !nextIsEndMarker && !inMTWave;
       const rawText = DOC.vocab[String(t.vocab_id)] ?? "";
       // For canvas, replace \n with ↵ so the chip stays on one line, then
       // emit the break as forceBreakAfter (mirrors the HTML ↵+<br> pattern).
