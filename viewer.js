@@ -366,14 +366,28 @@
       // boundaries by a *thread_id drop* (within a wave, thread_id increases
       // 1..K per step; the next step restarts at the lowest active thread,
       // so any drop marks a new wave-step row or a new wave opener).
+      //
+      // The <|sot|>(t=w) sits at the END of wave-step w's row (after every
+      // sibling thread's content for w). If the prev token is content of the
+      // same wave-step (same wave_id, ascending thread_id, not a structural
+      // <bot_K> opener), the leading <sot> break is suppressed so the chip
+      // stays attached to its wave-step's row instead of landing alone.
       const prevT = i > 0 ? LAYOUT.tokensById[seq[i - 1]] : null;
       const inMT = typeof t.wave_id === "number" && t.wave_id > 0;
+      const prevSameWaveStep =
+        prevT && inMT &&
+        prevT.wave_id === t.wave_id &&
+        prevT.role !== "block_open" &&
+        typeof prevT.thread_id === "number" &&
+        typeof t.thread_id === "number" &&
+        prevT.thread_id < t.thread_id;
+      const sotBreak = tokenBreaksBefore(t) && !prevSameWaveStep;
       const thrDrop =
         prevT && inMT &&
         typeof t.thread_id === "number" &&
         typeof prevT.thread_id === "number" &&
         t.thread_id < prevT.thread_id;
-      if ((tokenBreaksBefore(t) || thrDrop) && parts.length > 0) {
+      if ((sotBreak || thrDrop) && parts.length > 0) {
         parts.push('<br class="lv-block-break">');
       }
       parts.push(
@@ -597,16 +611,25 @@
       // but keep the block break it forces so paragraph layout is preserved.
       // MT wave-step boundary (mirrors renderSequenceText): break before any
       // token whose thread_id is less than the previous's, so post-K wave
-      // steps and cross-wave <bot_K> openers each open a new row.
+      // steps and cross-wave <bot_K> openers each open a new row. The
+      // leading <sot> break is suppressed when prev token is content of the
+      // same wave-step, so <sot>(t=w) stays attached to wave-step w's row.
       const prevT = i > 0 ? tokensById[seq[i - 1]] : null;
       const inMT = typeof t.wave_id === "number" && t.wave_id > 0;
+      const prevSameWaveStep =
+        prevT && inMT &&
+        prevT.wave_id === t.wave_id &&
+        prevT.role !== "block_open" &&
+        typeof prevT.thread_id === "number" &&
+        typeof t.thread_id === "number" &&
+        prevT.thread_id < t.thread_id;
+      const sotBreak = tokenBreaksBefore(t) && !prevSameWaveStep;
       const thrDrop =
         prevT && inMT &&
         typeof t.thread_id === "number" &&
         typeof prevT.thread_id === "number" &&
         t.thread_id < prevT.thread_id;
-      const breakBefore =
-        (tokenBreaksBefore(t) || thrDrop) && out.length > 0;
+      const breakBefore = (sotBreak || thrDrop) && out.length > 0;
       const newlineTok = tokenHasNewline(t);
       // Defer the newline's trailing break if the next token is a structural
       // end marker (block_close / thread_end / stream_end) — same rule as

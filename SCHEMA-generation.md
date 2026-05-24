@@ -77,12 +77,28 @@ Do **not** filter the trace for "human readability" — the renderer is responsi
 
 ## Paragraph breaks
 
-The renderer starts a new line when **either** of these holds:
+Break placement depends on whether the current token is in a multithread wave (`wave_id > 0`) or not. AR-only traces (every token has `wave_id == 0`) use the two basic rules; MT traces add two more and qualify the basic ones.
+
+### Autoregressive (`wave_id == 0`)
+
+The renderer starts a new line when **either**:
 
 - **Newline-bearing token** (text contains `\n`): the renderer treats the token as a special chip, replaces every `\n` in the displayed text with a `↵` glyph (so the chip stays inline), and emits the line break **after** the chip. Surrounding non-newline characters in the token (e.g. the leading space in `' \n\n'`) are kept verbatim inside the chip.
 - **`<|sot|>` / `role === "thread_start"`**: the renderer emits the line break **before** the chip, so the `<|sot|>` chip leads the new paragraph. (No leading break at the very first token.)
 
-Both rules can coexist in the same trace. Producers should pick whichever matches their tokenizer's natural paragraph marker.
+Both rules can coexist. Producers should pick whichever matches their tokenizer's natural paragraph marker.
+
+### Multithread (`wave_id > 0`)
+
+MT tokens are emitted in **wave-step-major** order: at each wave-step `w` in a K-wide wave, the active threads each contribute one slot in ascending `thread_id` (`<sot>(t=w)` is appended at the END of that step's slot list when `w < K`; for `w >= K` the step is content-only). The renderer lands each wave-step on its own row via:
+
+- **Wave-step boundary** — break **before** any token whose `thread_id` is *less than* the previous token's. Fires at:
+  - The start of every wave-step after the first (next step restarts at the lowest still-active `thread_id`).
+  - The `<bot_K>` opener of each new wave (`<bot_K>` carries `thread_id = 0`, dropping below the prior wave's last content thread).
+- **First `<|sot|>` of a wave** — break **before** the chip when the prev token is a structural `<bot_K>` opener (`role === "block_open"`) or otherwise not content of the same wave-step. Subsequent `<|sot|>(t=w)` chips within the wave stay attached to the END of their wave-step row (the wave-step-boundary rule above opens the next row).
+- **Newlines stay inline in MT** — a token with `wave_id > 0` whose text contains `\n` still renders as a `↵` chip but does **not** trigger a trailing break. Inside a multithread wave a `\n` is one of K parallel tokens occupying its slot in a wave-step, not a paragraph boundary.
+
+Consequence: once every thread but one (or two) in a wave has retired, the surviving thread emits many consecutive tokens that share its `thread_id`, so the wave-step-boundary rule stops firing and those tokens render as one continuous paragraph. That paragraph is the surviving thread's block-body continuation — which is usually what a reader wants to see.
 
 Tokens that are special by `vocab_meta.is_special`, by `<\|...\|>` text shape, or by carrying a `\n` are all rendered as chips; the hide-structural toolbar toggle can hide them while preserving the layout breaks they imply.
 
