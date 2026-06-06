@@ -1,3 +1,5 @@
 Personal-Website
-examples/
+examples/*
+!examples/attention/
+!examples/attention/blockmt_attention_lineview_synthetic.json
 examples_cache/

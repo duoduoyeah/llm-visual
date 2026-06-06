@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Eyeball Transformer</title>
 <link rel="stylesheet" href="viewer.css">
-<link rel="stylesheet" href="attention.css?v=4">
+<link rel="stylesheet" href="attention.css?v=5">
 </head>
 <body>
 
@@ -23,8 +23,9 @@
   <p class="lv-info" id="att-info"></p>
 
   <div class="lv-legend" aria-label="legend">
-    <span class="lv-leg-item"><span class="att-leg-sw att-leg-vis"></span>visible (q ⇢ k)</span>
-    <span class="lv-leg-item"><span class="att-leg-sw att-leg-inv"></span>masked</span>
+    <span class="lv-leg-item"><span class="att-leg-sw att-leg-weight"></span>attention weight</span>
+    <span class="lv-leg-item"><span class="att-leg-sw att-leg-vis"></span>visible mask fallback</span>
+    <span class="lv-leg-item"><span class="att-leg-sw att-leg-inv"></span>masked / zero</span>
     <span class="lv-leg-item"><span class="att-leg-sw att-leg-bound"></span>doc boundary</span>
     <span class="lv-leg-item"><em class="att-bos-sample">i</em> = BOS at this position</span>
   </div>
@@ -36,6 +37,6 @@
 <div class="lv-tip" id="att-tip"></div>
 
 <script src="shell.js"></script>
-<script src="attention.js?v=3"></script>
+<script src="attention.js?v=4"></script>
 </body>
 </html>

@@ -1,9 +1,10 @@
-/* attention-mask viewer styles. Extends viewer.css.
+/* attention viewer styles. Extends viewer.css.
    Shared chrome (.lv-info, .lv-legend) lives in viewer.css. */
 
 :root {
   --att-vis: var(--accent, #dc641e);
   --att-vis-soft: rgba(220, 100, 30, 0.55);
+  --att-weight-rgb: 55, 190, 205;
   --att-cell: rgba(255, 255, 255, 0.025);
   --att-cell-border: #2a2a2a;
   --att-bound: #ff8c4d;       /* doc-boundary line color (matches BOS marker) */
@@ -19,6 +20,7 @@
   flex-shrink: 0;
   border: 1px solid var(--att-cell-border);
 }
+.att-leg-sw.att-leg-weight { background: linear-gradient(to right, rgba(var(--att-weight-rgb), 0.18), rgba(var(--att-weight-rgb), 0.92)); border-color: rgba(var(--att-weight-rgb), 0.9); }
 .att-leg-sw.att-leg-vis  { background: var(--att-vis); border-color: var(--att-vis); }
 .att-leg-sw.att-leg-inv  { background: var(--att-cell); }
 .att-leg-sw.att-leg-bound{ background: transparent; border-left: 3px solid var(--att-bound); border-radius: 0; }
@@ -37,19 +39,17 @@
   padding: 0;
 }
 
-/* Grid: 1 corner col + N data cols × 1 corner row + N data rows. Set in JS. */
+/* Grid: 1 corner col + N data cols x 1 corner row + N data rows. Set in JS. */
 .att-grid {
   display: grid;
-  /* grid-template-columns / grid-template-rows set inline */
   width: max-content;
 }
 /* Declared widths (var(--att-label-w), var(--att-cell-size)) are intended to
    match the grid tracks. Without border-box the padding+border get added on
    top, so the row-label box becomes 64+12+1 = 77px in a 64px track and bleeds
-   ~13px into the adjacent BOS column when sticky-left. */
+   into the adjacent column when sticky-left. */
 .att-grid > * { box-sizing: border-box; }
 
-/* Top-left corner cell (empty, sticky in both directions). */
 .att-corner {
   position: sticky;
   top: 0;
@@ -62,7 +62,6 @@
   height: var(--att-label-h);
 }
 
-/* Column labels (top row). */
 .att-col-label {
   position: sticky;
   top: 0;
@@ -73,10 +72,7 @@
   height: var(--att-label-h);
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* anchor to the left so the first chars
-                                  always remain visible when a token text
-                                  is wider than the 28px cell. The right
-                                  side gets clipped by overflow:hidden. */
+  justify-content: flex-start;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.66rem;
   color: var(--text-dim);
@@ -85,9 +81,9 @@
   overflow: hidden;
 }
 .att-col-label.att-bos { font-style: italic; color: #ffd23f; }
+.att-col-label.att-threaded { text-shadow: 0 0 10px rgba(0, 0, 0, 0.65); }
 .att-col-label.att-doc-bound-right { border-right: 2px solid var(--att-bound); }
 
-/* Row labels (left column). */
 .att-row-label {
   position: sticky;
   left: 0;
@@ -108,9 +104,9 @@
   overflow: hidden;
 }
 .att-row-label.att-bos { font-style: italic; color: #ffd23f; }
+.att-row-label.att-threaded { text-shadow: 0 0 10px rgba(0, 0, 0, 0.65); }
 .att-row-label.att-doc-bound-bot { border-bottom: 2px solid var(--att-bound); }
 
-/* Body cells. */
 .att-cell {
   width: var(--att-cell-size);
   height: var(--att-cell-size);
@@ -118,9 +114,6 @@
   border-right: 1px solid var(--att-cell-border);
   border-bottom: 1px solid var(--att-cell-border);
   cursor: default;
-  /* Compact-mask cell labels: tiny centered text on top of the
-     visibility tint so each row's k0/k1 cell shows the actual key
-     token at that position (different per row). */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,6 +126,7 @@
   overflow: hidden;
 }
 .att-cell.att-vis { background: var(--att-vis); }
+.att-cell.att-weight { background: rgba(var(--att-weight-rgb), var(--att-weight-alpha, 0.35)); }
 .att-cell.att-doc-bound-right { border-right: 2px solid var(--att-bound); }
 .att-cell.att-doc-bound-bot   { border-bottom: 2px solid var(--att-bound); }
 
