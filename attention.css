@@ -127,6 +127,23 @@
 }
 .att-cell.att-vis { background: var(--att-vis); }
 .att-cell.att-weight { background: rgba(var(--att-weight-rgb), var(--att-weight-alpha, 0.35)); }
+
+.att-grid.att-dense .att-cell {
+  border-right: 0;
+  border-bottom: 0;
+  padding: 0;
+  font-size: 0;
+}
+.att-grid.att-dense .att-row-label,
+.att-grid.att-dense .att-col-label {
+  padding: 0;
+  font-size: 0;
+}
+.att-grid.att-dense .att-cell.att-doc-bound-right,
+.att-grid.att-dense .att-col-label.att-doc-bound-right { border-right: 1px solid var(--att-bound); }
+.att-grid.att-dense .att-cell.att-doc-bound-bot,
+.att-grid.att-dense .att-row-label.att-doc-bound-bot { border-bottom: 1px solid var(--att-bound); }
+
 .att-cell.att-doc-bound-right { border-right: 2px solid var(--att-bound); }
 .att-cell.att-doc-bound-bot   { border-bottom: 2px solid var(--att-bound); }
 

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Eyeball Transformer</title>
 <link rel="stylesheet" href="viewer.css">
-<link rel="stylesheet" href="attention.css?v=5">
+<link rel="stylesheet" href="attention.css?v=6">
 </head>
 <body>
 
@@ -17,6 +17,13 @@
     </div>
     <div class="lv-toolbar">
       <select id="att-matrix-select" title="Select matrix"></select>
+      <select id="att-cell-size-select" title="Cell size">
+        <option value="auto">auto cells</option>
+        <option value="3">3px cells</option>
+        <option value="6">6px cells</option>
+        <option value="12">12px cells</option>
+        <option value="28">28px cells</option>
+      </select>
     </div>
   </div>
 
@@ -37,6 +44,6 @@
 <div class="lv-tip" id="att-tip"></div>
 
 <script src="shell.js"></script>
-<script src="attention.js?v=4"></script>
+<script src="attention.js?v=5"></script>
 </body>
 </html>

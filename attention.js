@@ -6,6 +6,7 @@
     title:  document.getElementById("att-title"),
     info:   document.getElementById("att-info"),
     select: document.getElementById("att-matrix-select"),
+    cellSize: document.getElementById("att-cell-size-select"),
     scroll: document.getElementById("att-scroll"),
     error:  document.getElementById("att-error"),
     tip:    document.getElementById("att-tip"),
@@ -15,6 +16,7 @@
     "#ffd23f", "#53c6d1", "#f28b82", "#81c995",
     "#c58af9", "#ffb86c", "#8ab4f8", "#a3e635",
   ];
+  const state = { doc: null, matIdx: 0 };
 
   function showError(msg) {
     els.error.innerHTML = `<div class="lv-error">${esc(msg)}</div>`;
@@ -60,9 +62,20 @@
       opt.textContent = m.name || `matrix ${i}`;
       els.select.appendChild(opt);
     });
-    els.select.addEventListener("change", () => render(doc, +els.select.value));
+    state.doc = doc;
+    state.matIdx = 0;
+    els.select.addEventListener("change", () => {
+      state.matIdx = +els.select.value;
+      renderCurrent();
+    });
+    els.cellSize.addEventListener("change", renderCurrent);
 
-    render(doc, 0);
+    renderCurrent();
+  }
+
+  function renderCurrent() {
+    if (!state.doc) return;
+    render(state.doc, state.matIdx);
   }
 
   function render(doc, matIdx) {
@@ -83,7 +96,8 @@
     const numRowDocs = (new Set(m.rows.map(r => r.doc).filter(d => d != null))).size;
     const visibleCount = sumMatrix(m.mask);
     const sizeLabel = Nq === Nk ? `N=${Nq}` : `N_q=${Nq} x N_k=${Nk}`;
-    let info = `${m.name}  |  ${sizeLabel}  |  docs=${numRowDocs || 1}  |  visible cells = ${visibleCount} / ${Nq * Nk}`;
+    const cellSize = resolveCellSize(Nq, Nk);
+    let info = `${m.name}  |  ${sizeLabel}  |  cell=${cellSize}px  |  docs=${numRowDocs || 1}  |  visible cells = ${visibleCount} / ${Nq * Nk}`;
     if (hasWeights) {
       const stats = weightStats(m.weights);
       info += `  |  nonzero weights = ${stats.nonzero}  |  max weight = ${formatWeight(stats.max)}`;
@@ -97,6 +111,8 @@
     els.error.innerHTML = "";
     const grid = document.createElement("div");
     grid.className = hasWeights ? "att-grid att-grid-weighted" : "att-grid att-grid-mask";
+    if (cellSize <= 6) grid.classList.add("att-dense");
+    grid.style.setProperty("--att-cell-size", `${cellSize}px`);
     grid.style.gridTemplateColumns =
       `var(--att-label-w) repeat(${Nk}, var(--att-cell-size))`;
     grid.style.gridTemplateRows =
@@ -180,6 +196,16 @@
   }
   function sumMatrix(matrix) {
     return matrix.reduce((sum, row) => sum + row.reduce((a, b) => a + Number(b || 0), 0), 0);
+  }
+  function resolveCellSize(rows, cols) {
+    const raw = els.cellSize?.value || "auto";
+    if (raw !== "auto") return Number(raw);
+    const n = Math.max(rows, cols);
+    if (n >= 160) return 3;
+    if (n >= 96) return 4;
+    if (n >= 64) return 6;
+    if (n >= 40) return 12;
+    return 28;
   }
   function weightStats(weights) {
     let max = 0, nonzero = 0;
