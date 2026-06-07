@@ -1,0 +1,32 @@
+{
+  "title": "Cross-line attention: MT-LM vs vanilla AR",
+  "claim": "MT-LM exhibits cross-line attention over previous, current, and later lines. Its previous/current per-token pattern matches a vanilla AR baseline; the distinguishing feature is a nonzero later-line component (structurally absent in AR, exactly 0), concentrated in a minority of heads. We report attention allocation, not a causal/functional effect.",
+  "metric": "per-token lift = content-attention-share / token-share (1 = proportional to availability; anchors/<sot>/<bos> excluded). Median over heads, mean over docs. Never averaged across heads as a single number.",
+  "n_docs": 30,
+  "models": {
+    "mt": "d24_r20_climbmix_blockmt_v4",
+    "vanilla": "d24_r20_climbmix_simple"
+  },
+  "buckets": {
+    "previous": {
+      "mt_lift_median": 0.686,
+      "vanilla_lift_median": 0.563
+    },
+    "current": {
+      "mt_lift_median": 3.386,
+      "vanilla_lift_median": 4.008
+    },
+    "later": {
+      "mt_lift_median": 0.56,
+      "vanilla_lift_median": 0.0,
+      "mt_frac_heads_gt1": 0.108,
+      "mt_max_head_lift": 4.79
+    }
+  },
+  "representative_head": {
+    "layer": 7,
+    "head": 5,
+    "note": "strong cross-line head used for the line x line figure"
+  },
+  "takeaway": "previous and current lifts are similar across MT and AR; later is the difference: MT > 0 (here, minority of heads, up to 4.8x), vanilla = 0 by construction."
+}
