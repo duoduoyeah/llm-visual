@@ -91,8 +91,9 @@
       if (m && m.is_special) return true;
     }
     // Fallback auto-detection: tokens whose text matches <|...|>, or tokens
-    // that carry a newline (paragraph break tokens) are treated as special so
-    // they render as visible chips instead of vanishing into the prose.
+    // that carry a newline (paragraph break tokens) are treated as special.
+    // The renderer later decides whether newline tokens become chips (MT) or
+    // actual row breaks (simple GPT).
     const text = DOC.vocab && DOC.vocab[String(vocabId)];
     if (typeof text !== "string") return false;
     return SPECIAL_TEXT_RE.test(text) || text.includes("\n");
@@ -105,14 +106,15 @@
 
   // Display form of a newline-bearing token's text inside a chip:
   // replace each \n with a visible ↵ glyph so it remains visible without
-  // creating an extra layout row. Row boundaries come from <|sot|>.
+  // creating an extra layout row. MT row boundaries come from <|sot|> /
+  // thread drops; simple GPT traces use literal newlines as row boundaries.
   function chipDisplayText(text) {
     return text.replace(/\n/g, "↵");
   }
 
   // True when the renderer should insert a paragraph break BEFORE this token,
   // so the chip leads the new paragraph (e.g. <|sot|> opens a fresh line).
-  // Newlines inside token text render as ↵ glyphs and do not force row breaks.
+  // Newlines inside token text are handled separately by trace type.
   function tokenBreaksBefore(t) {
     if (t.role === "thread_start") return true;
     const text = DOC && DOC.vocab && DOC.vocab[String(t.vocab_id)];
@@ -125,6 +127,25 @@
       if (typeof t.thread_id === "number" && t.thread_id > 0) return true;
     }
     return false;
+  }
+
+  function newlineTokensBreakRows() {
+    return !!(LAYOUT && !LAYOUT.hasThreads);
+  }
+
+  function renderTokenIsSpecial(t) {
+    const newlineTok = tokenHasNewline(t);
+    return isSpecial(t.vocab_id) && !(newlineTok && newlineTokensBreakRows());
+  }
+
+  function appendTokenTextParts(parts, rawText, emitSpan) {
+    const chunks = String(rawText).split("\n");
+    for (let i = 0; i < chunks.length; i++) {
+      if (chunks[i]) emitSpan(chunks[i]);
+      if (i < chunks.length - 1) {
+        parts.push('<br class="lv-block-break">');
+      }
+    }
   }
 
   function threadColor(threadId, gen_step, maxStep) {
@@ -297,7 +318,15 @@
     let maxLen = 0;
     for (const s of sequences) if (s.length > maxLen) maxLen = s.length;
 
-    return { sequences, maxStep, maxLen, tokensById, colById, generatedCumulative };
+    return {
+      sequences,
+      maxStep,
+      maxLen,
+      tokensById,
+      colById,
+      generatedCumulative,
+      hasThreads,
+    };
   }
 
   // ------------------------------------------------------------
@@ -335,13 +364,16 @@
       const t = LAYOUT.tokensById[id];
       const rawText = DOC.vocab[String(t.vocab_id)] ?? "";
       const newlineTok = rawText.includes("\n");
-      // Show ↵ glyphs in place of literal \n so the chip itself stays inline;
-      // newline-bearing tokens do not create row breaks.
-      const text = newlineTok ? chipDisplayText(rawText) : rawText;
+      const breakNewlineRows = newlineTokensBreakRows();
+      // Threaded MT traces keep newline tokens as visible inline chips because
+      // their readable rows come from <|sot|> and thread boundaries. Plain GPT
+      // traces have no such sentinels, so literal newlines become row breaks.
+      const text =
+        newlineTok && !breakNewlineRows ? chipDisplayText(rawText) : rawText;
       const cls = ["lv-tok"];
       let inlineColor = "";
       const isJust = t.gen_step > 0 && t.gen_step === step;
-      const special = isSpecial(t.vocab_id);
+      const special = renderTokenIsSpecial(t);
       const tColor =
         !special && t.gen_step > 0 && !isJust
           ? threadColor(t.thread_id, t.gen_step, LAYOUT.maxStep)
@@ -381,8 +413,7 @@
       // paragraph layout survives chip hiding.
       //
       // MT wave-step boundary: wave steps without a fresh <|sot|> are still
-      // separated by a thread_id drop. Newline-bearing tokens never create
-      // rows; they render as visible ↵ chips only.
+      // separated by a thread_id drop.
       const prevT = i > 0 ? LAYOUT.tokensById[seq[i - 1]] : null;
       const inMT = typeof t.wave_id === "number" && t.wave_id > 0;
       const sotBreak = tokenBreaksBefore(t);
@@ -394,19 +425,23 @@
       if ((sotBreak || thrDrop) && parts.length > 0) {
         parts.push('<br class="lv-block-break">');
       }
-      parts.push(
-        '<span class="' +
-          cls.join(" ") +
-          '"' +
-          inlineColor +
-          dataAttrs.join("") +
-          ">" +
-          escapeHtml(text) +
-          "</span>",
-      );
-      // Newline-bearing tokens are visible ↵ chips, not row boundaries. The
-      // MT trace already carries explicit <|sot|> / thread-drop structure, so
-      // adding breaks here duplicates rows and makes the trace harder to read.
+      const emitSpan = (visibleText) => {
+        parts.push(
+          '<span class="' +
+            cls.join(" ") +
+            '"' +
+            inlineColor +
+            dataAttrs.join("") +
+            ">" +
+            escapeHtml(visibleText) +
+            "</span>",
+        );
+      };
+      if (newlineTok && breakNewlineRows) {
+        appendTokenTextParts(parts, text, emitSpan);
+      } else {
+        emitSpan(text);
+      }
     }
     return parts.join("");
   }
@@ -423,7 +458,7 @@
     }
     const vid = span.dataset.vid;
     const text = DOC.vocab[String(vid)] ?? "?";
-    const special = isSpecial(parseInt(vid, 10));
+    const special = span.classList.contains("lv-tok-special");
     const rows = [
       '<div><span class="k">token: </span><span class="v ' +
         (special ? "special" : "") +
@@ -592,11 +627,14 @@
     const out = [];
     for (let i = 0; i < seq.length; i++) {
       const t = tokensById[seq[i]];
-      const special = isSpecial(t.vocab_id);
+      const newlineTok = tokenHasNewline(t);
+      const breakNewlineRows = newlineTokensBreakRows();
+      const special = renderTokenIsSpecial(t);
       // Apply the hide-structural toggle in canvas exports too: drop the chip,
       // but keep any structural row break it forces so paragraph layout is
       // preserved. <|sot|> always opens a new row; thread_id drops also mark
-      // MT wave-step boundaries. Newline-bearing tokens never force rows.
+      // MT wave-step boundaries. Plain GPT newline tokens are rendered as hard
+      // row breaks instead of structural chips.
       const prevT = i > 0 ? tokensById[seq[i - 1]] : null;
       const inMT = typeof t.wave_id === "number" && t.wave_id > 0;
       const sotBreak = tokenBreaksBefore(t);
@@ -606,12 +644,12 @@
         typeof prevT.thread_id === "number" &&
         t.thread_id < prevT.thread_id;
       const breakBefore = (sotBreak || thrDrop) && out.length > 0;
-      const newlineTok = tokenHasNewline(t);
       const breakAfter = false;
       const rawText = DOC.vocab[String(t.vocab_id)] ?? "";
-      // For canvas, replace \n with ↵ so the chip stays on one line without
-      // creating an extra layout row.
-      const displayText = newlineTok ? chipDisplayText(rawText) : rawText;
+      // Canvas mirrors HTML: MT newline tokens stay as ↵ chips, while plain
+      // GPT newline tokens keep literal \n so wrapSpansIntoLines opens rows.
+      const displayText =
+        newlineTok && !breakNewlineRows ? chipDisplayText(rawText) : rawText;
       if (!(hideStructural && special)) {
         out.push({
           text: displayText,
@@ -654,7 +692,7 @@
     let anySpecial = false,
       anyForced = false;
     for (const t of TRACE.tokens) {
-      if (isSpecial(t.vocab_id)) anySpecial = true;
+      if (renderTokenIsSpecial(t)) anySpecial = true;
       if (t.forced) anyForced = true;
     }
 
@@ -904,8 +942,8 @@
         lines.push([]);
         curW = 0;
       }
-      // The displayed text is already \n-free for newline tokens (↵ glyphs);
-      // any remaining \n inside non-special tokens is treated as a hard break.
+      // MT newline tokens are already \n-free (↵ glyphs); plain GPT newline
+      // tokens keep literal \n here and are treated as hard breaks.
       const segments = sp.text.split("\n");
       for (let i = 0; i < segments.length; i++) {
         if (i > 0) {
