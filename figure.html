@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Figure — LCLM step 18</title>
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="viewer.css">
+<style>
+  body { background:#fff; margin:18px; font-family:ui-sans-serif,-apple-system,sans-serif; }
+  #bar { margin-bottom:12px; display:flex; gap:8px; align-items:center; }
+  #bar button { font:inherit; font-size:.8rem; padding:4px 10px; border:1px solid #c9c8c4;
+                background:#fff; border-radius:6px; cursor:pointer; }
+  #measure { position:absolute; left:-99999px; top:0; }
+  #measure .tr-body { width:940px; border:none; background:#fff; margin:0; }
+  #stage svg { max-width:100%; height:auto; border:1px solid #eee; }
+</style>
+</head>
+<body class="tr-paper">
+
+<div id="bar">
+  <button id="dl-svg">Download SVG</button>
+  <button id="dl-png">Download PNG @3x</button>
+  <span id="note" style="font-size:.78rem;color:#777"></span>
+</div>
+<div id="stage"></div>
+<div id="measure"></div>
+
+<script src="trace-model.js"></script>
+<script>
+// ---------------------------------------------------------------- config
+// Every position lives here. Move an ingredient = change one number.
+const FIG = {
+  file: './examples/generation/cdlm_vs_ar_d24r20_daily.json',
+  seqName: 'CDLM d24r20 · egg/rice dinners',
+  arName:  'AR d24r20 · egg/rice dinners',
+  step: 18,
+  pad: 26,
+
+  title:   { x: 0,   y: 4 },
+  legend:  { x: 0,   y: 30 },
+  trace:   { x: 0,   y: 108 },
+  panel:   { x: 700, y: 268, w: 430, h: 200 },
+
+  brace:   { dy: 10, drop: 16, label: 'prompt — given, not decoded' },
+  callout: { line: 10, dx: 150, dy: 30, label: 'decoded at this step' },
+  retire:  { lines: [5, 6], dx: 26, arm: 9,
+             label: ['lines retire one by one', 'line 5 ended at step 17 · line 6 ends here'] },
+};
+
+const RAMP = ['#3987e5', '#1c5cab', '#0d366b'];
+const PROMPT_BG = '#e6e5e1', RING = '#b45309';
+const INK = '#111';            // annotation layer — neutral by design
+const MUTED = '#666';
+const SANS = 'ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif';
+
+// ---------------------------------------------------------------- helpers
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const hexRgb = h => [1,3,5].map(i => parseInt(h.slice(i,i+2),16));
+function rampAt(f){
+  const s = RAMP.map(hexRgb), x = Math.max(0,Math.min(1,f))*(s.length-1);
+  const i = Math.min(s.length-2, Math.floor(x)), t = x-i;
+  return 'rgb(' + s[i].map((a,j)=>Math.round(a+(s[i+1][j]-a)*t)).join(',') + ')';
+}
+const txt = (x,y,s,o={}) =>
+  `<text x="${x}" y="${y}" font-family="${o.ff||SANS}" font-size="${o.fs||12}"` +
+  ` fill="${o.fill||INK}" font-weight="${o.fw||400}"` +
+  ` text-anchor="${o.anchor||'start'}"${o.baseline?` dominant-baseline="${o.baseline}"`:''}` +
+  `${o.pre?' xml:space="preserve"':''}>${esc(s)}</text>`;
+const g = (x,y,body) => `<g transform="translate(${x},${y})">${body}</g>`;
+
+// ---------------------------------------------------------------- measure
+// Render the block as real DOM once, read geometry, then draw as pure SVG.
+let M = null;
+function measure(seq, step){
+  const host = document.getElementById('measure');
+  host.innerHTML = '<div class="tr-body" id="mb"></div>';
+  const mb = document.getElementById('mb');
+  const max = lastStep(seq);
+  const lines = layoutLines(seq, tokensAtStep(seq, step));
+  mb.innerHTML = lines.map((l,i) =>
+    `<div class="tr-line"><span class="tr-line-idx">${i}</span><span class="tr-line-toks">` +
+    l.map((t,j) => {
+      const p = t.step === 0, now = t.step === step;
+      const bg = p ? PROMPT_BG : rampAt((t.step-1)/(max-1));
+      return `<span class="tr-tok${now?' tr-tok-now':''}" data-l="${i}" data-j="${j}"` +
+             ` data-step="${t.step}" data-prompt="${p}"` +
+             ` style="background:${bg};color:${p?'#101010':'#fff'}` +
+             `${now?';box-shadow:0 0 0 2px '+RING:''}">${esc(t.char.replace(/\n/g,'↵'))}</span>`;
+    }).join('') + '</span></div>').join('');
+
+  const box = mb.getBoundingClientRect();
+  const rel = r => ({ x:r.left-box.left, y:r.top-box.top, w:r.width, h:r.height });
+  const toks = [...mb.querySelectorAll('.tr-tok')].map(el => ({
+    el, r: rel(el.getBoundingClientRect()),
+    line:+el.dataset.l, prompt:el.dataset.prompt==='true',
+    now: el.classList.contains('tr-tok-now'),
+    text: el.textContent, cs: getComputedStyle(el),
+  }));
+  const idx = [...mb.querySelectorAll('.tr-line-idx')].map(el => ({
+    el, r: rel(el.getBoundingClientRect()), cs:getComputedStyle(el), text:el.textContent,
+  }));
+  M = { w: Math.ceil(mb.scrollWidth), h: Math.ceil(mb.scrollHeight), toks, idx, lines, max };
+  return M;
+}
+const lineTokens = l => M.toks.filter(t => t.line === l);
+const lineRight  = l => Math.max(...lineTokens(l).map(t => t.r.x + t.r.w));
+const lineTop    = l => Math.min(...lineTokens(l).map(t => t.r.y));
+const lineBot    = l => Math.max(...lineTokens(l).map(t => t.r.y + t.r.h));
+
+// ---------------------------------------------------------------- 1. trace
+function ingTrace(){
+  const out = [];
+  for (const i of M.idx)
+    out.push(txt(i.r.x+i.r.w, i.r.y+i.r.h/2, i.text,
+      { ff:i.cs.fontFamily, fs:i.cs.fontSize, fill:i.cs.color, anchor:'end', baseline:'central' }));
+  for (const t of M.toks){
+    if (!t.r.w) continue;
+    out.push(`<rect x="${t.r.x.toFixed(1)}" y="${t.r.y.toFixed(1)}" width="${t.r.w.toFixed(1)}"` +
+             ` height="${t.r.h.toFixed(1)}" rx="2" fill="${t.cs.backgroundColor}"/>`);
+    if (t.now)
+      out.push(`<rect x="${(t.r.x-1).toFixed(1)}" y="${(t.r.y-1).toFixed(1)}"` +
+               ` width="${(t.r.w+2).toFixed(1)}" height="${(t.r.h+2).toFixed(1)}"` +
+               ` rx="3" fill="none" stroke="${RING}" stroke-width="2"/>`);
+    out.push(txt(t.r.x, t.r.y+t.r.h/2, t.text,
+      { ff:t.cs.fontFamily, fs:t.cs.fontSize, fill:t.cs.color, baseline:'central', pre:true }));
+  }
+  return out.join('');
+}
+
+// ---------------------------------------------------------------- 2. title
+function ingTitle(D){
+  return txt(0, 0, `Step ${FIG.step} of ${D.totalSteps}`, { fs:15, fw:700, baseline:'hanging' }) +
+         txt(112, 0, `${D.nAtStep} tokens decoded — one on every open line`,
+             { fs:14, fill:MUTED, baseline:'hanging' });
+}
+
+// ---------------------------------------------------------------- 3. legend
+function ingLegend(){
+  const items = [];
+  let x = 0;
+  const chip = (fill, stroke) =>
+    `<rect x="${x}" y="0" width="15" height="13" rx="2" fill="${fill}"` +
+    (stroke?` stroke="${stroke}" stroke-width="2"`:'') + `/>`;
+  items.push(chip(PROMPT_BG)); items.push(txt(x+21, 7, 'prompt', {fs:11.5, fill:MUTED, baseline:'central'}));
+  x += 78;
+  items.push(`<defs><linearGradient id="lg">` +
+    RAMP.map((c,i)=>`<stop offset="${i/(RAMP.length-1)*100}%" stop-color="${c}"/>`).join('') +
+    `</linearGradient></defs>`);
+  items.push(txt(x, 7, 'step 1', {fs:11.5, fill:MUTED, baseline:'central'}));
+  items.push(`<rect x="${x+40}" y="2" width="76" height="9" rx="2" fill="url(#lg)"/>`);
+  items.push(txt(x+122, 7, `${FIG.step}`, {fs:11.5, fill:MUTED, baseline:'central'}));
+  x += 152;
+  items.push(chip(rampAt(1), RING)); items.push(txt(x+22, 7, 'decoded at this step',
+    {fs:11.5, fill:MUTED, baseline:'central'}));
+  return items.join('');
+}
+
+// ---------------------------------------------------------------- 4. brace
+function ingPromptBrace(){
+  const p = M.toks.filter(t => t.prompt);
+  if (!p.length) return '';
+  const x0 = Math.min(...p.map(t=>t.r.x)), x1 = Math.max(...p.map(t=>t.r.x+t.r.w));
+  const y  = Math.min(...p.map(t=>t.r.y)) - FIG.brace.dy;
+  const mid = (x0+x1)/2, d = FIG.brace.drop;
+  return `<path d="M${x0},${y} v-5 H${x1} v5" fill="none" stroke="${INK}" stroke-width="1.2"/>` +
+         `<path d="M${mid},${y-5} v${-(d-5)}" fill="none" stroke="${INK}" stroke-width="1.2"/>` +
+         txt(mid, y-d-5, FIG.brace.label, { fs:12, anchor:'middle' });
+}
+
+// ---------------------------------------------------------------- 5. callout
+function ingCallout(){
+  const t = lineTokens(FIG.callout.line).find(t => t.now);
+  if (!t) return '';
+  const ax = t.r.x + t.r.w + 3, ay = t.r.y + t.r.h/2;
+  const lx = ax + FIG.callout.dx, ly = ay + FIG.callout.dy;
+  return `<path d="M${lx},${ly} L${ax+10},${ay}" fill="none" stroke="${INK}"` +
+         ` stroke-width="1.2" marker-end="url(#ar)"/>` +
+         txt(lx+4, ly, FIG.callout.label, { fs:12, baseline:'central' });
+}
+
+// ---------------------------------------------------------------- 6. retire
+function ingRetire(){
+  const [a,b] = FIG.retire.lines;
+  const x  = Math.max(lineRight(a), lineRight(b)) + FIG.retire.dx;
+  const y0 = lineTop(a), y1 = lineBot(b), arm = FIG.retire.arm;
+  return `<path d="M${x-arm},${y0} H${x} V${y1} H${x-arm}" fill="none" stroke="${INK}" stroke-width="1.2"/>` +
+         `<path d="M${x},${(y0+y1)/2} h${arm}" fill="none" stroke="${INK}" stroke-width="1.2"/>` +
+         txt(x+arm+6, (y0+y1)/2-7, FIG.retire.label[0], { fs:12, fw:600, baseline:'central' }) +
+         txt(x+arm+6, (y0+y1)/2+8, FIG.retire.label[1], { fs:11.5, fill:MUTED, baseline:'central' });
+}
+
+// ---------------------------------------------------------------- 7. panel
+function ingPanel(D){
+  const { w, h } = FIG.panel, m = { l:34, r:8, t:22, b:26 };
+  const iw = w-m.l-m.r, ih = h-m.t-m.b;
+  const xmax = Math.max(D.lclmPer.length, D.arPer.length) - 1;
+  const ymax = Math.max(...D.lclmPer) ;
+  const X = s => m.l + (s/xmax)*iw, Y = v => m.t + ih - (v/ymax)*ih;
+  const path = arr => 'M' + arr.map((v,s)=>`${X(s).toFixed(1)},${Y(v).toFixed(1)}`).join(' L');
+  const out = [];
+  out.push(txt(0, 0, 'tokens decoded per step', { fs:12, fw:600, baseline:'hanging' }));
+  // axes
+  out.push(`<path d="M${m.l},${m.t} V${m.t+ih} H${m.l+iw}" fill="none" stroke="#ddd" stroke-width="1"/>`);
+  for (const v of [1, 5, 10, Math.round(ymax)]) {
+    out.push(`<path d="M${m.l-3},${Y(v)} H${m.l}" stroke="#bbb" stroke-width="1"/>`);
+    out.push(txt(m.l-6, Y(v), String(v), { fs:10, fill:MUTED, anchor:'end', baseline:'central' }));
+  }
+  for (const s of [0, 111, 400, xmax]) {
+    out.push(`<path d="M${X(s)},${m.t+ih} V${m.t+ih+3}" stroke="#bbb" stroke-width="1"/>`);
+    out.push(txt(X(s), m.t+ih+6, String(s), { fs:10, fill:MUTED, anchor:'middle', baseline:'hanging' }));
+  }
+  // AR baseline (recessive gray — it is the reference, not a rival series)
+  out.push(`<path d="${path(D.arPer)}" fill="none" stroke="#9a9a96" stroke-width="1.5"/>`);
+  out.push(txt(X(D.arPer.length-1)-4, Y(1)-8, `AR — 1.0/step, ${D.arPer.length-1} steps`,
+    { fs:10.5, fill:'#767672', anchor:'end' }));
+  // LCLM
+  out.push(`<path d="${path(D.lclmPer)}" fill="none" stroke="${RAMP[0]}" stroke-width="1.5"/>`);
+  out.push(txt(X(D.totalSteps)+10, Y(ymax*0.55),
+    `LCLM — ${D.totalSteps} steps,`, { fs:10.5, fill:RAMP[1] }));
+  out.push(txt(X(D.totalSteps)+10, Y(ymax*0.55)+12,
+    `up to ${Math.round(ymax)}/step`, { fs:10.5, fill:RAMP[1] }));
+  // marker at FIG.step
+  const mx = X(FIG.step), my = Y(D.nAtStep);
+  out.push(`<path d="M${mx},${m.t} V${m.t+ih}" stroke="${RING}" stroke-width="1" stroke-dasharray="3 2"/>`);
+  out.push(`<circle cx="${mx}" cy="${my}" r="3.5" fill="${RING}"/>`);
+  out.push(txt(mx+7, my-9, `step ${FIG.step}: ${D.nAtStep}`, { fs:11, fw:600, fill:RING }));
+  return out.join('');
+}
+
+// ---------------------------------------------------------------- compose
+function compose(D){
+  const parts =
+    g(FIG.title.x,  FIG.title.y,  ingTitle(D)) +
+    g(FIG.legend.x, FIG.legend.y, ingLegend()) +
+    g(FIG.trace.x,  FIG.trace.y,
+       ingTrace() + ingPromptBrace() + ingCallout() + ingRetire()) +
+    g(FIG.panel.x,  FIG.panel.y,  ingPanel(D));
+  const W = Math.max(FIG.trace.x + M.w, FIG.panel.x + FIG.panel.w);
+  const H = Math.max(FIG.trace.y + M.h + 60, FIG.panel.y + FIG.panel.h);
+  const p = FIG.pad;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W+p*2}" height="${H+p*2}"` +
+    ` viewBox="${-p} ${-p} ${W+p*2} ${H+p*2}">` +
+    `<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6"` +
+    ` orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="${INK}"/></marker></defs>` +
+    `<rect x="${-p}" y="${-p}" width="${W+p*2}" height="${H+p*2}" fill="#ffffff"/>` +
+    parts + `</svg>`;
+}
+
+// ---------------------------------------------------------------- run
+function perStep(seq){
+  const n = lastStep(seq), a = Array(n+1).fill(0);
+  for (const t of seq.tokens) a[t.step]++;
+  return a;
+}
+function download(href, name){ const a=document.createElement('a'); a.href=href; a.download=name; a.click(); }
+
+fetch(FIG.file).then(r => r.json()).then(doc => {
+  const seq = doc.sequences.find(s => s.name === FIG.seqName);
+  const ar  = doc.sequences.find(s => s.name === FIG.arName);
+  seq.offset ??= doc.offset; seq.model ??= 'lclm';
+  const D = {
+    totalSteps: lastStep(seq),
+    nAtStep: seq.tokens.filter(t => t.step === FIG.step).length,
+    lclmPer: perStep(seq),
+    arPer: perStep(ar),
+  };
+  measure(seq, FIG.step);
+  const svg = compose(D);
+  document.getElementById('stage').innerHTML = svg;
+  document.getElementById('note').textContent =
+    `${D.nAtStep} tokens at step ${FIG.step} · ${M.lines.length} lines · edit FIG at top of file to reposition`;
+  document.getElementById('dl-svg').onclick = () => {
+    const url = URL.createObjectURL(new Blob([svg], {type:'image/svg+xml'}));
+    download(url, `figure-lclm-step${FIG.step}.svg`); setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  };
+  document.getElementById('dl-png').onclick = () => {
+    const m2 = svg.match(/width="(\d+)" height="(\d+)"/), W=+m2[1], H=+m2[2], k=3;
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas'); c.width=W*k; c.height=H*k;
+      const cx = c.getContext('2d'); cx.scale(k,k); cx.drawImage(img,0,0);
+      download(c.toDataURL('image/png'), `figure-lclm-step${FIG.step}.png`);
+    };
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  };
+});
+</script>
+</body>
+</html>

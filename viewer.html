@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Eyeball Transformer</title>
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="viewer.css">
+</head>
+<body>
+
+<header id="shell" data-page="generation"></header>
+
+<div class="lv-card">
+  <div class="lv-head">
+    <div class="lv-title-block">
+      <h3 class="lv-title" id="tr-title">Loading…</h3>
+    </div>
+    <div class="lv-toolbar">
+      <select id="tr-seq" title="Sequence"></select>
+      <button class="lv-btn" id="tr-mode">Mode: step</button>
+      <button class="lv-btn" id="tr-surface">Surface: screen</button>
+      <button class="lv-btn" id="tr-play">▶ Play</button>
+      <button class="lv-btn" id="tr-svg" title="Export current step as SVG">SVG</button>
+      <button class="lv-btn" id="tr-png" title="Export current step as PNG @3x">PNG</button>
+    </div>
+  </div>
+
+  <div class="lv-info" id="tr-info"></div>
+
+  <div class="tr-body" id="tr-body"></div>
+
+  <div class="tr-controls" id="tr-controls">
+    <button class="tr-step-btn" id="tr-prev" disabled>◀</button>
+    <input type="range" id="tr-slider" min="0" max="0" value="0" step="1">
+    <button class="tr-step-btn" id="tr-next" disabled>▶</button>
+    <span class="tr-step-label" id="tr-step-label">step 0 / 0</span>
+  </div>
+
+  <div class="lv-legend">
+    <span class="lv-leg-item"><span class="lv-leg-sw" id="tr-prompt-sw"></span>prompt (step 0)</span>
+    <span class="lv-leg-item">step 1<span class="tr-ramp" id="tr-ramp"></span>last</span>
+    <span class="lv-leg-item"><span class="tr-leg-now">current step</span></span>
+  </div>
+
+  <div id="tr-error"></div>
+</div>
+
+<div class="lv-tip" id="tr-tip"></div>
+
+<script src="shell.js"></script>
+<script src="trace-model.js"></script>
+<script src="viewer.js"></script>
+</body>
+</html>

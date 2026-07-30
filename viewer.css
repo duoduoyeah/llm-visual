@@ -1,0 +1,155 @@
+.tr-body {
+    margin: 14px 0 0;
+    padding: 16px 18px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.95rem;
+    line-height: 2.15;
+    min-height: 120px;
+    overflow-x: auto;
+}
+
+.tr-line {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+.tr-line-idx {
+    flex: 0 0 auto;
+    width: 2.2em;
+    text-align: right;
+    color: #4a4a4a;
+    font-size: 0.7rem;
+    user-select: none;
+}
+.tr-line-toks {
+    flex: 1;
+    min-width: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+.tr-line-empty .tr-line-toks::before {
+    content: "·";
+    color: #303030;
+}
+
+.tr-tok {
+    padding: 1px 0;
+    margin: 0 1px;
+    border-radius: 2px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+.tr-tok-special {
+    font-size: 0.8em;
+    font-style: italic;
+    white-space: nowrap;
+    opacity: 0.75;
+}
+.tr-tok-now {
+    position: relative;
+    z-index: 1;
+    border-radius: 3px;
+}
+
+body.tr-paper {
+    background: #fcfcfb;
+    --card: #ffffff;
+    --card-border: #d9d8d4;
+    --text: #1a1a19;
+    --text-dim: #7a7a76;
+    --text-muted: #3a3a37;
+    --btn-border: #c9c8c4;
+    --btn-hover: #efeeea;
+}
+body.tr-paper .lv-card {
+    box-shadow: none;
+}
+body.tr-paper .tr-body {
+    background: #fcfcfb;
+    border-color: #d9d8d4;
+}
+body.tr-paper .tr-line-idx {
+    color: #a8a7a2;
+}
+body.tr-paper .tr-line-empty .tr-line-toks::before {
+    color: #d9d8d4;
+}
+body.tr-paper .lv-title {
+    color: #1a1a19;
+}
+
+.tr-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+}
+.tr-controls input[type="range"] {
+    flex: 1;
+    accent-color: var(--accent);
+}
+.tr-controls[data-hidden] {
+    visibility: hidden;
+}
+.tr-step-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--btn-border);
+    border-radius: 6px;
+    width: 30px;
+    height: 26px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.tr-step-btn:hover:not(:disabled) {
+    background: var(--btn-hover);
+    border-color: #555;
+}
+.tr-step-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+.tr-step-label {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    min-width: 92px;
+    text-align: right;
+}
+
+.tr-ramp {
+    display: inline-block;
+    width: 90px;
+    height: 10px;
+    border-radius: 2px;
+    margin: 0 6px;
+}
+.tr-leg-now {
+    padding: 1px 5px;
+    border-radius: 3px;
+    box-shadow: 0 0 0 2px #ffd84d;
+}
+body.tr-paper .tr-leg-now {
+    box-shadow: 0 0 0 2px #b45309;
+}
+
+body.tr-bare .lv-head,
+body.tr-bare .lv-info,
+body.tr-bare .tr-controls,
+body.tr-bare .lv-legend,
+body.tr-bare #shell {
+    display: none;
+}
+body.tr-bare .lv-card {
+    border: none;
+    padding: 0;
+    background: transparent;
+}
+body.tr-bare .tr-body {
+    border: none;
+    margin: 0;
+}
