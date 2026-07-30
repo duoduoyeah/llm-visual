@@ -13,8 +13,6 @@
                 --text-muted: #c9c9c9;
                 --accent: #dc641e;
                 --accent-soft: rgba(220, 100, 30, 0.12);
-                --tok-prompt: #b9a2db;
-                --tok-current: #ffd84d;
                 --coming-soon: #3a3a3a;
             }
             * {
@@ -186,8 +184,8 @@
         <div class="hero">
             <p>
                 Interactive visualizations for understanding language model
-                internals — generation traces, attention patterns, positional
-                encodings, and data relationships.
+                internals — attention patterns, positional encodings, and data
+                relationships.
             </p>
 
             <label class="drop-zone" id="drop-zone">
@@ -195,18 +193,6 @@
                 <span id="drop-label">Open a JSON file…</span>
                 <input type="file" accept=".json" id="file-input" />
             </label>
-        </div>
-
-        <div class="section" id="trace-section">
-            <div class="section-head">
-                <h2 class="section-title">Generation Trace</h2>
-                <span class="section-badge active">active</span>
-            </div>
-            <div class="grid" id="trace-grid">
-                <div class="ex-card" style="opacity: 0.4; cursor: default">
-                    Loading…
-                </div>
-            </div>
         </div>
 
         <div class="section" id="dataloader-section">
@@ -246,14 +232,15 @@
         </div>
 
         <script>
+            // NOTE: type "trace" (generation traces) is deliberately absent —
+            // the trace schema and renderer are being rewritten. Trace files in
+            // examples/ are ignored by the index until the new viewer lands.
             const VIEWER_MAP = {
-                trace: "viewer.html",
                 dataloader: "dataloader.html",
                 attention: "attention.html",
                 rope: "rope.html",
             };
             const GRID_MAP = {
-                trace: "trace-grid",
                 dataloader: "dataloader-grid",
                 attention: "attention-grid",
                 rope: "rope-grid",
@@ -354,7 +341,7 @@
                         continue;
                     }
                     for (const item of items) {
-                        const viewer = VIEWER_MAP[type] || "viewer.html";
+                        const viewer = VIEWER_MAP[type];
                         const a = document.createElement("a");
                         a.className = "ex-card";
                         a.href = `${viewer}?trace=./examples/${item.file}`;
@@ -374,8 +361,14 @@
 
             function openFile(file) {
                 if (!file || !file.name.endsWith(".json")) return;
+                const viewer = VIEWER_MAP[inferType(file.name)];
+                if (!viewer) {
+                    document.getElementById("drop-label").textContent =
+                        "Generation-trace viewer is being rewritten — dataloader / attention / rope files only for now.";
+                    return;
+                }
                 const url = URL.createObjectURL(file);
-                window.location.href = `viewer.html?trace=${encodeURIComponent(url)}`;
+                window.location.href = `${viewer}?trace=${encodeURIComponent(url)}`;
             }
 
             // project-shell injection

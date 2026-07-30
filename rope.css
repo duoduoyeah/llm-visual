@@ -1,5 +1,5 @@
-/* RoPE positional-encoding viewer styles. Extends viewer.css.
-   Shared chrome (.lv-info, .lv-legend, .lv-tip) lives in viewer.css. */
+/* RoPE positional-encoding viewer styles. Extends base.css.
+   Shared chrome (.lv-info, .lv-legend, .lv-tip) lives in base.css. */
 
 :root {
   --rope-pos: var(--accent, #dc641e);          /* q ahead of k */

@@ -50,7 +50,7 @@
     }
     if (doc.kind !== "dataloader") {
       showError(`Expected kind="dataloader", got kind="${doc.kind}". `
-              + `Did you mean to open this in viewer.html?`);
+              + `Did you mean to open this in another renderer?`);
       return;
     }
     if (!doc.rows || doc.rows.length === 0) {

@@ -17,9 +17,16 @@ under `examples/`. The list is read from `examples/manifest.json`,
 which is regenerated from the dump scripts (or via
 `python -m scripts.dump.refresh_examples_manifest` from the repo root).
 
-To load a specific trace directly, pass its path via the `trace`
-query param:
+To load a specific file directly, pass its path via the `trace`
+query param on the matching renderer page (`dataloader.html`,
+`attention.html`, `rope.html`):
 
 ```
-http://localhost:<port>/viewer.html?trace=./examples/d8_r20_simplestory.json
+http://localhost:<port>/rope.html?trace=./examples/some_rope_dump.json
 ```
+
+## Status
+
+The **generation-trace** visualization (schema + renderer) has been torn
+down and is being rewritten. Only the dataloader, attention, and RoPE
+renderers are live right now.

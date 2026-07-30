@@ -1,5 +1,5 @@
-/* dataloader-specific styles. Extends viewer.css.
-   Shared chrome (.lv-info, .lv-legend) lives in viewer.css. */
+/* dataloader-specific styles. Extends base.css.
+   Shared chrome (.lv-info, .lv-legend) lives in base.css. */
 
 :root {
   --dl-doc-0: rgba(120, 170, 255, 0.10);

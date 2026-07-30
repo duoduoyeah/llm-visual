@@ -1,5 +1,5 @@
-/* attention-mask viewer styles. Extends viewer.css.
-   Shared chrome (.lv-info, .lv-legend) lives in viewer.css. */
+/* attention-mask viewer styles. Extends base.css.
+   Shared chrome (.lv-info, .lv-legend) lives in base.css. */
 
 :root {
   --att-vis: var(--accent, #dc641e);
