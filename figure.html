@@ -36,19 +36,30 @@ const FIG = {
   step: 18,
   pad: 26,
 
+  // 'visible' — ramp spans only the steps on screen, so step 18 is the deepest
+  // 'full'    — ramp spans all 111 steps (steps 1-18 use only its first 15%)
+  // 'flat'    — one colour for every output token, no step encoding
+  colorMode: 'visible',
+
   title:   { x: 0,   y: 4 },
   legend:  { x: 0,   y: 30 },
   trace:   { x: 0,   y: 108 },
-  panel:   { x: 700, y: 268, w: 430, h: 200 },
+  // minimap of the whole generation; fullWidth = px the full run is measured
+  // at before being scaled down to w
+  panel:   { x: 700, y: 178, w: 420, fullWidth: 1150,
+             label: 'full generation', tag: 'steps 0–18, shown left' },
 
-  brace:   { dy: 10, drop: 16, label: 'prompt — given, not decoded' },
+  brace:   { dy: 10, depth: 14, gap: 6, label: 'prompt — given, not decoded' },
   callout: { line: 10, dx: 150, dy: 30, label: 'decoded at this step' },
-  retire:  { lines: [5, 6], dx: 26, arm: 9,
-             label: ['lines retire one by one', 'line 5 ended at step 17 · line 6 ends here'] },
+  retire:  { dx: 30, items: [
+             { line: 5, label: 'line finished' },
+             { line: 6, label: 'line just finished', strong: true } ] },
 };
 
 const RAMP = ['#3987e5', '#1c5cab', '#0d366b'];
+const FLAT = '#1c5cab';
 const PROMPT_BG = '#e6e5e1', RING = '#b45309';
+const MAP_PALE = '#dcdbd6', MAP_PROMPT = '#b9b8b2';   // minimap: undecoded / prompt
 const INK = '#111';            // annotation layer — neutral by design
 const MUTED = '#666';
 const SANS = 'ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif';
@@ -70,10 +81,10 @@ const g = (x,y,body) => `<g transform="translate(${x},${y})">${body}</g>`;
 
 // ---------------------------------------------------------------- measure
 // Render the block as real DOM once, read geometry, then draw as pure SVG.
-let M = null;
-function measure(seq, step){
+let M = null, MF = null;
+function measure(seq, step, width){
   const host = document.getElementById('measure');
-  host.innerHTML = '<div class="tr-body" id="mb"></div>';
+  host.innerHTML = `<div class="tr-body" id="mb" style="width:${width||940}px"></div>`;
   const mb = document.getElementById('mb');
   const max = lastStep(seq);
   const lines = layoutLines(seq, tokensAtStep(seq, step));
@@ -81,7 +92,10 @@ function measure(seq, step){
     `<div class="tr-line"><span class="tr-line-idx">${i}</span><span class="tr-line-toks">` +
     l.map((t,j) => {
       const p = t.step === 0, now = t.step === step;
-      const bg = p ? PROMPT_BG : rampAt((t.step-1)/(max-1));
+      const den = Math.max(1, (FIG.colorMode === 'visible' ? step : max) - 1);
+      const bg = p ? PROMPT_BG
+               : FIG.colorMode === 'flat' ? FLAT
+               : rampAt((t.step-1)/den);
       return `<span class="tr-tok${now?' tr-tok-now':''}" data-l="${i}" data-j="${j}"` +
              ` data-step="${t.step}" data-prompt="${p}"` +
              ` style="background:${bg};color:${p?'#101010':'#fff'}` +
@@ -92,15 +106,14 @@ function measure(seq, step){
   const rel = r => ({ x:r.left-box.left, y:r.top-box.top, w:r.width, h:r.height });
   const toks = [...mb.querySelectorAll('.tr-tok')].map(el => ({
     el, r: rel(el.getBoundingClientRect()),
-    line:+el.dataset.l, prompt:el.dataset.prompt==='true',
+    line:+el.dataset.l, step:+el.dataset.step, prompt:el.dataset.prompt==='true',
     now: el.classList.contains('tr-tok-now'),
     text: el.textContent, cs: getComputedStyle(el),
   }));
   const idx = [...mb.querySelectorAll('.tr-line-idx')].map(el => ({
     el, r: rel(el.getBoundingClientRect()), cs:getComputedStyle(el), text:el.textContent,
   }));
-  M = { w: Math.ceil(mb.scrollWidth), h: Math.ceil(mb.scrollHeight), toks, idx, lines, max };
-  return M;
+  return { w: Math.ceil(mb.scrollWidth), h: Math.ceil(mb.scrollHeight), toks, idx, lines, max };
 }
 const lineTokens = l => M.toks.filter(t => t.line === l);
 const lineRight  = l => Math.max(...lineTokens(l).map(t => t.r.x + t.r.w));
@@ -135,7 +148,7 @@ function ingTitle(D){
 }
 
 // ---------------------------------------------------------------- 3. legend
-function ingLegend(){
+function ingLegend(D){
   const items = [];
   let x = 0;
   const chip = (fill, stroke) =>
@@ -143,15 +156,23 @@ function ingLegend(){
     (stroke?` stroke="${stroke}" stroke-width="2"`:'') + `/>`;
   items.push(chip(PROMPT_BG)); items.push(txt(x+21, 7, 'prompt', {fs:11.5, fill:MUTED, baseline:'central'}));
   x += 78;
-  items.push(`<defs><linearGradient id="lg">` +
-    RAMP.map((c,i)=>`<stop offset="${i/(RAMP.length-1)*100}%" stop-color="${c}"/>`).join('') +
-    `</linearGradient></defs>`);
-  items.push(txt(x, 7, 'step 1', {fs:11.5, fill:MUTED, baseline:'central'}));
-  items.push(`<rect x="${x+40}" y="2" width="76" height="9" rx="2" fill="url(#lg)"/>`);
-  items.push(txt(x+122, 7, `${FIG.step}`, {fs:11.5, fill:MUTED, baseline:'central'}));
-  x += 152;
-  items.push(chip(rampAt(1), RING)); items.push(txt(x+22, 7, 'decoded at this step',
-    {fs:11.5, fill:MUTED, baseline:'central'}));
+  if (FIG.colorMode === 'flat') {
+    items.push(chip(FLAT));
+    items.push(txt(x+21, 7, 'decoded output', {fs:11.5, fill:MUTED, baseline:'central'}));
+    x += 130;
+  } else {
+    const end = FIG.colorMode === 'visible' ? FIG.step : D.totalSteps;
+    items.push(`<defs><linearGradient id="lg">` +
+      RAMP.map((c,i)=>`<stop offset="${i/(RAMP.length-1)*100}%" stop-color="${c}"/>`).join('') +
+      `</linearGradient></defs>`);
+    items.push(txt(x, 7, 'step 1', {fs:11.5, fill:MUTED, baseline:'central'}));
+    items.push(`<rect x="${x+40}" y="2" width="76" height="9" rx="2" fill="url(#lg)"/>`);
+    items.push(txt(x+122, 7, `${end}`, {fs:11.5, fill:MUTED, baseline:'central'}));
+    x += 152;
+  }
+  // mid-ramp fill: the ring is the message here, not the step depth
+  items.push(chip(FIG.colorMode === 'flat' ? FLAT : rampAt(0.5), RING));
+  items.push(txt(x+22, 7, 'decoded at this step', {fs:11.5, fill:MUTED, baseline:'central'}));
   return items.join('');
 }
 
@@ -161,10 +182,18 @@ function ingPromptBrace(){
   if (!p.length) return '';
   const x0 = Math.min(...p.map(t=>t.r.x)), x1 = Math.max(...p.map(t=>t.r.x+t.r.w));
   const y  = Math.min(...p.map(t=>t.r.y)) - FIG.brace.dy;
-  const mid = (x0+x1)/2, d = FIG.brace.drop;
-  return `<path d="M${x0},${y} v-5 H${x1} v5" fill="none" stroke="${INK}" stroke-width="1.2"/>` +
-         `<path d="M${mid},${y-5} v${-(d-5)}" fill="none" stroke="${INK}" stroke-width="1.2"/>` +
-         txt(mid, y-d-5, FIG.brace.label, { fs:12, anchor:'middle' });
+  const mid = (x0+x1)/2, h = FIG.brace.depth, q = Math.min(h/2, (x1-x0)/8);
+  // curly brace, arms down at x0/x1, tip up at the midpoint
+  const d = `M${x0},${y}` +
+            `q0,${-q} ${q},${-q}` +
+            `h${mid-x0-q*2}` +
+            `q${q},0 ${q},${-q}` +
+            `q0,${q} ${q},${q}` +
+            `h${x1-mid-q*2}` +
+            `q${q},0 ${q},${q}`;
+  return `<path d="${d}" fill="none" stroke="${INK}" stroke-width="1.2"` +
+         ` stroke-linecap="round" stroke-linejoin="round"/>` +
+         txt(mid, y-q*2-FIG.brace.gap, FIG.brace.label, { fs:12, anchor:'middle' });
 }
 
 // ---------------------------------------------------------------- 5. callout
@@ -180,50 +209,46 @@ function ingCallout(){
 
 // ---------------------------------------------------------------- 6. retire
 function ingRetire(){
-  const [a,b] = FIG.retire.lines;
-  const x  = Math.max(lineRight(a), lineRight(b)) + FIG.retire.dx;
-  const y0 = lineTop(a), y1 = lineBot(b), arm = FIG.retire.arm;
-  return `<path d="M${x-arm},${y0} H${x} V${y1} H${x-arm}" fill="none" stroke="${INK}" stroke-width="1.2"/>` +
-         `<path d="M${x},${(y0+y1)/2} h${arm}" fill="none" stroke="${INK}" stroke-width="1.2"/>` +
-         txt(x+arm+6, (y0+y1)/2-7, FIG.retire.label[0], { fs:12, fw:600, baseline:'central' }) +
-         txt(x+arm+6, (y0+y1)/2+8, FIG.retire.label[1], { fs:11.5, fill:MUTED, baseline:'central' });
+  const x = Math.max(...FIG.retire.items.map(i => lineRight(i.line))) + FIG.retire.dx;
+  return FIG.retire.items.map(it => {
+    const ts = lineTokens(it.line);
+    const last = ts[ts.length-1];
+    const y = last.r.y + last.r.h/2;
+    return `<path d="M${x},${y} H${last.r.x+last.r.w+5}" fill="none" stroke="${INK}"` +
+           ` stroke-width="1.2" marker-end="url(#ar)"/>` +
+           txt(x+6, y, it.label, { fs:12, fw: it.strong?600:400, baseline:'central' });
+  }).join('');
 }
 
-// ---------------------------------------------------------------- 7. panel
-function ingPanel(D){
-  const { w, h } = FIG.panel, m = { l:34, r:8, t:22, b:26 };
-  const iw = w-m.l-m.r, ih = h-m.t-m.b;
-  const xmax = Math.max(D.lclmPer.length, D.arPer.length) - 1;
-  const ymax = Math.max(...D.lclmPer) ;
-  const X = s => m.l + (s/xmax)*iw, Y = v => m.t + ih - (v/ymax)*ih;
-  const path = arr => 'M' + arr.map((v,s)=>`${X(s).toFixed(1)},${Y(v).toFixed(1)}`).join(' L');
+// ------------------------------------------------- 7. panel (full-run minimap)
+function ingMinimap(D){
+  const s = FIG.panel.w / MF.w;
   const out = [];
-  out.push(txt(0, 0, 'tokens decoded per step', { fs:12, fw:600, baseline:'hanging' }));
-  // axes
-  out.push(`<path d="M${m.l},${m.t} V${m.t+ih} H${m.l+iw}" fill="none" stroke="#ddd" stroke-width="1"/>`);
-  for (const v of [1, 5, 10, Math.round(ymax)]) {
-    out.push(`<path d="M${m.l-3},${Y(v)} H${m.l}" stroke="#bbb" stroke-width="1"/>`);
-    out.push(txt(m.l-6, Y(v), String(v), { fs:10, fill:MUTED, anchor:'end', baseline:'central' }));
+  const shown = MF.toks.filter(t => t.step <= FIG.step);
+  const y0 = Math.min(...shown.map(t => t.r.y)) * s;
+  const y1 = Math.max(...shown.map(t => t.r.y + t.r.h)) * s;
+  const top = 42;
+
+  out.push(txt(0, 0, FIG.panel.label, { fs:12, fw:600, baseline:'hanging' }));
+  out.push(txt(0, 17, `${D.nTokens} tokens · ${D.totalSteps} steps · ${MF.lines.length} lines`,
+    { fs:11, fill:MUTED, baseline:'hanging' }));
+
+  for (const t of MF.toks){
+    if (!t.r.w) continue;
+    const fill = t.prompt ? MAP_PROMPT
+               : t.step <= FIG.step ? rampAt((t.step-1)/Math.max(1, FIG.step-1))
+               : MAP_PALE;
+    out.push(`<rect x="${(t.r.x*s).toFixed(1)}" y="${(top + t.r.y*s).toFixed(1)}"` +
+             ` width="${Math.max(0.9, t.r.w*s).toFixed(1)}"` +
+             ` height="${(t.r.h*s).toFixed(1)}" rx="1" fill="${fill}"/>`);
   }
-  for (const s of [0, 111, 400, xmax]) {
-    out.push(`<path d="M${X(s)},${m.t+ih} V${m.t+ih+3}" stroke="#bbb" stroke-width="1"/>`);
-    out.push(txt(X(s), m.t+ih+6, String(s), { fs:10, fill:MUTED, anchor:'middle', baseline:'hanging' }));
-  }
-  // AR baseline (recessive gray — it is the reference, not a rival series)
-  out.push(`<path d="${path(D.arPer)}" fill="none" stroke="#9a9a96" stroke-width="1.5"/>`);
-  out.push(txt(X(D.arPer.length-1)-4, Y(1)-8, `AR — 1.0/step, ${D.arPer.length-1} steps`,
-    { fs:10.5, fill:'#767672', anchor:'end' }));
-  // LCLM
-  out.push(`<path d="${path(D.lclmPer)}" fill="none" stroke="${RAMP[0]}" stroke-width="1.5"/>`);
-  out.push(txt(X(D.totalSteps)+10, Y(ymax*0.55),
-    `LCLM — ${D.totalSteps} steps,`, { fs:10.5, fill:RAMP[1] }));
-  out.push(txt(X(D.totalSteps)+10, Y(ymax*0.55)+12,
-    `up to ${Math.round(ymax)}/step`, { fs:10.5, fill:RAMP[1] }));
-  // marker at FIG.step
-  const mx = X(FIG.step), my = Y(D.nAtStep);
-  out.push(`<path d="M${mx},${m.t} V${m.t+ih}" stroke="${RING}" stroke-width="1" stroke-dasharray="3 2"/>`);
-  out.push(`<circle cx="${mx}" cy="${my}" r="3.5" fill="${RING}"/>`);
-  out.push(txt(mx+7, my-9, `step ${FIG.step}: ${D.nAtStep}`, { fs:11, fw:600, fill:RING }));
+
+  const bx = -10;
+  out.push(`<path d="M${bx+5},${(top+y0).toFixed(1)} H${bx} V${(top+y1).toFixed(1)} H${bx+5}"` +
+           ` fill="none" stroke="${INK}" stroke-width="1.2"/>`);
+  out.push(txt(bx-6, top+(y0+y1)/2, FIG.panel.tag, { fs:11, anchor:'end', baseline:'central' }));
+  out.push(txt(0, top + MF.h*s + 16,
+    `AR: ${D.arSteps} steps for the same output`, { fs:11, fill:MUTED, baseline:'hanging' }));
   return out.join('');
 }
 
@@ -231,12 +256,13 @@ function ingPanel(D){
 function compose(D){
   const parts =
     g(FIG.title.x,  FIG.title.y,  ingTitle(D)) +
-    g(FIG.legend.x, FIG.legend.y, ingLegend()) +
+    g(FIG.legend.x, FIG.legend.y, ingLegend(D)) +
     g(FIG.trace.x,  FIG.trace.y,
        ingTrace() + ingPromptBrace() + ingCallout() + ingRetire()) +
-    g(FIG.panel.x,  FIG.panel.y,  ingPanel(D));
+    g(FIG.panel.x,  FIG.panel.y,  ingMinimap(D));
+  const mapH = 42 + MF.h * (FIG.panel.w / MF.w) + 34;
   const W = Math.max(FIG.trace.x + M.w, FIG.panel.x + FIG.panel.w);
-  const H = Math.max(FIG.trace.y + M.h + 60, FIG.panel.y + FIG.panel.h);
+  const H = Math.max(FIG.trace.y + M.h + 60, FIG.panel.y + mapH);
   const p = FIG.pad;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W+p*2}" height="${H+p*2}"` +
     ` viewBox="${-p} ${-p} ${W+p*2} ${H+p*2}">` +
@@ -254,17 +280,21 @@ function perStep(seq){
 }
 function download(href, name){ const a=document.createElement('a'); a.href=href; a.download=name; a.click(); }
 
+const _cm = new URLSearchParams(location.search).get('color');
+if (_cm) FIG.colorMode = _cm;
+
 fetch(FIG.file).then(r => r.json()).then(doc => {
   const seq = doc.sequences.find(s => s.name === FIG.seqName);
   const ar  = doc.sequences.find(s => s.name === FIG.arName);
   seq.offset ??= doc.offset; seq.model ??= 'lclm';
   const D = {
     totalSteps: lastStep(seq),
+    nTokens: seq.tokens.length,
     nAtStep: seq.tokens.filter(t => t.step === FIG.step).length,
-    lclmPer: perStep(seq),
-    arPer: perStep(ar),
+    arSteps: lastStep(ar),
   };
-  measure(seq, FIG.step);
+  MF = measure(seq, D.totalSteps, FIG.panel.fullWidth);
+  M  = measure(seq, FIG.step);
   const svg = compose(D);
   document.getElementById('stage').innerHTML = svg;
   document.getElementById('note').textContent =
